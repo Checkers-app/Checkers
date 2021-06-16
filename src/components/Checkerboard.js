@@ -89,6 +89,7 @@ const Checkerboard = () => {
           </div>
          )
        } )}
+       <h1> {turnState ? 'player 1' : 'player 2'}</h1>
       </div>
     )
   }
