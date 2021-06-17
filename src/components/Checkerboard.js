@@ -1,13 +1,6 @@
 import { useState, useEffect } from "react";
 
 const Checkerboard = () => {
-
-    const [ redPiece, setRedPiece ] = useState({
-        name: 'red'
-    })
-    const [ blackPiece, setBlackPiece ] = useState({
-        name: 'black'
-    })
     const [ valid, setValid ] = useState({
         name: 'valid'
     })
@@ -17,38 +10,45 @@ const Checkerboard = () => {
     const [ oneScore, setOneScore ] = useState(12)
     const [ twoScore, setTwoScore ] = useState(12)
     const [ turnState, setTurnState ] = useState(true)
-    const [ pieceSelected, setPieceSelected ] = useState(false)
+    const [ pieceSelected, setPieceSelected ] = useState({})
     const [ pieceIndex, setPieceIndex ] = useState(null)
-    const [checkerboard, setCheckerboard ] = useState([
-        [[invalid],[redPiece],[invalid],[redPiece],[invalid],[redPiece],[invalid],[redPiece]],
-        [[redPiece],[invalid],[redPiece],[invalid],[redPiece],[invalid],[redPiece],[invalid]],
-        [[invalid],[redPiece],[invalid],[redPiece],[invalid],[redPiece],[invalid],[redPiece]],
+    const [ checkerboard, setCheckerboard ] = useState([
+        [[invalid],[{color: 'red', isKing: false, id: 1}],[invalid],[{color: 'red', isKing: false, id: 2}],[invalid],[{color: 'red', isKing: false, id: 3}],[invalid],[{color: 'red', isKing: false, id: 4}]],
+        [[{color: 'red', isKing: false, id: 5}],[invalid],[{color: 'red', isKing: false, id: 6}],[invalid],[{color: 'red', isKing: false, id: 7}],[invalid],[{color: 'red', isKing: false, id: 8}],[invalid]],
+        [[invalid],[{color: 'red', isKing: false, id: 9}],[invalid],[{color: 'red', isKing: false, id: 10}],[invalid],[{color: 'red', isKing: false, id: 11}],[invalid],[{color: 'red', isKing: false, id: 12}]],
         [[valid],[invalid],[valid],[invalid],[valid],[invalid],[valid],[invalid]],
         [[invalid],[valid],[invalid],[valid],[invalid],[valid],[invalid],[valid]],
-        [[blackPiece],[invalid],[blackPiece],[invalid],[blackPiece],[invalid],[blackPiece],[invalid]],
-        [[invalid],[blackPiece],[invalid],[blackPiece],[invalid],[blackPiece],[invalid],[blackPiece]],
-        [[blackPiece],[invalid],[blackPiece],[invalid],[blackPiece],[invalid],[blackPiece],[invalid]]
+        [[{color: 'black', isKing: false, id: 13}],[invalid],[{color: 'black', isKing: false, id: 14}],[invalid],[{color: 'black', isKing: false, id: 15}],[invalid],[{color: 'black', isKing: false, id: 16}],[invalid]],
+        [[invalid],[{color: 'black', isKing: false, id: 17}],[invalid],[{color: 'black', isKing: false, id: 18}],[invalid],[{color: 'black', isKing: false, id: 19}],[invalid],[{color: 'black', isKing: false, id: 20}]],
+        [[{color: 'black', isKing: false, id: 21}],[invalid],[{color: 'black', isKing: false, id: 22}],[invalid],[{color: 'black', isKing: false, id: 23}],[invalid],[{color: 'black', isKing: false, id: 24}],[invalid]]
     ])
+
     // checkerboard[index][i]
     
-    const selectionHandler = (row, col) => {
-        setPieceSelected(true)
+    const selectionHandler = (row, col, piece) => {
+        setPieceSelected(piece)
         setPieceIndex([row, col])
-
-
-        // console.log('row' + ' ' + row)
-        // console.log('column' + ' ' + col)
     }
-    
+
+    const move = (row, col, piece) => {
+      setCheckerboard((curr) => {
+        curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
+        curr[row].splice(col, 1, [piece])
+        return curr
+      })
+    }
+
+    const jump = (row, col, piece, placeToJump) => {
+      setCheckerboard((curr) => {
+        curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
+        curr[placeToJump[0]].splice(placeToJump[1], 1, [valid])
+        curr[row].splice(col, 1, [piece])
+        return curr
+      })
+    }
+
     const movePiece = (row, col) => {
-        //Define jumpLeft/jumpRight
-        //compare intendedMove to jumpLeft/jumpRight
-        //if intendedMove equals jumpLeft/jumpRight
-        //check the Checkerboard array at moveLeft/moveRight
-        //if moveLeft/moveRight is opposite piece
-        //then change jump to piece
-        //change moveLeft/moveRight to valid
-        //Later---keep turnState same if another jump is available
+        
         let piece;
         let moveLeft;
         let moveRight;
@@ -57,15 +57,15 @@ const Checkerboard = () => {
         let pieceToJump;
         let intendedMove = [row,col]
         if(turnState){
-          piece = redPiece
-          pieceToJump = blackPiece.name
+          piece = pieceSelected
+          pieceToJump = "black"
           moveLeft = [pieceIndex[0]+ 1, pieceIndex[1]-1]
           jumpLeft = [pieceIndex[0] +2, pieceIndex[1]-2]
           moveRight = [pieceIndex[0]+ 1, pieceIndex[1]+1]
           jumpRight = [pieceIndex[0]+ 2, pieceIndex[1]+2]
         } else {
-          piece = blackPiece
-          pieceToJump = redPiece.name
+          piece = pieceSelected
+          pieceToJump = "red"
           moveLeft = [pieceIndex[0]- 1, pieceIndex[1]-1]
           jumpLeft = [pieceIndex[0]- 2, pieceIndex[1]-2]
           moveRight = [pieceIndex[0]-1, pieceIndex[1]+1]
@@ -73,21 +73,12 @@ const Checkerboard = () => {
         }
 
         if(JSON.stringify(intendedMove) === JSON.stringify(moveLeft) || JSON.stringify(intendedMove) === JSON.stringify(moveRight)) {
-          setCheckerboard((curr) => {
-            curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
-            curr[row].splice(col, 1, [piece])
-            return curr
-        })
-        setTurnState(!turnState)
-        setPieceSelected(false)
-        } else if((JSON.stringify(intendedMove) === JSON.stringify(jumpLeft) && checkerboard[moveLeft[0]][moveLeft[1]][0].name === pieceToJump )|| (JSON.stringify(intendedMove) === JSON.stringify(jumpRight) && checkerboard[moveRight[0]][moveRight[1]][0].name === pieceToJump)) {
+          move(row,col,piece);
+          setTurnState(!turnState)
+          setPieceSelected(false)
+        } else if ((JSON.stringify(intendedMove) === JSON.stringify(jumpLeft) && checkerboard[moveLeft[0]][moveLeft[1]][0].color === pieceToJump )|| (JSON.stringify(intendedMove) === JSON.stringify(jumpRight) && checkerboard[moveRight[0]][moveRight[1]][0].color === pieceToJump)) {
           if(JSON.stringify(intendedMove) === JSON.stringify(jumpLeft)){
-            setCheckerboard((curr) => {
-              curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
-              curr[moveLeft[0]].splice(moveLeft[1], 1, [valid])
-              curr[row].splice(col, 1, [piece])
-              return curr
-            })
+            jump(row, col, piece, moveLeft)
             if(turnState) {
               setTwoScore(score => {
                 score = twoScore
@@ -104,12 +95,7 @@ const Checkerboard = () => {
             setTurnState(!turnState)
             setPieceSelected(false)
           } else {
-            setCheckerboard((curr) => {
-              curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
-              curr[moveRight[0]].splice(moveRight[1], 1, [valid])
-              curr[row].splice(col, 1, [piece])
-              return curr
-            })
+            jump(row, col, piece, moveRight)
             if(turnState) {
               setTwoScore(score => {
                 score = twoScore
@@ -130,26 +116,23 @@ const Checkerboard = () => {
           alert('illegal move')
         }
     }
-    console.log(oneScore)
-    console.log(twoScore)
     
     return (
       <div className='spacing'>
-       {/* <DemoCheckers /> */}
        {checkerboard.map((row, index) => {
          return (
           <div key={index} className="row">
             {row.map((cell, i) => {
-              if(cell[0]?.name === 'red') {
+              if(cell[0]?.color === 'red') {
                 return (
                   <div key={i} className="checker-boxes">
-                    <div onClick={turnState ? () => selectionHandler(index, i) : null} className="red-piece"></div>
+                    <div onClick={turnState ? () => selectionHandler(index, i, cell[0]) : null} className="red-piece">{cell[0].id}</div>
                   </div>
                 )
-              } else if(cell[0]?.name === 'black') {
+              } else if(cell[0]?.color === 'black') {
                 return (
                   <div key={i} className="checker-boxes">
-                    <div onClick={turnState ? null : () => selectionHandler(index, i)} className="black-piece"></div>
+                    <div onClick={turnState ? null : () => selectionHandler(index, i, cell[0])} className="black-piece">{cell[0].id}</div>
                   </div>
                 )
               } else if(cell[0]?.name === 'valid') {
