@@ -13,21 +13,21 @@ const Checkerboard = () => {
     const [ pieceSelected, setPieceSelected ] = useState({})
     const [ pieceIndex, setPieceIndex ] = useState(null)
     const [ checkerboard, setCheckerboard ] = useState([
-        [[invalid],[{color: 'red', isKing: false, id: 1}],[invalid],[{color: 'red', isKing: false, id: 2}],[invalid],[{color: 'red', isKing: false, id: 3}],[invalid],[{color: 'red', isKing: false, id: 4}]],
-        [[{color: 'red', isKing: false, id: 5}],[invalid],[{color: 'red', isKing: false, id: 6}],[invalid],[{color: 'red', isKing: false, id: 7}],[invalid],[{color: 'red', isKing: false, id: 8}],[invalid]],
-        [[invalid],[{color: 'red', isKing: false, id: 9}],[invalid],[{color: 'red', isKing: false, id: 10}],[invalid],[{color: 'red', isKing: false, id: 11}],[invalid],[{color: 'red', isKing: false, id: 12}]],
+        [[invalid],[{color: 'red', isKing: false, id: 1, hasJumped: false}],[invalid],[{color: 'red', isKing: false, id: 2, hasJumped: false}],[invalid],[{color: 'red', isKing: false, id: 3, hasJumped: false}],[invalid],[{color: 'red', isKing: false, id: 4, hasJumped: false}]],
+        [[{color: 'red', isKing: false, id: 5, hasJumped: false}],[invalid],[{color: 'red', isKing: false, id: 6, hasJumped: false}],[invalid],[{color: 'red', isKing: false, id: 7, hasJumped: false}],[invalid],[{color: 'red', isKing: false, id: 8, hasJumped: false}],[invalid]],
+        [[invalid],[{color: 'red', isKing: false, id: 9, hasJumped: false}],[invalid],[{color: 'red', isKing: false, id: 10, hasJumped: false}],[invalid],[{color: 'red', isKing: false, id: 11, hasJumped: false}],[invalid],[{color: 'red', isKing: false, id: 12, hasJumped: false}]],
         [[valid],[invalid],[valid],[invalid],[valid],[invalid],[valid],[invalid]],
         [[invalid],[valid],[invalid],[valid],[invalid],[valid],[invalid],[valid]],
-        [[{color: 'black', isKing: false, id: 13}],[invalid],[{color: 'black', isKing: false, id: 14}],[invalid],[{color: 'black', isKing: false, id: 15}],[invalid],[{color: 'black', isKing: false, id: 16}],[invalid]],
-        [[invalid],[{color: 'black', isKing: false, id: 17}],[invalid],[{color: 'black', isKing: false, id: 18}],[invalid],[{color: 'black', isKing: false, id: 19}],[invalid],[{color: 'black', isKing: false, id: 20}]],
-        [[{color: 'black', isKing: false, id: 21}],[invalid],[{color: 'black', isKing: false, id: 22}],[invalid],[{color: 'black', isKing: false, id: 23}],[invalid],[{color: 'black', isKing: false, id: 24}],[invalid]]
+        [[{color: 'black', isKing: false, id: 13, hasJumped: false}],[invalid],[{color: 'black', isKing: false, id: 14, hasJumped: false}],[invalid],[{color: 'black', isKing: false, id: 15, hasJumped: false}],[invalid],[{color: 'black', isKing: false, id: 16, hasJumped: false}],[invalid]],
+        [[invalid],[{color: 'black', isKing: false, id: 17, hasJumped: false}],[invalid],[{color: 'black', isKing: false, id: 18, hasJumped: false}],[invalid],[{color: 'black', isKing: false, id: 19, hasJumped: false}],[invalid],[{color: 'black', isKing: false, id: 20, hasJumped: false}]],
+        [[{color: 'black', isKing: false, id: 21, hasJumped: false}],[invalid],[{color: 'black', isKing: false, id: 22, hasJumped: false}],[invalid],[{color: 'black', isKing: false, id: 23, hasJumped: false}],[invalid],[{color: 'black', isKing: false, id: 24, hasJumped: false}],[invalid]]
     ])
 
     // checkerboard[index][i]
     
     const selectionHandler = (row, col, piece) => {
-        setPieceSelected(piece)
-        setPieceIndex([row, col])
+      setPieceSelected(piece)
+      setPieceIndex([row, col])
     }
 
     const move = (row, col, piece) => {
@@ -48,7 +48,7 @@ const Checkerboard = () => {
     }
 
     const movePiece = (row, col) => {
-        
+      
         let piece;
         let moveLeft;
         let moveRight;
