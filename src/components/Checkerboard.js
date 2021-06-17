@@ -41,18 +41,35 @@ const Checkerboard = () => {
     }
     
     const movePiece = (row, col) => {
+        //Define jumpLeft/jumpRight
+        //compare intendedMove to jumpLeft/jumpRight
+        //if intendedMove equals jumpLeft/jumpRight
+        //check the Checkerboard array at moveLeft/moveRight
+        //if moveLeft/moveRight is opposite piece
+        //then change jump to piece
+        //change moveLeft/moveRight to valid
+        //Later---keep turnState same if another jump is available
         let piece;
         let moveLeft;
         let moveRight;
+        let jumpLeft;
+        let jumpRight;
+        let pieceToJump;
         let intendedMove = [row,col]
         if(turnState){
           piece = redPiece
+          pieceToJump = blackPiece.name
           moveLeft = [pieceIndex[0]+ 1, pieceIndex[1]-1]
+          jumpLeft = [pieceIndex[0] +2, pieceIndex[1]-2]
           moveRight = [pieceIndex[0]+ 1, pieceIndex[1]+1]
+          jumpRight = [pieceIndex[0]+ 2, pieceIndex[1]+2]
         } else {
           piece = blackPiece
+          pieceToJump = redPiece.name
           moveLeft = [pieceIndex[0]- 1, pieceIndex[1]-1]
+          jumpLeft = [pieceIndex[0]- 2, pieceIndex[1]-2]
           moveRight = [pieceIndex[0]-1, pieceIndex[1]+1]
+          jumpRight = [pieceIndex[0]-2, pieceIndex[1]+2]
         }
 
         if(JSON.stringify(intendedMove) === JSON.stringify(moveLeft) || JSON.stringify(intendedMove) === JSON.stringify(moveRight)) {
@@ -61,13 +78,60 @@ const Checkerboard = () => {
             curr[row].splice(col, 1, [piece])
             return curr
         })
-        console.log(checkerboard) 
         setTurnState(!turnState)
         setPieceSelected(false)
+        } else if((JSON.stringify(intendedMove) === JSON.stringify(jumpLeft) && checkerboard[moveLeft[0]][moveLeft[1]][0].name === pieceToJump )|| (JSON.stringify(intendedMove) === JSON.stringify(jumpRight) && checkerboard[moveRight[0]][moveRight[1]][0].name === pieceToJump)) {
+          if(JSON.stringify(intendedMove) === JSON.stringify(jumpLeft)){
+            setCheckerboard((curr) => {
+              curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
+              curr[moveLeft[0]].splice(moveLeft[1], 1, [valid])
+              curr[row].splice(col, 1, [piece])
+              return curr
+            })
+            if(turnState) {
+              setTwoScore(score => {
+                score = twoScore
+                score -= 1
+                return score
+              })
+            } else {
+              setOneScore(score => {
+                score = oneScore 
+                score -= 1
+                return score
+              })
+            }
+            setTurnState(!turnState)
+            setPieceSelected(false)
+          } else {
+            setCheckerboard((curr) => {
+              curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
+              curr[moveRight[0]].splice(moveRight[1], 1, [valid])
+              curr[row].splice(col, 1, [piece])
+              return curr
+            })
+            if(turnState) {
+              setTwoScore(score => {
+                score = twoScore
+                score -= 1
+                return score
+              })
+            } else {
+              setOneScore(score => {
+                score = oneScore 
+                score -= 1
+                return score
+              })
+            }
+            setTurnState(!turnState)
+            setPieceSelected(false)
+          }
         } else {
           alert('illegal move')
         }
     }
+    console.log(oneScore)
+    console.log(twoScore)
     
     return (
       <div className='spacing'>
