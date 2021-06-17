@@ -42,12 +42,21 @@ const Checkerboard = () => {
     
     const movePiece = (row, col) => {
         let piece;
+        let moveLeft;
+        let moveRight;
+        let intendedMove = [row,col]
         if(turnState){
-             piece = redPiece
+          piece = redPiece
+          moveLeft = [pieceIndex[0]+ 1, pieceIndex[1]-1]
+          moveRight = [pieceIndex[0]+ 1, pieceIndex[1]+1]
         } else {
-             piece = blackPiece
+          piece = blackPiece
+          moveLeft = [pieceIndex[0]- 1, pieceIndex[1]-1]
+          moveRight = [pieceIndex[0]-1, pieceIndex[1]+1]
         }
-        setCheckerboard((curr) => {
+
+        if(JSON.stringify(intendedMove) === JSON.stringify(moveLeft) || JSON.stringify(intendedMove) === JSON.stringify(moveRight)) {
+          setCheckerboard((curr) => {
             curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
             curr[row].splice(col, 1, [piece])
             return curr
@@ -55,6 +64,9 @@ const Checkerboard = () => {
         console.log(checkerboard) 
         setTurnState(!turnState)
         setPieceSelected(false)
+        } else {
+          alert('illegal move')
+        }
     }
     
     return (
