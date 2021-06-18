@@ -24,6 +24,34 @@ const Checkerboard = () => {
     [[{ color: 'black', isKing: false, id: 21, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 22, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 23, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 24, hasJumped: false }], [invalid]]
   ])
 
+  let piece;
+  let moveLeft;
+  let moveRight;
+  let jumpLeft;
+  let jumpRight;
+  let pieceToJump;
+
+  const availableMoves = (curr) => {
+    // let intendedMove = [row, col]
+
+    if (turnState) {
+      piece = pieceSelected
+      pieceToJump = "black"
+      moveLeft = [curr[0] + 1, curr[1] - 1]
+      jumpLeft = [curr[0] + 2, curr[1] - 2]
+      moveRight = [curr[0] + 1, curr[1] + 1]
+      jumpRight = [curr[0] + 2, curr[1] + 2]
+    } else {
+      piece = pieceSelected
+      pieceToJump = "red"
+      moveLeft = [curr[0] - 1, curr[1] - 1]
+      jumpLeft = [curr[0] - 2, curr[1] - 2]
+      moveRight = [curr[0] - 1, curr[1] + 1]
+      jumpRight = [curr[0] - 2, curr[1] + 2]
+    }
+
+  }
+
   // checkerboard[index][i]
 
   const selectionHandler = (row, col, piece) => {
@@ -42,12 +70,14 @@ const Checkerboard = () => {
       if (jumpId === piece.id) {
         setPieceSelected(piece)
         setPieceIndex([row, col])
+        // availableMoves()
       } else {
-
+        console.log("must double jump");
       }
     } else {
       setPieceSelected(piece)
       setPieceIndex([row, col])
+      // availableMoves()
     }
   }
 
@@ -57,83 +87,111 @@ const Checkerboard = () => {
       curr[row].splice(col, 1, [piece])
       return curr
     })
-    setTurnState(!turnState)
+    endTurn();
   }
 
   const jump = (row, col, piece, placeToJump) => {
-    setCheckerboard((curr) => {
-      curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
-      curr[placeToJump[0]].splice(placeToJump[1], 1, [valid])
-      curr[row].splice(col, 1, [piece])
-      return curr
-    })
-    setJumpId(piece.id)
+
+    let currCheck = [...checkerboard];
+
+    currCheck[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
+    currCheck[placeToJump[0]].splice(placeToJump[1], 1, [valid])
+    currCheck[row].splice(col, 1, [piece])
+
+    setCheckerboard(currCheck);
+
+    if (turnState) {
+      setTwoScore(score => {
+        score = twoScore
+        score -= 1
+        return score
+      })
+    } else {
+      setOneScore(score => {
+        score = oneScore
+        score -= 1
+        return score
+      })
+    }
+
+    setPieceSelected(piece)
+
+    let newIndex = [row, col];
+
+    setPieceIndex(newIndex)
+    availableMoves(newIndex)
+
     // check if move is available, if there is then setTurnState, if not don't setTurnState
-    setTurnState(!turnState)
+
+    // doubleJumpAvailable()
+
+    // console.log("jumpRight: " + jumpRight)
+    // console.log("arr: " + arr)
+    // console.log(currCheck[jumpRight[0]][jumpRight[1]][0])
+
+    if ((((newIndex[0] === 0) || (newIndex[0] === 1)) || ((newIndex[0] === 7) || (newIndex[0] === 6)))) {
+      console.log('ending turn')
+      setJumpId(false);
+      endTurn();
+    } else if ((((newIndex[1] === 0) || (newIndex[1] === 1)) && !(currCheck[jumpRight[0]][jumpRight[1]][0] === valid && currCheck[moveRight[0]][moveRight[1]][0].color === pieceToJump)) || ((newIndex[1] === 7) || (newIndex[1] === 6)) && !(currCheck[jumpLeft[0]][jumpLeft[1]][0] === valid && currCheck[moveLeft[0]][moveLeft[1]][0].color === pieceToJump)) {
+      console.log('ending turn')
+      setJumpId(false);
+      endTurn();
+    } else {
+      if ((currCheck[jumpRight[0]][jumpRight[1]][0] === valid && currCheck[moveRight[0]][moveRight[1]][0].color === pieceToJump) || (currCheck[jumpLeft[0]][jumpLeft[1]][0] === valid && currCheck[moveLeft[0]][moveLeft[1]][0].color === pieceToJump)) {
+        console.log('we did it')
+        setJumpId(piece.id)
+      } else {
+        console.log('ending turn')
+        setJumpId(false);
+        endTurn();
+      }
+    }
   }
 
-  console.log(jumpId)
+
+  // console.log(pieceIndex)
+
+  const endTurn = () => {
+    setTurnState(!turnState);
+    setPieceSelected(false);
+  }
+
+  // console.log(jumpId)
   const movePiece = (row, col) => {
-    let piece;
-    let moveLeft;
-    let moveRight;
-    let jumpLeft;
-    let jumpRight;
-    let pieceToJump;
+
+    availableMoves(pieceIndex);
+
+    // let piece;
+    // let moveLeft;
+    // let moveRight;
+    // let jumpLeft;
+    // let jumpRight;
+    // let pieceToJump;
     let intendedMove = [row, col]
-    if (turnState) {
-      piece = pieceSelected
-      pieceToJump = "black"
-      moveLeft = [pieceIndex[0] + 1, pieceIndex[1] - 1]
-      jumpLeft = [pieceIndex[0] + 2, pieceIndex[1] - 2]
-      moveRight = [pieceIndex[0] + 1, pieceIndex[1] + 1]
-      jumpRight = [pieceIndex[0] + 2, pieceIndex[1] + 2]
-    } else {
-      piece = pieceSelected
-      pieceToJump = "red"
-      moveLeft = [pieceIndex[0] - 1, pieceIndex[1] - 1]
-      jumpLeft = [pieceIndex[0] - 2, pieceIndex[1] - 2]
-      moveRight = [pieceIndex[0] - 1, pieceIndex[1] + 1]
-      jumpRight = [pieceIndex[0] - 2, pieceIndex[1] + 2]
-    }
+    // if (turnState) {
+    //   piece = pieceSelected
+    //   pieceToJump = "black"
+    //   moveLeft = [pieceIndex[0] + 1, pieceIndex[1] - 1]
+    //   jumpLeft = [pieceIndex[0] + 2, pieceIndex[1] - 2]
+    //   moveRight = [pieceIndex[0] + 1, pieceIndex[1] + 1]
+    //   jumpRight = [pieceIndex[0] + 2, pieceIndex[1] + 2]
+    // } else {
+    //   piece = pieceSelected
+    //   pieceToJump = "red"
+    //   moveLeft = [pieceIndex[0] - 1, pieceIndex[1] - 1]
+    //   jumpLeft = [pieceIndex[0] - 2, pieceIndex[1] - 2]
+    //   moveRight = [pieceIndex[0] - 1, pieceIndex[1] + 1]
+    //   jumpRight = [pieceIndex[0] - 2, pieceIndex[1] + 2]
+    // }
 
     if (JSON.stringify(intendedMove) === JSON.stringify(moveLeft) || JSON.stringify(intendedMove) === JSON.stringify(moveRight)) {
       move(row, col, piece);
-      setPieceSelected(false)
     } else if ((JSON.stringify(intendedMove) === JSON.stringify(jumpLeft) && checkerboard[moveLeft[0]][moveLeft[1]][0].color === pieceToJump) || (JSON.stringify(intendedMove) === JSON.stringify(jumpRight) && checkerboard[moveRight[0]][moveRight[1]][0].color === pieceToJump)) {
       if (JSON.stringify(intendedMove) === JSON.stringify(jumpLeft)) {
         jump(row, col, piece, moveLeft)
-        if (turnState) {
-          setTwoScore(score => {
-            score = twoScore
-            score -= 1
-            return score
-          })
-        } else {
-          setOneScore(score => {
-            score = oneScore
-            score -= 1
-            return score
-          })
-        }
-        setPieceSelected(false)
       } else {
         jump(row, col, piece, moveRight)
-        if (turnState) {
-          setTwoScore(score => {
-            score = twoScore
-            score -= 1
-            return score
-          })
-        } else {
-          setOneScore(score => {
-            score = oneScore
-            score -= 1
-            return score
-          })
-        }
-        setTurnState(!turnState)
-        setPieceSelected(false)
       }
     } else {
       alert('illegal move')
