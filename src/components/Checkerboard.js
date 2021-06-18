@@ -30,24 +30,46 @@ const Checkerboard = () => {
   let jumpLeft;
   let jumpRight;
   let pieceToJump;
+  let moveLeftDown;
+  let moveLeftUp;
+  let moveRightDown;
+  let moveRightUp;
+  let jumpLeftDown;
+  let jumpLeftUp;
+  let jumpRightDown;
+  let jumpRightUp;
 
   const availableMoves = (curr) => {
     // let intendedMove = [row, col]
 
-    if (turnState) {
-      piece = pieceSelected
-      pieceToJump = "black"
-      moveLeft = [curr[0] + 1, curr[1] - 1]
-      jumpLeft = [curr[0] + 2, curr[1] - 2]
-      moveRight = [curr[0] + 1, curr[1] + 1]
-      jumpRight = [curr[0] + 2, curr[1] + 2]
+    pieceToJump = (turnState ? "black" : "red")
+    piece = pieceSelected
+
+    if (piece.isKing === true) {
+      moveLeftDown = [curr[0] + 1, curr[1] - 1]
+      jumpLeftDown = [curr[0] + 2, curr[1] - 2]
+      moveRightDown = [curr[0] + 1, curr[1] + 1]
+      jumpRightDown = [curr[0] + 2, curr[1] + 2]
+      moveLeftUp = [curr[0] - 1, curr[1] - 1]
+      jumpLeftUp = [curr[0] - 2, curr[1] - 2]
+      moveRightUp = [curr[0] - 1, curr[1] + 1]
+      jumpRightUp = [curr[0] - 2, curr[1] + 2]
     } else {
-      piece = pieceSelected
-      pieceToJump = "red"
-      moveLeft = [curr[0] - 1, curr[1] - 1]
-      jumpLeft = [curr[0] - 2, curr[1] - 2]
-      moveRight = [curr[0] - 1, curr[1] + 1]
-      jumpRight = [curr[0] - 2, curr[1] + 2]
+      if (turnState) {
+        // piece = pieceSelected
+        // pieceToJump = "black"
+        moveLeft = [curr[0] + 1, curr[1] - 1]
+        jumpLeft = [curr[0] + 2, curr[1] - 2]
+        moveRight = [curr[0] + 1, curr[1] + 1]
+        jumpRight = [curr[0] + 2, curr[1] + 2]
+      } else {
+        // piece = pieceSelected
+        // pieceToJump = "red"
+        moveLeft = [curr[0] - 1, curr[1] - 1]
+        jumpLeft = [curr[0] - 2, curr[1] - 2]
+        moveRight = [curr[0] - 1, curr[1] + 1]
+        jumpRight = [curr[0] - 2, curr[1] + 2]
+      }
     }
 
   }
@@ -87,7 +109,7 @@ const Checkerboard = () => {
       curr[row].splice(col, 1, [piece])
       return curr
     })
-    endTurn();
+    endTurn(pieceIndex);
   }
 
   const jump = (row, col, piece, placeToJump) => {
@@ -128,31 +150,57 @@ const Checkerboard = () => {
     // console.log("jumpRight: " + jumpRight)
     // console.log("arr: " + arr)
     // console.log(currCheck[jumpRight[0]][jumpRight[1]][0])
-
-    if ((((newIndex[0] === 0) || (newIndex[0] === 1)) || ((newIndex[0] === 7) || (newIndex[0] === 6)))) {
-      console.log('ending turn')
-      setJumpId(false);
-      endTurn();
-    } else if ((((newIndex[1] === 0) || (newIndex[1] === 1)) && !(currCheck[jumpRight[0]][jumpRight[1]][0] === valid && currCheck[moveRight[0]][moveRight[1]][0].color === pieceToJump)) || ((newIndex[1] === 7) || (newIndex[1] === 6)) && !(currCheck[jumpLeft[0]][jumpLeft[1]][0] === valid && currCheck[moveLeft[0]][moveLeft[1]][0].color === pieceToJump)) {
-      console.log('ending turn')
-      setJumpId(false);
-      endTurn();
+    if (piece.isKing) {
+      // EDGE LOGIC
+      if (((newIndex[1] === 0 || newIndex[1] === 1) && !(currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump))
+        ||
+        ((newIndex[1] === 0 || newIndex[1] === 1) && !(currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump))
+        ||
+        ((newIndex[1] === 6 || newIndex[1] === 7) && !(currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump))
+        ||
+        ((newIndex[1] === 6 || newIndex[1] === 7) && !(currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump))) {
+        console.log('ending turn')
+        setJumpId(false)
+        endTurn(newIndex)
+      }
     } else {
-      if ((currCheck[jumpRight[0]][jumpRight[1]][0] === valid && currCheck[moveRight[0]][moveRight[1]][0].color === pieceToJump) || (currCheck[jumpLeft[0]][jumpLeft[1]][0] === valid && currCheck[moveLeft[0]][moveLeft[1]][0].color === pieceToJump)) {
-        console.log('we did it')
-        setJumpId(piece.id)
-      } else {
+      if ((((newIndex[0] === 0) || (newIndex[0] === 1)) || ((newIndex[0] === 7) || (newIndex[0] === 6)))) {
         console.log('ending turn')
         setJumpId(false);
-        endTurn();
+        endTurn(newIndex);
+      } else if ((((newIndex[1] === 0) || (newIndex[1] === 1)) && !(currCheck[jumpRight[0]][jumpRight[1]][0] === valid && currCheck[moveRight[0]][moveRight[1]][0].color === pieceToJump)) || ((newIndex[1] === 7) || (newIndex[1] === 6)) && !(currCheck[jumpLeft[0]][jumpLeft[1]][0] === valid && currCheck[moveLeft[0]][moveLeft[1]][0].color === pieceToJump)) {
+        console.log('ending turn')
+        setJumpId(false);
+        endTurn(newIndex);
+      } else {
+        if ((newIndex[1] === 0) || (newIndex[1] === 1)) {
+          if ((currCheck[jumpRight[0]][jumpRight[1]][0] === valid && currCheck[moveRight[0]][moveRight[1]][0].color === pieceToJump)) {
+            console.log('we did it')
+            setJumpId(piece.id)
+          }
+        } else if ((newIndex[1] === 6) || (newIndex[1] === 7)) {
+          if ((currCheck[jumpLeft[0]][jumpLeft[1]][0] === valid && currCheck[moveLeft[0]][moveLeft[1]][0].color === pieceToJump)) {
+            console.log('we did it')
+            setJumpId(piece.id)
+          }
+        } else {
+          // console.log(piece.isKing);
+          console.log('ending turn')
+          setJumpId(false);
+          endTurn(newIndex);
+        }
       }
     }
   }
 
-
   // console.log(pieceIndex)
 
-  const endTurn = () => {
+  const endTurn = (newIndex) => {
+    if ((piece.isKing === false) && (newIndex[0] === (turnState ? 7 : 0))) {
+      piece.isKing = true;
+    }
+
+    console.log(piece.isKing)
     setTurnState(!turnState);
     setPieceSelected(false);
   }
@@ -184,17 +232,32 @@ const Checkerboard = () => {
     //   moveRight = [pieceIndex[0] - 1, pieceIndex[1] + 1]
     //   jumpRight = [pieceIndex[0] - 2, pieceIndex[1] + 2]
     // }
-
-    if (JSON.stringify(intendedMove) === JSON.stringify(moveLeft) || JSON.stringify(intendedMove) === JSON.stringify(moveRight)) {
-      move(row, col, piece);
-    } else if ((JSON.stringify(intendedMove) === JSON.stringify(jumpLeft) && checkerboard[moveLeft[0]][moveLeft[1]][0].color === pieceToJump) || (JSON.stringify(intendedMove) === JSON.stringify(jumpRight) && checkerboard[moveRight[0]][moveRight[1]][0].color === pieceToJump)) {
-      if (JSON.stringify(intendedMove) === JSON.stringify(jumpLeft)) {
-        jump(row, col, piece, moveLeft)
-      } else {
-        jump(row, col, piece, moveRight)
+    if (piece.isKing === true) {
+      if (JSON.stringify(intendedMove) === JSON.stringify(moveLeftDown) || JSON.stringify(intendedMove) === JSON.stringify(moveRightDown) || JSON.stringify(intendedMove) === JSON.stringify(moveRightUp) || JSON.stringify(intendedMove) === JSON.stringify(moveLeftUp)) {
+        move(row, col, piece);
+      } else if ((JSON.stringify(intendedMove) === JSON.stringify(jumpLeftDown) && checkerboard[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump) || (JSON.stringify(intendedMove) === JSON.stringify(jumpRightDown) && checkerboard[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump) || (JSON.stringify(intendedMove) === JSON.stringify(jumpLeftUp) && checkerboard[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump) || (JSON.stringify(intendedMove) === JSON.stringify(jumpRightUp) && checkerboard[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)) {
+        if (JSON.stringify(intendedMove) === JSON.stringify(jumpLeftUp)) {
+          jump(row, col, piece, moveLeftUp)
+        } else if (JSON.stringify(intendedMove) === JSON.stringify(jumpLeftDown)) {
+          jump(row, col, piece, moveLeftDown)
+        } else if (JSON.stringify(intendedMove) === JSON.stringify(jumpRightUp)) {
+          jump(row, col, piece, moveRightUp)
+        } else if (JSON.stringify(intendedMove) === JSON.stringify(jumpRightDown)) {
+          jump(row, col, piece, moveRightDown)
+        }
       }
     } else {
-      alert('illegal move')
+      if (JSON.stringify(intendedMove) === JSON.stringify(moveLeft) || JSON.stringify(intendedMove) === JSON.stringify(moveRight)) {
+        move(row, col, piece);
+      } else if ((JSON.stringify(intendedMove) === JSON.stringify(jumpLeft) && checkerboard[moveLeft[0]][moveLeft[1]][0].color === pieceToJump) || (JSON.stringify(intendedMove) === JSON.stringify(jumpRight) && checkerboard[moveRight[0]][moveRight[1]][0].color === pieceToJump)) {
+        if (JSON.stringify(intendedMove) === JSON.stringify(jumpLeft)) {
+          jump(row, col, piece, moveLeft)
+        } else {
+          jump(row, col, piece, moveRight)
+        }
+      } else {
+        alert('illegal move')
+      }
     }
   }
 
@@ -234,4 +297,4 @@ const Checkerboard = () => {
   )
 }
 
-export default Checkerboard
+export default Checkerboard;
