@@ -207,13 +207,13 @@ const Checkerboard = () => {
               if (cell[0]?.color === 'red') {
                 return (
                   <div key={i} className="checker-boxes">
-                    <div onClick={() => selectionHandler(index, i, cell[0])} className="red-piece">{cell[0].id}</div>
+                    <div onClick={turnState ? () => selectionHandler(index, i, cell[0]) : null} className="red-piece">{cell[0].id}</div>
                   </div>
                 )
               } else if (cell[0]?.color === 'black') {
                 return (
                   <div key={i} className="checker-boxes">
-                    <div onClick={() => selectionHandler(index, i, cell[0])} className="black-piece">{cell[0].id}</div>
+                    <div onClick={turnState ? null : () => selectionHandler(index, i, cell[0])} className="black-piece">{cell[0].id}</div>
                   </div>
                 )
               } else if (cell[0]?.name === 'valid') {
