@@ -38,15 +38,17 @@ const Checkerboard = () => {
     // check turnState === false
     // if piece.color === 'black'
     // execute normal stuff
-    if(jumpId){
-      if(jumpId === piece.id){
+    if (jumpId) {
+      if (jumpId === piece.id) {
         setPieceSelected(piece)
         setPieceIndex([row, col])
+      } else {
+
       }
-      
+    } else {
+      setPieceSelected(piece)
+      setPieceIndex([row, col])
     }
-    setPieceSelected(piece)
-    setPieceIndex([row, col])
   }
 
   const move = (row, col, piece) => {
