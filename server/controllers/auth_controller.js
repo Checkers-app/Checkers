@@ -11,7 +11,7 @@ module.exports = {
         let existingUser = result[0];
         
         if (existingUser) {
-            return res.status(409).send('Username taken');
+            return res.status(409).send('email is already registered');
         }
 
         const salt = bcrypt.genSaltSync(10);
