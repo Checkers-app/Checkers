@@ -104,12 +104,15 @@ const Checkerboard = () => {
   }
 
   const move = (row, col, piece) => {
+
+    let newIndex = [row, col]
+
     setCheckerboard((curr) => {
       curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
       curr[row].splice(col, 1, [piece])
       return curr
     })
-    endTurn(pieceIndex);
+    endTurn(newIndex);
   }
 
   const jump = (row, col, piece, placeToJump) => {
