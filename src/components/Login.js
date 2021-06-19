@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import {Link} from 'react-router-dom';
+import axios from 'axios';
+import {Link, useHistory} from 'react-router-dom';
 
 function Login() {
 
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    
+    /*
     useEffect(() => {
         console.log(username);
     }, [username])
-    
+    */
     
     
     const signIn = () => {
-        console.log("derp");
+        axios.post('/auth/login', {email, password})
+        .then(user => {
+           // useHistory().push("/home");
+        })
+        .catch(err => {
+            alert(err.response.data);
+        })
     }
     
 
@@ -26,11 +33,11 @@ function Login() {
             </header>
         
             <div className = "login_inputs">
-                <p>User Name:</p>
-                <input type = "text" onChange = {e => setUsername(e.target.value)}/>
+                <p>Email:</p>
+                <input type = "text" onChange = {e => setEmail(e.target.value)}/>
                 <p>Password:</p>
                 <input type = "password" onChange = {e => setPassword(e.target.value)}/>
-                <button>SIGN IN</button>
+                <button onClick = {signIn}>SIGN IN</button>
             </div>
 
         </div>

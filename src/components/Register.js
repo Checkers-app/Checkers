@@ -1,38 +1,27 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {Link, useHistory} from 'react-router-dom';
 
 function Register() {
 
+
+    let history = useHistory()
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     
     
-    
-    
     const signUp = () => {
-        
         
         axios.post('/auth/create', {username, email, password})
         .then(user => {
-            
-            console.log(user.data);
-            /*
-            if (user.data === "User not found" || user.data === "wrong password bro"){
-                alert (user.data);
-            }
-            else{
-                this.props.loginUser(user.data);
-                this.props.history.push("/home");
-            }
-            */
+            history.push("/rooms");
         })
         .catch(err => {
             alert(err.response.data);
         })
         
-
     }
 
 
