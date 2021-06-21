@@ -1,9 +1,16 @@
-function Rooms() {
+import Header from "../components/sharedComps/Header.js"
+
+
+function LandingPage() {
     return (
       <div className="rooms">
-          <p>rooms</p>
+      
+        <Header/>
+
+        <button>Create New Game</button>
+        
       </div>
     );
   }
   
-  export default Rooms;
+  export default LandingPage;

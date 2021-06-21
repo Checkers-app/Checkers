@@ -5,6 +5,8 @@ import "../../css/login.css";
 
 function Login() {
 
+
+    let history = useHistory()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -18,7 +20,7 @@ function Login() {
     const signIn = () => {
         axios.post('/auth/login', {email, password})
         .then(user => {
-           // useHistory().push("/home");
+            history.push("/landingpage");
         })
         .catch(err => {
             alert(err.response.data);

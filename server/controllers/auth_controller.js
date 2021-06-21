@@ -26,11 +26,11 @@ module.exports = {
         const foundUser = await db.auth.read_user([email]);
         const user = foundUser[0];
         if (!user) {
-          return res.status(201).send('User not found');
+          return res.status(401).send('User not found');
         }
         const isAuthenticated = bcrypt.compareSync(password, user.hash);
         if (!isAuthenticated) {
-          return res.status(201).send('wrong password bro');
+          return res.status(401).send('wrong password bro');
         }
         req.session.user = {username: user.username, uid: user.user_id}
         return res.status(201).send(req.session.user);
