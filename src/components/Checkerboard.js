@@ -171,28 +171,69 @@ const Checkerboard = () => {
         console.log('ending turn')
         setJumpId(false)
         endTurn(newIndex)
-      } else {
-        if (((newIndex[1] === 0 || newIndex[1] === 1) && !(currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump))
-          ||
-          ((newIndex[1] === 0 || newIndex[1] === 1) && !(currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump))
-          ||
-          ((newIndex[1] === 6 || newIndex[1] === 7) && !(currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump))
-          ||
-          ((newIndex[1] === 6 || newIndex[1] === 7) && !(currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump))) {
-          console.log('ending turn')
-          setJumpId(false)
-          endTurn(newIndex)
-        } else if (((newIndex[0] === 0 || newIndex[0] === 1) && !(currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump))
-          ||
-          ((newIndex[0] === 0 || newIndex[0] === 1) && !(currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump))
-          ||
-          ((newIndex[0] === 6 || newIndex[0] === 7) && !(currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump))
-          ||
-          ((newIndex[0] === 6 || newIndex[0] === 7) && !(currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump))) {
+      }
+      // else {
+      // // left or identify logic
+      // if ((((newIndex[1] === 0 || newIndex[1] === 1) && !(currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump))
+      // &&
+      // ((newIndex[1] === 0 || newIndex[1] === 1) && !(currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)))
+      // ||
+      // (((newIndex[1] === 6 || newIndex[1] === 7) && !(currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump))
+      // &&
+      // ((newIndex[1] === 6 || newIndex[1] === 7) && !(currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump)))) {
+      //   console.log('ending turn')
+      //   setJumpId(false)
+      //   endTurn(newIndex) 
+      // }
+      // // Top or bottom identify logic
+      // else if ((((newIndex[0] === 0 || newIndex[0] === 1) && !(currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump))
+      // &&
+      //   ((newIndex[0] === 0 || newIndex[0] === 1) && !(currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)))
+      //   ||
+      //   (((newIndex[0] === 6 || newIndex[0] === 7) && !(currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump))
+      //   &&
+      //   ((newIndex[0] === 6 || newIndex[0] === 7) && !(currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump)))) {
+      //   console.log('ending turn')
+      //   setJumpId(false)
+      //   endTurn(newIndex)} 
+      else {
+        if ((newIndex[1] === 0 || newIndex[1] === 1) && ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
+          || (currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump))) {
+          console.log('we did it')
+          setJumpId(piece.id)
+        } else if ((newIndex[1] === 6 || newIndex[1] === 7) && ((currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump)
+          || (currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump))) {
+          console.log('we did it')
+          setJumpId(piece.id)
+        } else if ((newIndex[0] === 0 || newIndex[0] === 1) && ((currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)
+          || (currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump))) {
+          console.log('we did it')
+          setJumpId(piece.id)
+        } else if ((newIndex[0] === 6 || newIndex[0] === 7) && ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
+          || (currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump))) {
+          console.log('we did it')
+          setJumpId(piece.id)
+        } else if ((!(newIndex[0] === 6 || newIndex[0] === 7 || newIndex[0] === 0 || newIndex[0] === 1 || newIndex[1] === 0 || newIndex[1] === 1 || newIndex[1] === 6 || newIndex[1] === 7))) {
+          if ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
+            || (currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)
+            || (currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump)
+            || (currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump)) {
+            console.log('we did it')
+            setJumpId(piece.id)
+          } else {
+            console.log('ending turn')
+            setJumpId(false)
+            endTurn(newIndex)
+          }
+        } else {
           console.log('ending turn')
           setJumpId(false)
           endTurn(newIndex)
         }
+        // console.log('ending turn')
+        // setJumpId(false)
+        // endTurn(newIndex) 
+        // }
       }
     } else {
       if ((((newIndex[0] === 0) || (newIndex[0] === 1)) || ((newIndex[0] === 7) || (newIndex[0] === 6)))) {
