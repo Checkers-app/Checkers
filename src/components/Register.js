@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import {Link, useHistory} from 'react-router-dom';
 
+import "../css/register.css";
+
 function Register() {
 
 
@@ -27,6 +29,12 @@ function Register() {
 
     return (
         <div className="register">
+
+            <div className="login_title">
+                <p>New Players can create an account here</p>
+            </div>
+
+
             <div className = "register_inputs">
                 <p>User Name:</p>
                 <input type = "text" onChange = {e => setUsername(e.target.value)}/>

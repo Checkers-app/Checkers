@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {Link, useHistory} from 'react-router-dom';
+import "../css/login.css";
 
 function Login() {
 
@@ -27,17 +28,18 @@ function Login() {
 
     return (
         <div className="login">
-            <header>
-                <h1>CHECKERS</h1>
-                <Link to = {`/register`}>SIGN UP</Link>
-            </header>
-        
+            
+            <div className="login_title">
+                <p>Continuing Players log in here</p>
+            </div>
+
+
             <div className = "login_inputs">
                 <p>Email:</p>
                 <input type = "text" onChange = {e => setEmail(e.target.value)}/>
                 <p>Password:</p>
                 <input type = "password" onChange = {e => setPassword(e.target.value)}/>
-                <button onClick = {signIn}>SIGN IN</button>
+                <button onClick = {signIn}>LOGIN</button>
             </div>
 
         </div>

@@ -1,0 +1,18 @@
+
+.frontPage header {
+    height: 15vh;
+    background-color: rgb(182, 49, 31);
+
+    margin-bottom: 10vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 3em;
+}
+
+.frontPage_loginRegister {
+    display: flex;
+    justify-content: space-around;
+}
