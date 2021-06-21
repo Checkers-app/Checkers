@@ -1,0 +1,9 @@
+.frontPage {
+  display: flex;
+  flex-direction: column;  
+}
+
+.frontPage_loginRegister {
+    display: flex;
+    justify-content: space-around;
+}
