@@ -39,6 +39,14 @@ const Checkerboard = () => {
   let jumpRightDown;
   let jumpRightUp;
 
+  useEffect(() => {
+    if (oneScore === 0) {
+      alert('player 2 has won the game')
+    } else if (twoScore === 0) {
+      alert('player 1 has won the game')
+    }
+  }, [checkerboard])
+
   const availableMoves = (curr) => {
     // let intendedMove = [row, col]
 
@@ -337,14 +345,6 @@ const Checkerboard = () => {
       }
     }
   }
-
-  useEffect(() => {
-    if (oneScore === 0) {
-      alert('player 2 has won the game')
-    } else if (twoScore === 0) {
-      alert('player 1 has won the game')
-    }
-  }, [checkerboard])
 
   return (
     <div className='spacing'>
