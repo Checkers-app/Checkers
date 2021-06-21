@@ -288,6 +288,7 @@ const Checkerboard = () => {
     console.log(piece.isKing)
     setTurnState(!turnState);
     setPieceSelected(false);
+    setJumpId(false);
   }
 
   // console.log(jumpId)
