@@ -297,9 +297,6 @@ const Checkerboard = () => {
     }
   }
 
-  // const [oneScore, setOneScore] = useState(12)
-  // const [twoScore, setTwoScore] = useState(12)
-
   useEffect(() => {
     if (oneScore === 0) {
       alert('player 2 has won the game')
