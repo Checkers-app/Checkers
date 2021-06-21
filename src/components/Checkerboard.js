@@ -8,16 +8,18 @@ const Checkerboard = () => {
     name: 'invalid'
   })
   const start = [
-    [[invalid], [{ color: 'red', isKing: false, id: 1, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 2, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 3, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 4, hasJumped: false }]],
-    [[{ color: 'red', isKing: false, id: 5, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 6, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 7, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 8, hasJumped: false }], [invalid]],
-    [[invalid], [{ color: 'red', isKing: false, id: 9, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 10, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 11, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 12, hasJumped: false }]],
+    [[invalid], [{ color: 'black', isKing: false, id: 1, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 2, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 3, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 4, hasJumped: false }]],
+    [[{ color: 'black', isKing: false, id: 5, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 6, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 7, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 8, hasJumped: false }], [invalid]],
+    [[invalid], [{ color: 'black', isKing: false, id: 9, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 10, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 11, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 12, hasJumped: false }]],
     [[valid], [invalid], [valid], [invalid], [valid], [invalid], [valid], [invalid]],
     [[invalid], [valid], [invalid], [valid], [invalid], [valid], [invalid], [valid]],
-    [[{ color: 'black', isKing: false, id: 13, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 14, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 15, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 16, hasJumped: false }], [invalid]],
-    [[invalid], [{ color: 'black', isKing: false, id: 17, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 18, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 19, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 20, hasJumped: false }]],
-    [[{ color: 'black', isKing: false, id: 21, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 22, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 23, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 24, hasJumped: false }], [invalid]]
+    [[{ color: 'red', isKing: false, id: 13, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 14, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 15, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 16, hasJumped: false }], [invalid]],
+    [[invalid], [{ color: 'red', isKing: false, id: 17, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 18, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 19, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 20, hasJumped: false }]],
+    [[{ color: 'red', isKing: false, id: 21, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 22, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 23, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 24, hasJumped: false }], [invalid]]
   ]
   const [oneScore, setOneScore] = useState(12)
+  const [redWins, setRedWins] = useState(0)
+  const [blackWins, setBlackWins] = useState(0)
   const [twoScore, setTwoScore] = useState(12)
   const [turnState, setTurnState] = useState(true)
   const [pieceSelected, setPieceSelected] = useState(false)
@@ -45,17 +47,25 @@ const Checkerboard = () => {
       alert('player 2 has won the game')
       setOneScore(12)
       setTwoScore(12)
+      setBlackWins((curr) => {
+        curr += 1
+        return curr
+      })
       setCheckerboard(start)
     } else if (twoScore === 0) {
       alert('player 1 has won the game')
       setTwoScore(12)
       setOneScore(12)
+      setRedWins((curr) => {
+        curr += 1
+        return curr
+      })
       setCheckerboard(start)
     }
   }, [checkerboard])
 
   const availableMoves = (curr) => {
-    pieceToJump = (turnState ? "red" : "black")
+    pieceToJump = (turnState ? "black" : "red")
     piece = pieceSelected
 
     if (piece.isKing === true) {
@@ -68,7 +78,7 @@ const Checkerboard = () => {
       moveRightUp = [curr[0] - 1, curr[1] + 1]
       jumpRightUp = [curr[0] - 2, curr[1] + 2]
     } else {
-      if (turnState) {
+      if (!turnState) {
         moveLeft = [curr[0] + 1, curr[1] - 1]
         jumpLeft = [curr[0] + 2, curr[1] - 2]
         moveRight = [curr[0] + 1, curr[1] + 1]
@@ -231,7 +241,7 @@ const Checkerboard = () => {
   }
 
   const endTurn = (newIndex) => {
-    if ((piece.isKing === false) && (newIndex[0] === (turnState ? 7 : 0))) {
+    if ((piece.isKing === false) && (newIndex[0] === (turnState ? 0 : 7))) {
       piece.isKing = true;
     }
 
@@ -320,6 +330,8 @@ const Checkerboard = () => {
       })}
       <h1> {turnState ? 'player 1' : 'player 2'}</h1>
       <button onClick={() => concede()}> Concede </button>
+      <h1> Red Score: {redWins} </h1>
+      <h1> Black Score: {blackWins} </h1>
     </div>
   )
 }
