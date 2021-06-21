@@ -7,13 +7,7 @@ const Checkerboard = () => {
   const [invalid, setInvalid] = useState({
     name: 'invalid'
   })
-  const [oneScore, setOneScore] = useState(12)
-  const [twoScore, setTwoScore] = useState(12)
-  const [turnState, setTurnState] = useState(true)
-  const [pieceSelected, setPieceSelected] = useState(false)
-  const [pieceIndex, setPieceIndex] = useState(null)
-  const [jumpId, setJumpId] = useState(false)
-  const [checkerboard, setCheckerboard] = useState([
+  const start = [
     [[invalid], [{ color: 'red', isKing: false, id: 1, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 2, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 3, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 4, hasJumped: false }]],
     [[{ color: 'red', isKing: false, id: 5, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 6, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 7, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 8, hasJumped: false }], [invalid]],
     [[invalid], [{ color: 'red', isKing: false, id: 9, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 10, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 11, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 12, hasJumped: false }]],
@@ -22,7 +16,14 @@ const Checkerboard = () => {
     [[{ color: 'black', isKing: false, id: 13, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 14, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 15, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 16, hasJumped: false }], [invalid]],
     [[invalid], [{ color: 'black', isKing: false, id: 17, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 18, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 19, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 20, hasJumped: false }]],
     [[{ color: 'black', isKing: false, id: 21, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 22, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 23, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 24, hasJumped: false }], [invalid]]
-  ])
+  ]
+  const [oneScore, setOneScore] = useState(12)
+  const [twoScore, setTwoScore] = useState(12)
+  const [turnState, setTurnState] = useState(true)
+  const [pieceSelected, setPieceSelected] = useState(false)
+  const [pieceIndex, setPieceIndex] = useState(null)
+  const [jumpId, setJumpId] = useState(false)
+  const [checkerboard, setCheckerboard] = useState(start)
 
   let piece;
   let moveLeft;
@@ -42,13 +43,19 @@ const Checkerboard = () => {
   useEffect(() => {
     if (oneScore === 0) {
       alert('player 2 has won the game')
+      setOneScore(12)
+      setTwoScore(12)
+      setCheckerboard(start)
     } else if (twoScore === 0) {
       alert('player 1 has won the game')
+      setTwoScore(12)
+      setOneScore(12)
+      setCheckerboard(start)
     }
   }, [checkerboard])
 
   const availableMoves = (curr) => {
-    pieceToJump = (turnState ? "black" : "red")
+    pieceToJump = (turnState ? "red" : "black")
     piece = pieceSelected
 
     if (piece.isKing === true) {
@@ -233,6 +240,20 @@ const Checkerboard = () => {
     setPieceSelected(false);
     setJumpId(false);
   }
+
+  const concede = () => {
+    if (turnState) {
+      setOneScore(0)
+      setCheckerboard(start)
+      setTurnState(true)
+    } else {
+      setTwoScore(0)
+      setCheckerboard(start)
+      setTurnState(true)
+    }
+  }
+
+
   const movePiece = (row, col) => {
 
     availableMoves(pieceIndex);
@@ -298,6 +319,7 @@ const Checkerboard = () => {
         )
       })}
       <h1> {turnState ? 'player 1' : 'player 2'}</h1>
+      <button onClick={() => concede()}> Concede </button>
     </div>
   )
 }
