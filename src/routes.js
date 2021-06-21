@@ -3,13 +3,13 @@ import {Switch, Route} from "react-router-dom";
 
 
 import FrontPage from "./components/FrontPage.js";
-import Rooms from "./components/Rooms.js";
+import landingpage from "./components/LandingPage.js";
 
 
 
 export default (
     <Switch>
         <Route component = {FrontPage} exact path = "/" />
-        <Route component = {Rooms} path = "/rooms" />
+        <Route component = {landingpage} path = "/landingpage" />
     </Switch>
 )

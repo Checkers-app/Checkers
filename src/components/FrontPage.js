@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import Login from "./Login.js"
-import Register from "./Register.js"
+import Header from "./sharedComps/Header.js"
+import Login from "./FrontPageComps/Login.js"
+import Register from "./FrontPageComps/Register.js"
 
 import "../css/frontpage.css";
 
@@ -11,9 +12,7 @@ function FrontPage() {
     return (
         <div className="frontPage">
             
-            <header>
-                <h1>CHECKERS</h1>
-            </header>
+            <Header/>
             
             <div className="frontPage_loginRegister">
                 <Login/>
