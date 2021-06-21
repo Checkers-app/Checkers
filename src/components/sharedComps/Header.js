@@ -15,7 +15,7 @@ function FrontPage() {
                 <p>Adam Pal</p>
                 <p>Alexander Raia</p>
             </div>
-            </header>
+        </header>
     );
 }
 

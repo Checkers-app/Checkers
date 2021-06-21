@@ -1,0 +1,22 @@
+.header {
+    height: 15vh;
+    background-color: rgb(182, 49, 31);
+
+    margin-bottom: 10vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    
+}
+
+.header_title {
+
+    margin-right: 5%;
+    font-size: 3.4em;
+}
+
+.header_names {
+    font-size: 1em;
+}
