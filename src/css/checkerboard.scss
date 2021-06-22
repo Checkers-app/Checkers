@@ -149,7 +149,7 @@ $greyedOut: #d3d3d3;
 
 .hidden {
   animation-name: expand;
-  animation-duration: 1s;
+  animation-duration: .5s;
   // animation-timing-function: ease-in-out;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
@@ -157,7 +157,7 @@ $greyedOut: #d3d3d3;
 
 .shown {
   animation-name: shrink;
-  animation-duration: 1s;
+  animation-duration: .5s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import '../css/checkerboard.css';
+import { toast } from "react-toastify";
 
 const Checkerboard = () => {
   const [valid, setValid] = useState({
@@ -49,7 +50,7 @@ const Checkerboard = () => {
 
   useEffect(() => {
     if (oneScore === 0) {
-      alert('player 2 has won the game')
+      toast.dark('player 2 has won the game')
       setOneScore(12)
       setTwoScore(12)
       setBlackWins((curr) => {
@@ -58,7 +59,7 @@ const Checkerboard = () => {
       })
       setCheckerboard(start)
     } else if (twoScore === 0) {
-      alert('player 1 has won the game')
+      toast.error('player 1 has won the game')
       setTwoScore(12)
       setOneScore(12)
       setRedWins((curr) => {
@@ -106,7 +107,7 @@ const Checkerboard = () => {
         setPieceSelected(piece)
         setPieceIndex([row, col])
       } else {
-        console.log("must double jump");
+        toast.error("must double jump");
       }
     } else {
       setPieceSelected(piece)
@@ -307,7 +308,7 @@ const Checkerboard = () => {
           jump(row, col, piece, moveRight)
         }
       } else {
-        alert('illegal move')
+        toast.error('Illegal move')
       }
     }
   }
@@ -391,6 +392,8 @@ const Checkerboard = () => {
           <div>Chat Box placeholder</div>
         </section>
       </section>
+      {/* <button onClick={() => { callToast() }}></button> */}
+      {/* <ToastContainer /> */}
     </section>
   )
 }
