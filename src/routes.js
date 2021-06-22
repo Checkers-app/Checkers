@@ -14,6 +14,6 @@ export default (
     <Route component={FrontPage} exact path="/" />
     <Route component={landingpage} path="/landingpage" />
     <Route component={Checkerboard} path="/game" />
-     <Route component={ProfilePage} path="/profile" />
+    <Route component={ProfilePage} path="/profile" />
   </Switch>
 )

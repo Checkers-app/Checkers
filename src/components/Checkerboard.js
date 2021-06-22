@@ -335,6 +335,10 @@ const Checkerboard = () => {
             <p className='homeText'>Home</p>
           </Link>
         </section>
+        <Link className='profileLink' to='/profile'>
+          <img className='profileIcon' src='http://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png'></img>
+          <p className='homeText'>Profile</p>
+        </Link>
       </section>
       <section className='gameAndLeftBox'>
         <div className='spacing'>

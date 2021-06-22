@@ -18,7 +18,7 @@ function App() {
           closeOnClick={true}
           rtl={false}
           pauseOnFocusLoss={false}
-          draggable={false}
+          draggable={true}
           pauseOnHover={true}
         />
       </HashRouter>

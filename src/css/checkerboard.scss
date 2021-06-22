@@ -174,7 +174,7 @@ $greyedOut: #d3d3d3;
   border: none;
   position: relative;
   top: 20px;
-  left: 35px;
+  left: 38px;
 }
 
 .menuLine {
@@ -199,7 +199,7 @@ $greyedOut: #d3d3d3;
   width: 50px;
   height: 50px;
   position: relative;
-  left: 23px;
+  left: 25px;
 }
 
 .homeText {
@@ -227,3 +227,22 @@ $greyedOut: #d3d3d3;
   color: black;
 }
 
+.profileLink {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  position: relative;
+  width: 200px;
+  // background-color: turquoise;
+  top: 200px;
+  // left: 100px;
+  text-decoration: none;
+  color: black;
+}
+
+.profileIcon {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  left: 25px;
+}
