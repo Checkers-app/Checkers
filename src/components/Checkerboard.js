@@ -17,6 +17,7 @@ const Checkerboard = () => {
     [[invalid], [{ color: 'red', isKing: false, id: 17 }], [invalid], [{ color: 'red', isKing: false, id: 18 }], [invalid], [{ color: 'red', isKing: false, id: 19 }], [invalid], [{ color: 'red', isKing: false, id: 20 }]],
     [[{ color: 'red', isKing: false, id: 21 }], [invalid], [{ color: 'red', isKing: false, id: 22 }], [invalid], [{ color: 'red', isKing: false, id: 23 }], [invalid], [{ color: 'red', isKing: false, id: 24 }], [invalid]]
   ]
+  // checkerboard[index][i]
   const [oneScore, setOneScore] = useState(12)
   const [redWins, setRedWins] = useState(0)
   const [blackWins, setBlackWins] = useState(0)
@@ -28,11 +29,11 @@ const Checkerboard = () => {
   const [checkerboard, setCheckerboard] = useState(start)
 
   let piece;
+  let pieceToJump;
   let moveLeft;
   let moveRight;
   let jumpLeft;
   let jumpRight;
-  let pieceToJump;
   let moveLeftDown;
   let moveLeftUp;
   let moveRightDown;
@@ -64,10 +65,23 @@ const Checkerboard = () => {
     }
   }, [checkerboard])
 
+  const selectionHandler = (row, col, piece) => {
+    if (jumpId) {
+      if (jumpId === piece.id) {
+        setPieceSelected(piece)
+        setPieceIndex([row, col])
+      } else {
+        console.log("must double jump");
+      }
+    } else {
+      setPieceSelected(piece)
+      setPieceIndex([row, col])
+    }
+  }
+
   const availableMoves = (curr) => {
     pieceToJump = (turnState ? "black" : "red")
     piece = pieceSelected
-
     if (piece.isKing === true) {
       moveLeftDown = [curr[0] + 1, curr[1] - 1]
       jumpLeftDown = [curr[0] + 2, curr[1] - 2]
@@ -92,23 +106,46 @@ const Checkerboard = () => {
     }
   }
 
-  // const availableJumps = (boardState, curr) => {
-
-  // }
-
-  // checkerboard[index][i]
-
-  const selectionHandler = (row, col, piece) => {
-    if (jumpId) {
-      if (jumpId === piece.id) {
-        setPieceSelected(piece)
-        setPieceIndex([row, col])
-      } else {
-        console.log("must double jump");
-      }
-    } else {
-      setPieceSelected(piece)
-      setPieceIndex([row, col])
+  const checkIsValidJump = (boardState, jumpDirection) => {
+    switch(JSON.stringify(jumpDirection)) {
+      //----Normal Jump Checks----
+      case JSON.stringify(jumpRight):
+        switch(true) {
+            case boardState[jumpRight[0]][jumpRight[1]][0] === valid && boardState[moveRight[0]][moveRight[1]][0].color === pieceToJump:
+            return true
+        }
+        break;
+      case JSON.stringify(jumpLeft):
+        switch(true) {
+            case boardState[jumpLeft[0]][jumpLeft[1]][0] === valid && boardState[moveLeft[0]][moveLeft[1]][0].color === pieceToJump:
+            return true
+        }
+        break;
+      //----King Jump Checks----
+      case JSON.stringify(jumpLeftUp):
+        switch(true) {
+            case boardState[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && boardState[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump:
+            return true
+        }
+        break;
+      case JSON.stringify(jumpRightUp):
+        switch(true) {
+            case boardState[jumpRightUp[0]][jumpRightUp[1]][0] === valid && boardState[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump:
+            return true
+        }
+        break;
+      case JSON.stringify(jumpRightDown):
+        switch(true) {
+            case boardState[jumpRightDown[0]][jumpRightDown[1]][0] === valid && boardState[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump:
+            return true
+        }
+        break;
+      case JSON.stringify(jumpLeftDown):
+        switch(true) {
+            case boardState[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && boardState[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump:
+            return true
+        }
+        break;
     }
   }
 
@@ -186,21 +223,25 @@ const Checkerboard = () => {
         endTurn(newIndex)
       }
       else {
+        //----King LeftEdge Jumps----
         if ((newIndexCol === 0 || newIndexCol === 1) && ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
           || (currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump))) {
-          console.log('line 188: we did it')
+          console.log('KingLeftEdge DJ: we did it')
           setJumpId(piece.id)
+        //----RightEdge Jumps----
         } else if ((newIndexCol === 6 || newIndexCol === 7) && ((currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump)
           || (currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump))) {
-          console.log('line 192: we did it')
+          console.log('KingRightEdge DJ: we did it')
           setJumpId(piece.id)
+        //----TopEdge Jumps----
         } else if ((newIndexRow === 0 || newIndexRow === 1) && ((currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)
           || (currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump))) {
-          console.log('line 196: we did it')
+          console.log('KingTopEdge DJ: we did it')
           setJumpId(piece.id)
+        //----BottomEdge Jumps----
         } else if ((newIndexRow === 6 || newIndexRow === 7) && ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
           || (currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump))) {
-          console.log('line 200: we did it')
+          console.log('KingBottomEdge DJ: we did it')
           setJumpId(piece.id)
         } else if ((!(newIndexRow === 6 || newIndexRow === 7 || newIndexRow === 0 || newIndexRow === 1 || newIndexCol === 0 || newIndexCol === 1 || newIndexCol === 6 || newIndexCol === 7))) {
           if ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
@@ -220,29 +261,37 @@ const Checkerboard = () => {
           endTurn(newIndex)
         }
       }
+      //----Normal Checks----
     } else {
-      if ((((newIndexRow === 0) || (newIndexRow === 1)) || ((newIndexRow === 7) || (newIndexRow === 6)))) {
-        console.log('line 215: ending turn')
-        setJumpId(false);
-        endTurn(newIndex);
-      } else if ((((newIndexCol === 0) || (newIndexCol === 1)) && !(currCheck[jumpRight[0]][jumpRight[1]][0] === valid && currCheck[moveRight[0]][moveRight[1]][0].color === pieceToJump))
+      //----Normal Piece landed on opposite edge (Kinged)----
+      if ((((newIndexRow === 0) 
+          || (newIndexRow === 1)) 
+          || ((newIndexRow === 7) 
+          || (newIndexRow === 6)))) {
+            console.log('Piece Kinged: ending turn')
+            setJumpId(false);
+            endTurn(newIndex);
+      //----Left/Right Edge Checks----
+      } else if (
+        ((newIndexCol === 0) || (newIndexCol === 1)) && !(checkIsValidJump(currCheck, jumpRight))
         ||
-        ((newIndexCol === 7) || (newIndexCol === 6)) && !(currCheck[jumpLeft[0]][jumpLeft[1]][0] === valid && currCheck[moveLeft[0]][moveLeft[1]][0].color === pieceToJump)) {
-        console.log('line 221: ending turn')
+        ((newIndexCol === 7) || (newIndexCol === 6)) && !(checkIsValidJump(currCheck, jumpLeft))
+        ) {
+        console.log('normLREdgeNoJump: ending turn')
         setJumpId(false);
         endTurn(newIndex);
       } else {
         if ((newIndexCol === 0) || (newIndexCol === 1)) {
-          if ((currCheck[jumpRight[0]][jumpRight[1]][0] === valid && currCheck[moveRight[0]][moveRight[1]][0].color === pieceToJump)) {
+          if (checkIsValidJump(currCheck, jumpRight)) {
             console.log('we did it')
             setJumpId(piece.id)
           }
         } else if ((newIndexCol === 6) || (newIndexCol === 7)) {
-          if ((currCheck[jumpLeft[0]][jumpLeft[1]][0] === valid && currCheck[moveLeft[0]][moveLeft[1]][0].color === pieceToJump)) {
+          if (checkIsValidJump(currCheck, jumpLeft)) {
             console.log('we did it')
             setJumpId(piece.id)
           }
-        } else if ((currCheck[jumpRight[0]][jumpRight[1]][0] === valid && currCheck[moveRight[0]][moveRight[1]][0].color === pieceToJump) || (currCheck[jumpLeft[0]][jumpLeft[1]][0] === valid && currCheck[moveLeft[0]][moveLeft[1]][0].color === pieceToJump)) {
+        } else if ((checkIsValidJump(currCheck, jumpRight)) || (checkIsValidJump(currCheck, jumpLeft))) {
           console.log('we did it')
           setJumpId(piece.id)
         } else {
