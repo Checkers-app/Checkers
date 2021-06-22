@@ -7,6 +7,7 @@ function App() {
     <div className="App">
       <HashRouter>
         {routes}
+        {/* <Checkerboard /> */}
       </HashRouter>
 
     </div>

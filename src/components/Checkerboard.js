@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import '../css/checkerboard.css';
 
 const Checkerboard = () => {
   const [valid, setValid] = useState({
@@ -18,14 +20,17 @@ const Checkerboard = () => {
     [[{ color: 'red', isKing: false, id: 21, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 22, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 23, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 24, hasJumped: false }], [invalid]]
   ]
   const [oneScore, setOneScore] = useState(12)
+  const [oneDisplay, setOneDisplay] = useState(0)
   const [redWins, setRedWins] = useState(0)
   const [blackWins, setBlackWins] = useState(0)
   const [twoScore, setTwoScore] = useState(12)
+  const [twoDisplay, setTwoDisplay] = useState(0)
   const [turnState, setTurnState] = useState(true)
   const [pieceSelected, setPieceSelected] = useState(false)
   const [pieceIndex, setPieceIndex] = useState(null)
   const [jumpId, setJumpId] = useState(false)
   const [checkerboard, setCheckerboard] = useState(start)
+  const [menuState, setMenuState] = useState(false)
 
   let piece;
   let moveLeft;
@@ -138,10 +143,20 @@ const Checkerboard = () => {
         score -= 1
         return score
       })
+      setOneDisplay(score => {
+        score = oneDisplay
+        score += 1
+        return score
+      })
     } else {
       setOneScore(score => {
         score = oneScore
         score -= 1
+        return score
+      })
+      setTwoDisplay(score => {
+        score = oneDisplay
+        score += 1
         return score
       })
     }
@@ -297,42 +312,86 @@ const Checkerboard = () => {
     }
   }
 
+  const expandMenu = () => {
+    setMenuState(curr => {
+      curr = menuState
+      curr = !curr
+      return curr
+    })
+  }
+
   return (
-    <div className='spacing'>
-      {checkerboard.map((row, index) => {
-        return (
-          <div key={index} className="row">
-            {row.map((cell, i) => {
-              if (cell[0]?.color === 'red') {
-                return (
-                  <div key={i} className="checker-boxes">
-                    <div onClick={turnState ? () => selectionHandler(index, i, cell[0]) : null} className="red-piece">{cell[0].isKing ? `king ${cell[0].id}` : cell[0].id}</div>
-                  </div>
-                )
-              } else if (cell[0]?.color === 'black') {
-                return (
-                  <div key={i} className="checker-boxes">
-                    <div onClick={turnState ? null : () => selectionHandler(index, i, cell[0])} className="black-piece">{cell[0].isKing ? `king ${cell[0].id}` : cell[0].id}</div>
-                  </div>
-                )
-              } else if (cell[0]?.name === 'valid') {
-                return (
-                  <div onClick={pieceSelected ? () => movePiece(index, i) : null} key={i} className="checker-boxes"></div>
-                )
-              } else {
-                return (
-                  <div key={i} className="checker-boxes checker-boxes-group-2"></div>
-                )
-              }
-            })}
-          </div>
-        )
-      })}
-      <h1> {turnState ? 'player 1' : 'player 2'}</h1>
-      <button onClick={() => concede()}> Concede </button>
-      <h1> Red Score: {redWins} </h1>
-      <h1> Black Score: {blackWins} </h1>
-    </div>
+    <section className='checkerboardFrame'>
+      <section className={`leftBox ${menuState ? 'hidden' : 'shown'}`}>
+        <button className='menuLines' onClick={() => expandMenu()}>
+          <div className='menuLine'>-</div>
+          <div className='menuLine'>-</div>
+          <div className='menuLine'>-</div>
+        </button>
+        <section className='homeLink'>
+          <Link className='linkSpacing' to='/landingpage' >
+            <img className='homeIcon' src='http://assets.stickpng.com/thumbs/588a6758d06f6719692a2d22.png'></img>
+            <p className='homeText'>Home</p>
+          </Link>
+        </section>
+      </section>
+      <section className='gameAndLeftBox'>
+        <div className='spacing'>
+          {checkerboard.map((row, index) => {
+            return (
+              <div key={index} className="row">
+                {row.map((cell, i) => {
+                  if (cell[0]?.color === 'red') {
+                    return (
+                      <div key={i} className="checker-boxes">
+                        <div onClick={turnState ? () => selectionHandler(index, i, cell[0]) : null} className="red-piece">{cell[0].isKing ? 'king' : cell[0].id}</div>
+                      </div>
+                    )
+                  } else if (cell[0]?.color === 'black') {
+                    return (
+                      <div key={i} className="checker-boxes">
+                        <div onClick={turnState ? null : () => selectionHandler(index, i, cell[0])} className="black-piece">{cell[0].isKing ? 'king' : cell[0].id}</div>
+                      </div>
+                    )
+                  } else if (cell[0]?.name === 'valid') {
+                    return (
+                      <div onClick={pieceSelected ? () => movePiece(index, i) : null} key={i} className="checker-boxes"></div>
+                    )
+                  } else {
+                    return (
+                      <div key={i} className="checker-boxes checker-boxes-group-2"></div>
+                    )
+                  }
+                })}
+              </div>
+            )
+          })}
+          <div className='bottomLine'></div>
+        </div>
+      </section>
+      <section className='sideFrame'>
+        <section className='turnStateBox'>
+          <section className='turnStateDisplay'>
+            <h1 className={turnState ? "activeTurnText" : "inactiveTurnText"}>Red's Turn</h1>
+            <p className='divider'>|</p>
+            <h1 className={turnState ? "inactiveTurnText" : "activeTurnText"}>Black's Turn</h1>
+          </section>
+          <section className='moveBox'>
+            <section className='everythingButScore'>
+              <div>Move State Display placeholder</div>
+            </section>
+            <section className='scoreBox'>
+              <h1> Red Score: {oneDisplay} </h1>
+              <h1> Black Score: {twoDisplay} </h1>
+            </section>
+          </section>
+          {/* <button className='concedeButton' onClick={() => concede()}> Concede </button> */}
+        </section>
+        <section className='chatBox'>
+          <div>Chat Box placeholder</div>
+        </section>
+      </section>
+    </section>
   )
 }
 
