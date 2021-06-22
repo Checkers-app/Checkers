@@ -118,7 +118,6 @@ const Checkerboard = () => {
 
   const jump = (row, col, piece, placeToJump) => {
     //----MAKE JUMP----
-    let newIndex = [row, col];
     let currCheck = [...checkerboard];
     currCheck[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
     currCheck[placeToJump[0]].splice(placeToJump[1], 1, [valid])
@@ -140,6 +139,7 @@ const Checkerboard = () => {
     }
     //----Reset Piece Position----
     setPieceSelected(piece)
+    let newIndex = [row, col];
     setPieceIndex(newIndex)
     availableMoves(newIndex)
 
@@ -200,25 +200,25 @@ const Checkerboard = () => {
             console.log('we did it')
             setJumpId(piece.id)
           } else {
-            console.log('ending turn')
+            console.log('line 203: ending turn')
             setJumpId(false)
             endTurn(newIndex)
           }
         } else {
-          console.log('ending turn')
+          console.log('line 208: ending turn')
           setJumpId(false)
           endTurn(newIndex)
         }
       }
     } else {
       if ((((newIndex[0] === 0) || (newIndex[0] === 1)) || ((newIndex[0] === 7) || (newIndex[0] === 6)))) {
-        console.log('ending turn')
+        console.log('line 215: ending turn')
         setJumpId(false);
         endTurn(newIndex);
       } else if ((((newIndex[1] === 0) || (newIndex[1] === 1)) && !(currCheck[jumpRight[0]][jumpRight[1]][0] === valid && currCheck[moveRight[0]][moveRight[1]][0].color === pieceToJump))
         ||
         ((newIndex[1] === 7) || (newIndex[1] === 6)) && !(currCheck[jumpLeft[0]][jumpLeft[1]][0] === valid && currCheck[moveLeft[0]][moveLeft[1]][0].color === pieceToJump)) {
-        console.log('ending turn')
+        console.log('line 221: ending turn')
         setJumpId(false);
         endTurn(newIndex);
       } else {
@@ -236,7 +236,7 @@ const Checkerboard = () => {
           console.log('we did it')
           setJumpId(piece.id)
         } else {
-          console.log('ending turn')
+          console.log('line 239: ending turn')
           setJumpId(false);
           endTurn(newIndex);
         }
