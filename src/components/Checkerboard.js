@@ -92,6 +92,10 @@ const Checkerboard = () => {
     }
   }
 
+  // const availableJumps = (boardState, curr) => {
+
+  // }
+
   // checkerboard[index][i]
 
   const selectionHandler = (row, col, piece) => {
@@ -121,8 +125,9 @@ const Checkerboard = () => {
   }
 
   const jump = (row, col, piece, placeToJump) => {
-    let newIndex = [row, col];
-    let currCheck = [...checkerboard];
+    let newIndexRow = row
+    let newIndexCol = col
+    let newIndex = [newIndexRow, newIndexCol]
     const landingSpot = JSON.stringify(newIndex)
     //----Corner spots
     const topLeftCornerUp = JSON.stringify([0,1])
@@ -135,6 +140,7 @@ const Checkerboard = () => {
     const bottomLeftCornerDown = JSON.stringify([7,0])
     
     //----MAKE JUMP----
+    let currCheck = [...checkerboard];
     currCheck[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
     currCheck[placeToJump[0]].splice(placeToJump[1], 1, [valid])
     currCheck[row].splice(col, 1, [piece])
@@ -162,49 +168,41 @@ const Checkerboard = () => {
     //----King Checks----
     if (piece.isKing) {
       // CORNER LOGIC
-      if (((landingSpot === topLeftCornerUp) || (landingSpot === topLeftCornerDown)) 
-      // && !(currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)
-      ) {
+      if (((landingSpot === topLeftCornerUp) || (landingSpot === topLeftCornerDown))) {
         console.log('TLC: ending turn')
         setJumpId(false)
         endTurn(newIndex)
-      } else if (((landingSpot === topRightCornerUp) || (landingSpot === topRightCornerDown)) 
-      // && !(currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump)
-      ) {
+      } else if (((landingSpot === topRightCornerUp) || (landingSpot === topRightCornerDown))) {
         console.log('TRC: ending turn')
         setJumpId(false)
         endTurn(newIndex)
-      } else if (((landingSpot === bottomRightCornerUp) || (landingSpot === bottomRightCornerDown))
-      // && !(currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump))
-      ) {
+      } else if (((landingSpot === bottomRightCornerUp) || (landingSpot === bottomRightCornerDown))) {
         console.log('BRC: ending turn')
         setJumpId(false)
         endTurn(newIndex)
-      } else if (((landingSpot === bottomLeftCornerUp) || (landingSpot === bottomLeftCornerDown)) 
-      // && !(currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump))
-      ) {
+      } else if (((landingSpot === bottomLeftCornerUp) || (landingSpot === bottomLeftCornerDown))) {
         console.log('BLC: ending turn')
         setJumpId(false)
         endTurn(newIndex)
       }
       else {
-        if ((newIndex[1] === 0 || newIndex[1] === 1) && ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
+        if ((newIndexCol === 0 || newIndexCol === 1) && ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
           || (currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump))) {
           console.log('line 188: we did it')
           setJumpId(piece.id)
-        } else if ((newIndex[1] === 6 || newIndex[1] === 7) && ((currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump)
+        } else if ((newIndexCol === 6 || newIndexCol === 7) && ((currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump)
           || (currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump))) {
           console.log('line 192: we did it')
           setJumpId(piece.id)
-        } else if ((newIndex[0] === 0 || newIndex[0] === 1) && ((currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)
+        } else if ((newIndexRow === 0 || newIndexRow === 1) && ((currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)
           || (currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump))) {
           console.log('line 196: we did it')
           setJumpId(piece.id)
-        } else if ((newIndex[0] === 6 || newIndex[0] === 7) && ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
+        } else if ((newIndexRow === 6 || newIndexRow === 7) && ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
           || (currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump))) {
           console.log('line 200: we did it')
           setJumpId(piece.id)
-        } else if ((!(newIndex[0] === 6 || newIndex[0] === 7 || newIndex[0] === 0 || newIndex[0] === 1 || newIndex[1] === 0 || newIndex[1] === 1 || newIndex[1] === 6 || newIndex[1] === 7))) {
+        } else if ((!(newIndexRow === 6 || newIndexRow === 7 || newIndexRow === 0 || newIndexRow === 1 || newIndexCol === 0 || newIndexCol === 1 || newIndexCol === 6 || newIndexCol === 7))) {
           if ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
             || (currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)
             || (currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump)
@@ -223,23 +221,23 @@ const Checkerboard = () => {
         }
       }
     } else {
-      if ((((newIndex[0] === 0) || (newIndex[0] === 1)) || ((newIndex[0] === 7) || (newIndex[0] === 6)))) {
+      if ((((newIndexRow === 0) || (newIndexRow === 1)) || ((newIndexRow === 7) || (newIndexRow === 6)))) {
         console.log('line 215: ending turn')
         setJumpId(false);
         endTurn(newIndex);
-      } else if ((((newIndex[1] === 0) || (newIndex[1] === 1)) && !(currCheck[jumpRight[0]][jumpRight[1]][0] === valid && currCheck[moveRight[0]][moveRight[1]][0].color === pieceToJump))
+      } else if ((((newIndexCol === 0) || (newIndexCol === 1)) && !(currCheck[jumpRight[0]][jumpRight[1]][0] === valid && currCheck[moveRight[0]][moveRight[1]][0].color === pieceToJump))
         ||
-        ((newIndex[1] === 7) || (newIndex[1] === 6)) && !(currCheck[jumpLeft[0]][jumpLeft[1]][0] === valid && currCheck[moveLeft[0]][moveLeft[1]][0].color === pieceToJump)) {
+        ((newIndexCol === 7) || (newIndexCol === 6)) && !(currCheck[jumpLeft[0]][jumpLeft[1]][0] === valid && currCheck[moveLeft[0]][moveLeft[1]][0].color === pieceToJump)) {
         console.log('line 221: ending turn')
         setJumpId(false);
         endTurn(newIndex);
       } else {
-        if ((newIndex[1] === 0) || (newIndex[1] === 1)) {
+        if ((newIndexCol === 0) || (newIndexCol === 1)) {
           if ((currCheck[jumpRight[0]][jumpRight[1]][0] === valid && currCheck[moveRight[0]][moveRight[1]][0].color === pieceToJump)) {
             console.log('we did it')
             setJumpId(piece.id)
           }
-        } else if ((newIndex[1] === 6) || (newIndex[1] === 7)) {
+        } else if ((newIndexCol === 6) || (newIndexCol === 7)) {
           if ((currCheck[jumpLeft[0]][jumpLeft[1]][0] === valid && currCheck[moveLeft[0]][moveLeft[1]][0].color === pieceToJump)) {
             console.log('we did it')
             setJumpId(piece.id)
