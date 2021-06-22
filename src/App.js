@@ -1,4 +1,4 @@
-import {HashRouter} from "react-router-dom"
+import { HashRouter } from "react-router-dom"
 import routes from './routes.js';
 import './App.css';
 import Checkerboard from './components/Checkerboard'
@@ -8,9 +8,9 @@ function App() {
     <div className="App">
       <HashRouter>
         {routes}
-        <Checkerboard />
+        {/* <Checkerboard /> */}
       </HashRouter>
-      
+
     </div>
   );
 }
