@@ -223,40 +223,45 @@ const Checkerboard = () => {
         endTurn(newIndex)
       }
       else {
-        //----King LeftEdge Jumps----
-        if ((newIndexCol === 0 || newIndexCol === 1) && ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
-          || (currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump))) {
+        //----King LeftEdge DoubleJumps----
+        if ((newIndexCol === 0 || newIndexCol === 1) 
+          && 
+          ((checkIsValidJump(currCheck, jumpRightUp)) || (checkIsValidJump(currCheck, jumpRightDown)))) {
           console.log('KingLeftEdge DJ: we did it')
           setJumpId(piece.id)
-        //----RightEdge Jumps----
-        } else if ((newIndexCol === 6 || newIndexCol === 7) && ((currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump)
-          || (currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump))) {
+        //----King RightEdge DoubleJumps----
+        } else if ((newIndexCol === 6 || newIndexCol === 7) 
+        && 
+        ((checkIsValidJump(currCheck, jumpLeftUp)) || (checkIsValidJump(currCheck, jumpLeftDown)))) {
           console.log('KingRightEdge DJ: we did it')
           setJumpId(piece.id)
-        //----TopEdge Jumps----
-        } else if ((newIndexRow === 0 || newIndexRow === 1) && ((currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)
-          || (currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump))) {
+        //----King TopEdge DoubleJumps----
+        } else if ((newIndexRow === 0 || newIndexRow === 1) 
+        && 
+        ((checkIsValidJump(currCheck, jumpRightDown)) || (checkIsValidJump(currCheck, jumpLeftDown)))) {
           console.log('KingTopEdge DJ: we did it')
           setJumpId(piece.id)
-        //----BottomEdge Jumps----
-        } else if ((newIndexRow === 6 || newIndexRow === 7) && ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
-          || (currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump))) {
+        //----King BottomEdge Jumps----
+        } else if ((newIndexRow === 6 || newIndexRow === 7)
+        && 
+        ((checkIsValidJump(currCheck, jumpRightUp)) || (checkIsValidJump(currCheck, jumpLeftUp)))) {
           console.log('KingBottomEdge DJ: we did it')
           setJumpId(piece.id)
+        //----King Inside Jumps----
         } else if ((!(newIndexRow === 6 || newIndexRow === 7 || newIndexRow === 0 || newIndexRow === 1 || newIndexCol === 0 || newIndexCol === 1 || newIndexCol === 6 || newIndexCol === 7))) {
-          if ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
-            || (currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)
-            || (currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump)
-            || (currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump)) {
-            console.log('line 207: we did it')
+          if ((checkIsValidJump(currCheck, jumpRightUp))
+            || (checkIsValidJump(currCheck, jumpRightDown))
+            || (checkIsValidJump(currCheck, jumpLeftUp))
+            || (checkIsValidJump(currCheck, jumpLeftDown))) {
+            console.log('kingInsideDJ: we did it')
             setJumpId(piece.id)
           } else {
-            console.log('line 203: ending turn')
+            console.log('kingNoInsideDJ: ending turn')
             setJumpId(false)
             endTurn(newIndex)
           }
         } else {
-          console.log('line 208: ending turn')
+          console.log('kingNoEdgeDJ: ending turn')
           setJumpId(false)
           endTurn(newIndex)
         }
@@ -264,11 +269,12 @@ const Checkerboard = () => {
       //----Normal Checks----
     } else {
       //----Normal Piece landed on opposite edge (Kinged)----
-      if ((((newIndexRow === 0) 
-          || (newIndexRow === 1)) 
-          || ((newIndexRow === 7) 
-          || (newIndexRow === 6)))) {
-            console.log('Piece Kinged: ending turn')
+      if ((
+          ((newIndexRow === 0) || (newIndexRow === 1)) 
+          ||
+          ((newIndexRow === 7) || (newIndexRow === 6))
+          )) {
+            console.log('normPiece endOfLine: ending turn')
             setJumpId(false);
             endTurn(newIndex);
       //----Left/Right Edge Checks----
@@ -277,25 +283,25 @@ const Checkerboard = () => {
         ||
         ((newIndexCol === 7) || (newIndexCol === 6)) && !(checkIsValidJump(currCheck, jumpLeft))
         ) {
-        console.log('normLREdgeNoJump: ending turn')
+        console.log('normLREdgeNoDJ: ending turn')
         setJumpId(false);
         endTurn(newIndex);
       } else {
         if ((newIndexCol === 0) || (newIndexCol === 1)) {
           if (checkIsValidJump(currCheck, jumpRight)) {
-            console.log('we did it')
+            console.log('normLeftEdgeDJ: we did it')
             setJumpId(piece.id)
           }
         } else if ((newIndexCol === 6) || (newIndexCol === 7)) {
           if (checkIsValidJump(currCheck, jumpLeft)) {
-            console.log('we did it')
+            console.log('normRightEdgeDJ: we did it')
             setJumpId(piece.id)
           }
         } else if ((checkIsValidJump(currCheck, jumpRight)) || (checkIsValidJump(currCheck, jumpLeft))) {
-          console.log('we did it')
+          console.log('normInsideDJ: we did it')
           setJumpId(piece.id)
         } else {
-          console.log('line 239: ending turn')
+          console.log('noDJ: ending turn')
           setJumpId(false);
           endTurn(newIndex);
         }
@@ -306,9 +312,8 @@ const Checkerboard = () => {
   const endTurn = (newIndex) => {
     if ((piece.isKing === false) && (newIndex[0] === (turnState ? 0 : 7))) {
       piece.isKing = true;
+      console.log(`${piece.id} is now Kinged`)
     }
-
-    console.log(piece.isKing)
     setTurnState(!turnState);
     setPieceSelected(false);
     setJumpId(false);
@@ -332,7 +337,11 @@ const Checkerboard = () => {
     availableMoves(pieceIndex);
     let intendedMove = [row, col]
     if (piece.isKing === true) {
-      if (JSON.stringify(intendedMove) === JSON.stringify(moveLeftDown) || JSON.stringify(intendedMove) === JSON.stringify(moveRightDown) || JSON.stringify(intendedMove) === JSON.stringify(moveRightUp) || JSON.stringify(intendedMove) === JSON.stringify(moveLeftUp)) {
+      if (
+        JSON.stringify(intendedMove) === JSON.stringify(moveLeftDown) 
+        || JSON.stringify(intendedMove) === JSON.stringify(moveRightDown) 
+        || JSON.stringify(intendedMove) === JSON.stringify(moveRightUp) 
+        || JSON.stringify(intendedMove) === JSON.stringify(moveLeftUp)) {
         move(row, col, piece);
       } else if ((JSON.stringify(intendedMove) === JSON.stringify(jumpLeftDown) && checkerboard[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump) || (JSON.stringify(intendedMove) === JSON.stringify(jumpRightDown) && checkerboard[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump) || (JSON.stringify(intendedMove) === JSON.stringify(jumpLeftUp) && checkerboard[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump) || (JSON.stringify(intendedMove) === JSON.stringify(jumpRightUp) && checkerboard[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)) {
         if (JSON.stringify(intendedMove) === JSON.stringify(jumpLeftUp)) {
