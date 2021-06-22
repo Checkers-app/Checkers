@@ -378,7 +378,7 @@ const Checkerboard = () => {
           </section>
           <section className='moveBox'>
             <section className='everythingButScore'>
-              <div>placeholder</div>
+              <div>Move State Display placeholder</div>
             </section>
             <section className='scoreBox'>
               <h1> Red Score: {oneDisplay} </h1>
@@ -388,7 +388,7 @@ const Checkerboard = () => {
           {/* <button className='concedeButton' onClick={() => concede()}> Concede </button> */}
         </section>
         <section className='chatBox'>
-          <div>This is just a placeholder</div>
+          <div>Chat Box placeholder</div>
         </section>
       </section>
     </section>

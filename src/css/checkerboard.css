@@ -114,6 +114,7 @@
     width: 200px;
   }
 }
+
 @keyframes shrink {
   0% {
     width: 200px;
@@ -122,6 +123,7 @@
     width: 100px;
   }
 }
+
 .hidden {
   animation-name: expand;
   animation-duration: 1s;
