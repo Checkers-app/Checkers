@@ -1,16 +1,17 @@
 import Header from "../components/sharedComps/Header.js"
+import { Link } from "react-router-dom";
 
 
 function LandingPage() {
-    return (
-      <div className="rooms">
-      
-        <Header/>
+  return (
+    <div className="rooms">
 
-        <button>Create New Game</button>
-        
-      </div>
-    );
-  }
-  
-  export default LandingPage;
+      <Header />
+
+      <Link to="/game">Create New Game</Link>
+
+    </div>
+  );
+}
+
+export default LandingPage;
