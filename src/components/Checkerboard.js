@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 
 const Checkerboard = () => {
-  const valid = {name: 'valid'}
-  const invalid = {name: 'invalid'}
+  const [valid, setValid] = useState({
+    name: 'valid'
+  })
+  const [invalid, setInvalid] = useState({
+    name: 'invalid'
+  })
   const start = [
-    [[invalid], [{ color: 'black', isKing: false, id: 1}], [invalid], [{ color: 'black', isKing: false, id: 2 }], [invalid], [{ color: 'black', isKing: false, id: 3 }], [invalid], [{ color: 'black', isKing: false, id: 4 }]],
+    [[invalid], [{ color: 'black', isKing: false, id: 1 }], [invalid], [{ color: 'black', isKing: false, id: 2 }], [invalid], [{ color: 'black', isKing: false, id: 3 }], [invalid], [{ color: 'black', isKing: false, id: 4 }]],
     [[{ color: 'black', isKing: false, id: 5 }], [invalid], [{ color: 'black', isKing: false, id: 6 }], [invalid], [{ color: 'black', isKing: false, id: 7 }], [invalid], [{ color: 'black', isKing: false, id: 8 }], [invalid]],
     [[invalid], [{ color: 'black', isKing: false, id: 9 }], [invalid], [{ color: 'black', isKing: false, id: 10 }], [invalid], [{ color: 'black', isKing: false, id: 11 }], [invalid], [{ color: 'black', isKing: false, id: 12 }]],
     [[valid], [invalid], [valid], [invalid], [valid], [invalid], [valid], [invalid]],
@@ -117,8 +121,20 @@ const Checkerboard = () => {
   }
 
   const jump = (row, col, piece, placeToJump) => {
-    //----MAKE JUMP----
+    let newIndex = [row, col];
     let currCheck = [...checkerboard];
+    const landingSpot = JSON.stringify(newIndex)
+    //----Corner spots
+    const topLeftCornerUp = JSON.stringify([0,1])
+    const topLeftCornerDown = JSON.stringify([1,0])
+    const topRightCornerUp = JSON.stringify([0,7])
+    const topRightCornerDown = JSON.stringify([1,6])
+    const bottomRightCornerUp = JSON.stringify([6,7])
+    const bottomRightCornerDown = JSON.stringify([7,6])
+    const bottomLeftCornerUp = JSON.stringify([6,1])
+    const bottomLeftCornerDown = JSON.stringify([7,0])
+    
+    //----MAKE JUMP----
     currCheck[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
     currCheck[placeToJump[0]].splice(placeToJump[1], 1, [valid])
     currCheck[row].splice(col, 1, [piece])
@@ -139,65 +155,61 @@ const Checkerboard = () => {
     }
     //----Reset Piece Position----
     setPieceSelected(piece)
-    let newIndex = [row, col];
     setPieceIndex(newIndex)
     availableMoves(newIndex)
 
     //----CHECK DOUBLEJUMPS----
-    const landingSpot = JSON.stringify(newIndex)
-    //----Corner spots
-    const topLeftCornerUp = JSON.stringify([0,1])
-    const topLeftCornerDown = JSON.stringify([1,0])
-    const topRightCornerUp = JSON.stringify([0,7])
-    const topRightCornerDown = JSON.stringify([1,6])
-    const bottomRightCornerUp = JSON.stringify([6,7])
-    const bottomRightCornerDown = JSON.stringify([7,6])
-    const bottomLeftCornerUp = JSON.stringify([6,1])
-    const bottomLeftCornerDown = JSON.stringify([7,0])
-
     //----King Checks----
     if (piece.isKing) {
       // CORNER LOGIC
-      if ((((newIndex[0] === 0) && (newIndex[1] === 1)) || ((newIndex[0] === 1) && (newIndex[1] === 0))) && !(currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)) {
-        console.log('ending turn')
+      if (((landingSpot === topLeftCornerUp) || (landingSpot === topLeftCornerDown)) 
+      // && !(currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)
+      ) {
+        console.log('TLC: ending turn')
         setJumpId(false)
         endTurn(newIndex)
-      } else if (((((newIndex[0] === 0) && (newIndex[1] === 7)) || ((newIndex[0] === 1) && (newIndex[1] === 6))) && !(currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump))) {
-        console.log('ending turn')
+      } else if (((landingSpot === topRightCornerUp) || (landingSpot === topRightCornerDown)) 
+      // && !(currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump)
+      ) {
+        console.log('TRC: ending turn')
         setJumpId(false)
         endTurn(newIndex)
-      } else if (((((newIndex[0] === 6) && (newIndex[1] === 7)) || ((newIndex[0] === 7) && (newIndex[1] === 6))) && !(currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump))) {
-        console.log('ending turn')
+      } else if (((landingSpot === bottomRightCornerUp) || (landingSpot === bottomRightCornerDown))
+      // && !(currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump))
+      ) {
+        console.log('BRC: ending turn')
         setJumpId(false)
         endTurn(newIndex)
-      } else if (((((newIndex[0] === 7) && (newIndex[1] === 0)) || ((newIndex[0] === 6) && (newIndex[1] === 1))) && !(currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump))) {
-        console.log('ending turn')
+      } else if (((landingSpot === bottomLeftCornerUp) || (landingSpot === bottomLeftCornerDown)) 
+      // && !(currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump))
+      ) {
+        console.log('BLC: ending turn')
         setJumpId(false)
         endTurn(newIndex)
       }
       else {
         if ((newIndex[1] === 0 || newIndex[1] === 1) && ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
           || (currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump))) {
-          console.log('we did it')
+          console.log('line 188: we did it')
           setJumpId(piece.id)
         } else if ((newIndex[1] === 6 || newIndex[1] === 7) && ((currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump)
           || (currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump))) {
-          console.log('we did it')
+          console.log('line 192: we did it')
           setJumpId(piece.id)
         } else if ((newIndex[0] === 0 || newIndex[0] === 1) && ((currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)
           || (currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump))) {
-          console.log('we did it')
+          console.log('line 196: we did it')
           setJumpId(piece.id)
         } else if ((newIndex[0] === 6 || newIndex[0] === 7) && ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
           || (currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump))) {
-          console.log('we did it')
+          console.log('line 200: we did it')
           setJumpId(piece.id)
         } else if ((!(newIndex[0] === 6 || newIndex[0] === 7 || newIndex[0] === 0 || newIndex[0] === 1 || newIndex[1] === 0 || newIndex[1] === 1 || newIndex[1] === 6 || newIndex[1] === 7))) {
           if ((currCheck[jumpRightUp[0]][jumpRightUp[1]][0] === valid && currCheck[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
             || (currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)
             || (currCheck[jumpLeftUp[0]][jumpLeftUp[1]][0] === valid && currCheck[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump)
             || (currCheck[jumpLeftDown[0]][jumpLeftDown[1]][0] === valid && currCheck[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump)) {
-            console.log('we did it')
+            console.log('line 207: we did it')
             setJumpId(piece.id)
           } else {
             console.log('line 203: ending turn')
