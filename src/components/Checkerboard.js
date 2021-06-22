@@ -248,7 +248,18 @@ const Checkerboard = () => {
           console.log('KingBottomEdge DJ: we did it')
           setJumpId(piece.id)
         //----King Inside Jumps----
-        } else if ((!(newIndexRow === 6 || newIndexRow === 7 || newIndexRow === 0 || newIndexRow === 1 || newIndexCol === 0 || newIndexCol === 1 || newIndexCol === 6 || newIndexCol === 7))) {
+        } else if (
+          (
+            !(newIndexRow === 6 
+            || newIndexRow === 7 
+            || newIndexRow === 0 
+            || newIndexRow === 1 
+            || newIndexCol === 0 
+            || newIndexCol === 1 
+            || newIndexCol === 6 
+            || newIndexCol === 7)
+            )
+        ) {
           if ((checkIsValidJump(currCheck, jumpRightUp))
             || (checkIsValidJump(currCheck, jumpRightDown))
             || (checkIsValidJump(currCheck, jumpLeftUp))
@@ -268,7 +279,7 @@ const Checkerboard = () => {
       }
       //----Normal Checks----
     } else {
-      //----Normal Piece landed on opposite edge (Kinged)----
+      //----Normal Piece landed on opposite last two rows(no jumps possible)----
       if ((
           ((newIndexRow === 0) || (newIndexRow === 1)) 
           ||
@@ -333,32 +344,44 @@ const Checkerboard = () => {
 
 
   const movePiece = (row, col) => {
-
     availableMoves(pieceIndex);
-    let intendedMove = [row, col]
+    let intendedMove = JSON.stringify([row, col])
     if (piece.isKing === true) {
-      if (
-        JSON.stringify(intendedMove) === JSON.stringify(moveLeftDown) 
-        || JSON.stringify(intendedMove) === JSON.stringify(moveRightDown) 
-        || JSON.stringify(intendedMove) === JSON.stringify(moveRightUp) 
-        || JSON.stringify(intendedMove) === JSON.stringify(moveLeftUp)) {
+      //----King Move Scenarios
+      if ( intendedMove === JSON.stringify(moveLeftDown) 
+        || intendedMove === JSON.stringify(moveRightDown) 
+        || intendedMove === JSON.stringify(moveRightUp) 
+        || intendedMove === JSON.stringify(moveLeftUp)
+        ) {
         move(row, col, piece);
-      } else if ((JSON.stringify(intendedMove) === JSON.stringify(jumpLeftDown) && checkerboard[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump) || (JSON.stringify(intendedMove) === JSON.stringify(jumpRightDown) && checkerboard[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump) || (JSON.stringify(intendedMove) === JSON.stringify(jumpLeftUp) && checkerboard[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump) || (JSON.stringify(intendedMove) === JSON.stringify(jumpRightUp) && checkerboard[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)) {
-        if (JSON.stringify(intendedMove) === JSON.stringify(jumpLeftUp)) {
-          jump(row, col, piece, moveLeftUp)
-        } else if (JSON.stringify(intendedMove) === JSON.stringify(jumpLeftDown)) {
-          jump(row, col, piece, moveLeftDown)
-        } else if (JSON.stringify(intendedMove) === JSON.stringify(jumpRightUp)) {
-          jump(row, col, piece, moveRightUp)
-        } else if (JSON.stringify(intendedMove) === JSON.stringify(jumpRightDown)) {
-          jump(row, col, piece, moveRightDown)
+      //----King Jump Scenarios
+      } else if (
+        (intendedMove === JSON.stringify(jumpLeftDown) && checkerboard[moveLeftDown[0]][moveLeftDown[1]][0].color === pieceToJump) 
+        || (intendedMove === JSON.stringify(jumpRightDown) && checkerboard[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump) 
+        || (intendedMove === JSON.stringify(jumpLeftUp) && checkerboard[moveLeftUp[0]][moveLeftUp[1]][0].color === pieceToJump) 
+        || (intendedMove === JSON.stringify(jumpRightUp) && checkerboard[moveRightUp[0]][moveRightUp[1]][0].color === pieceToJump)
+        ) {
+          if (intendedMove === JSON.stringify(jumpLeftUp)) {
+            jump(row, col, piece, moveLeftUp)
+          } else if (intendedMove === JSON.stringify(jumpLeftDown)) {
+            jump(row, col, piece, moveLeftDown)
+          } else if (intendedMove === JSON.stringify(jumpRightUp)) {
+            jump(row, col, piece, moveRightUp)
+          } else if (intendedMove === JSON.stringify(jumpRightDown)) {
+            jump(row, col, piece, moveRightDown)
+          }
         }
-      }
     } else {
-      if (JSON.stringify(intendedMove) === JSON.stringify(moveLeft) || JSON.stringify(intendedMove) === JSON.stringify(moveRight)) {
+      //----Normal Move Scenarios
+      if (intendedMove === JSON.stringify(moveLeft) || intendedMove === JSON.stringify(moveRight)) {
         move(row, col, piece);
-      } else if ((JSON.stringify(intendedMove) === JSON.stringify(jumpLeft) && checkerboard[moveLeft[0]][moveLeft[1]][0].color === pieceToJump) || (JSON.stringify(intendedMove) === JSON.stringify(jumpRight) && checkerboard[moveRight[0]][moveRight[1]][0].color === pieceToJump)) {
-        if (JSON.stringify(intendedMove) === JSON.stringify(jumpLeft)) {
+      //----Normal Jump Scenarios
+      } else if (
+        (intendedMove === JSON.stringify(jumpLeft) && checkerboard[moveLeft[0]][moveLeft[1]][0].color === pieceToJump) 
+        || 
+        (intendedMove === JSON.stringify(jumpRight) && checkerboard[moveRight[0]][moveRight[1]][0].color === pieceToJump)
+        ) {
+        if (intendedMove === JSON.stringify(jumpLeft)) {
           jump(row, col, piece, moveLeft)
         } else {
           jump(row, col, piece, moveRight)
