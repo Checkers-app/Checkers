@@ -1,0 +1,96 @@
+* {
+  margin: 0;
+}
+
+.parent-one {
+  display: flex;
+  width: 100vw;
+  height: 100px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 10px;
+  border: 2px solid black;
+  box-shadow: 2px 2px 2px 2px #7c7c7c;
+}
+
+.body {
+  display: flex;
+  height: 80vh;
+  width: 100vw;
+}
+
+.info {
+  display: flex;
+  width: 100%;
+  border: 2px solid black;
+  margin: 10px;
+  box-shadow: 2px 2px 2px 2px #7c7c7c;
+}
+
+.username {
+  font-size: 30px;
+  font-weight: bold;
+  margin-left: 20px;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+}
+
+.placement {
+  width: 50%;
+  height: 100%;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  width: 12%;
+  height: 100%;
+  margin-right: 10px;
+}
+
+.image {
+  margin-top: 120px;
+  margin-left: 20px;
+  width: 500px;
+  height: 500px;
+}
+
+.inside-info {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stats {
+  font-size: 70px;
+  margin: 20px;
+}
+
+.record {
+  margin-top: 10px;
+  font-size: 50px;
+}
+
+.about {
+  margin-top: 80px;
+  font-size: 50px;
+}
+
+.text {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/*# sourceMappingURL=profile.css.map */
