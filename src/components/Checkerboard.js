@@ -1,21 +1,17 @@
 import { useState, useEffect } from "react";
 
 const Checkerboard = () => {
-  const [valid, setValid] = useState({
-    name: 'valid'
-  })
-  const [invalid, setInvalid] = useState({
-    name: 'invalid'
-  })
+  const valid = {name: 'valid'}
+  const invalid = {name: 'invalid'}
   const start = [
-    [[invalid], [{ color: 'black', isKing: false, id: 1, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 2, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 3, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 4, hasJumped: false }]],
-    [[{ color: 'black', isKing: false, id: 5, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 6, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 7, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 8, hasJumped: false }], [invalid]],
-    [[invalid], [{ color: 'black', isKing: false, id: 9, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 10, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 11, hasJumped: false }], [invalid], [{ color: 'black', isKing: false, id: 12, hasJumped: false }]],
+    [[invalid], [{ color: 'black', isKing: false, id: 1}], [invalid], [{ color: 'black', isKing: false, id: 2 }], [invalid], [{ color: 'black', isKing: false, id: 3 }], [invalid], [{ color: 'black', isKing: false, id: 4 }]],
+    [[{ color: 'black', isKing: false, id: 5 }], [invalid], [{ color: 'black', isKing: false, id: 6 }], [invalid], [{ color: 'black', isKing: false, id: 7 }], [invalid], [{ color: 'black', isKing: false, id: 8 }], [invalid]],
+    [[invalid], [{ color: 'black', isKing: false, id: 9 }], [invalid], [{ color: 'black', isKing: false, id: 10 }], [invalid], [{ color: 'black', isKing: false, id: 11 }], [invalid], [{ color: 'black', isKing: false, id: 12 }]],
     [[valid], [invalid], [valid], [invalid], [valid], [invalid], [valid], [invalid]],
     [[invalid], [valid], [invalid], [valid], [invalid], [valid], [invalid], [valid]],
-    [[{ color: 'red', isKing: false, id: 13, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 14, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 15, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 16, hasJumped: false }], [invalid]],
-    [[invalid], [{ color: 'red', isKing: false, id: 17, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 18, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 19, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 20, hasJumped: false }]],
-    [[{ color: 'red', isKing: false, id: 21, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 22, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 23, hasJumped: false }], [invalid], [{ color: 'red', isKing: false, id: 24, hasJumped: false }], [invalid]]
+    [[{ color: 'red', isKing: false, id: 13 }], [invalid], [{ color: 'red', isKing: false, id: 14 }], [invalid], [{ color: 'red', isKing: false, id: 15 }], [invalid], [{ color: 'red', isKing: false, id: 16 }], [invalid]],
+    [[invalid], [{ color: 'red', isKing: false, id: 17 }], [invalid], [{ color: 'red', isKing: false, id: 18 }], [invalid], [{ color: 'red', isKing: false, id: 19 }], [invalid], [{ color: 'red', isKing: false, id: 20 }]],
+    [[{ color: 'red', isKing: false, id: 21 }], [invalid], [{ color: 'red', isKing: false, id: 22 }], [invalid], [{ color: 'red', isKing: false, id: 23 }], [invalid], [{ color: 'red', isKing: false, id: 24 }], [invalid]]
   ]
   const [oneScore, setOneScore] = useState(12)
   const [redWins, setRedWins] = useState(0)
@@ -90,7 +86,6 @@ const Checkerboard = () => {
         jumpRight = [curr[0] - 2, curr[1] + 2]
       }
     }
-
   }
 
   // checkerboard[index][i]
@@ -110,7 +105,6 @@ const Checkerboard = () => {
   }
 
   const move = (row, col, piece) => {
-
     let newIndex = [row, col]
     if (jumpId !== piece.id) {
       setCheckerboard((curr) => {
@@ -123,15 +117,14 @@ const Checkerboard = () => {
   }
 
   const jump = (row, col, piece, placeToJump) => {
-
+    //----MAKE JUMP----
+    let newIndex = [row, col];
     let currCheck = [...checkerboard];
-
     currCheck[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
     currCheck[placeToJump[0]].splice(placeToJump[1], 1, [valid])
     currCheck[row].splice(col, 1, [piece])
-
     setCheckerboard(currCheck);
-
+    //----Set Score----
     if (turnState) {
       setTwoScore(score => {
         score = twoScore
@@ -145,15 +138,26 @@ const Checkerboard = () => {
         return score
       })
     }
-
+    //----Reset Piece Position----
     setPieceSelected(piece)
-
-    let newIndex = [row, col];
-
     setPieceIndex(newIndex)
     availableMoves(newIndex)
+
+    //----CHECK DOUBLEJUMPS----
+    const landingSpot = JSON.stringify(newIndex)
+    //----Corner spots
+    const topLeftCornerUp = JSON.stringify([0,1])
+    const topLeftCornerDown = JSON.stringify([1,0])
+    const topRightCornerUp = JSON.stringify([0,7])
+    const topRightCornerDown = JSON.stringify([1,6])
+    const bottomRightCornerUp = JSON.stringify([6,7])
+    const bottomRightCornerDown = JSON.stringify([7,6])
+    const bottomLeftCornerUp = JSON.stringify([6,1])
+    const bottomLeftCornerDown = JSON.stringify([7,0])
+
+    //----King Checks----
     if (piece.isKing) {
-      // EDGE LOGIC
+      // CORNER LOGIC
       if ((((newIndex[0] === 0) && (newIndex[1] === 1)) || ((newIndex[0] === 1) && (newIndex[1] === 0))) && !(currCheck[jumpRightDown[0]][jumpRightDown[1]][0] === valid && currCheck[moveRightDown[0]][moveRightDown[1]][0].color === pieceToJump)) {
         console.log('ending turn')
         setJumpId(false)
