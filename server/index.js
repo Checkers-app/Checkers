@@ -45,7 +45,6 @@ io.on('connection', (socket) => {
     })
 
     socket.on('sendMsgs', (messages) => {
-        console.log(messages)
         io.emit('receiveMsgs', messages)
     })
 
@@ -59,5 +58,13 @@ io.on('connection', (socket) => {
 
     socket.on('sendTurnState', turnState => {
         io.emit('receiveTurnState', turnState)
+    })
+
+    socket.on('sendOneScore', score => {
+        io.emit('receiveOneScore', score)
+    })
+
+    socket.on('sendTwoScore', score => {
+        io.emit('receiveTwoScore', score)
     })
 })

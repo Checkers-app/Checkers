@@ -91,8 +91,22 @@ const Checkerboard = () => {
       socket.on('receiveTurnState', turnState => {
         setTurnState(turnState)
       })
+      socket.on('receiveOneScore', (score) => {
+        setOneDisplay(score)
+      })
+      socket.on('receiveTwoScore', (score) => {
+        setTwoDisplay(score)
+      })
     }
   }, [socket])
+
+  const sendOneScore = (oneDisplay) => {
+    socket.emit('sendOneScore', oneDisplay)
+  }
+
+  const sendTwoScore = (twoDisplay) => {
+    socket.emit('sendTwoScore', twoDisplay)
+  }
 
   const handleMessages = (newMsg) => {
     console.log(newMsg)
@@ -259,6 +273,7 @@ const Checkerboard = () => {
       setOneDisplay(score => {
         score = oneDisplay
         score += 1
+        sendOneScore(score)
         return score
       })
     } else {
@@ -268,8 +283,9 @@ const Checkerboard = () => {
         return score
       })
       setTwoDisplay(score => {
-        score = oneDisplay
+        score = twoDisplay
         score += 1
+        sendTwoScore(score)
         return score
       })
     }
@@ -277,7 +293,6 @@ const Checkerboard = () => {
     setPieceSelected(piece)
     setPieceIndex(newIndex)
     availableMoves(newIndex)
-
     //----CHECK DOUBLEJUMPS----
     //----King Checks----
     if (piece.isKing) {
@@ -396,6 +411,7 @@ const Checkerboard = () => {
       }
     }
   }
+
 
   const sendTurn = (turnState) => {
     socket.emit('sendTurnState', turnState)
