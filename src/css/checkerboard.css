@@ -87,9 +87,20 @@
   height: 80%;
 }
 
+.indTurnText {
+  width: 100%;
+  height: 35px;
+  font-size: 1.3em;
+}
+
 .everythingButScore {
+  position: relative;
+  top: 10px;
   width: 100%;
   height: 85%;
+  overflow: scroll;
+  display: flex;
+  justify-content: center;
 }
 
 .scoreBox {
