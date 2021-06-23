@@ -50,7 +50,7 @@ const Checkerboard = () => {
 
   useEffect(() => {
     if (oneScore === 0) {
-      toast.dark('player 2 has won the game')
+      toast.dark('Player 2 has won the game!')
       setOneScore(12)
       setTwoScore(12)
       setBlackWins((curr) => {
@@ -59,7 +59,7 @@ const Checkerboard = () => {
       })
       setCheckerboard(start)
     } else if (twoScore === 0) {
-      toast.error('player 1 has won the game')
+      toast.error('Player 1 has won the game!')
       setTwoScore(12)
       setOneScore(12)
       setRedWins((curr) => {
@@ -386,11 +386,14 @@ const Checkerboard = () => {
               <div>Move State Display placeholder</div>
             </section>
             <section className='scoreBox'>
-              <h1> Red Score: {oneDisplay} </h1>
-              <h1> Black Score: {twoDisplay} </h1>
+              <h1 className='scoreDisplay'> Red Score: {oneDisplay} </h1>
+              <h1 className='scoreDisplay'> Black Score: {twoDisplay} </h1>
             </section>
           </section>
-          {/* <button className='concedeButton' onClick={() => concede()}> Concede </button> */}
+          <section className='middleButtonContainer'>
+            <button className='concedeButton' onClick={() => concede()}> Concede </button>
+            <Link className='leaveButton' to='/landingpage'>Leave Match</Link>
+          </section>
         </section>
         <section className='chatBox'>
           <div>Chat Box placeholder</div>

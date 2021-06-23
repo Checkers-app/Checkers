@@ -21,6 +21,7 @@ $greyedOut: #d3d3d3;
   width: 100vw;
   // background-color: aliceblue;
   display: flex;
+  font-family: Arial, Helvetica, sans-serif ;
 }
 
 .gameAndLeftBox {
@@ -49,8 +50,9 @@ $greyedOut: #d3d3d3;
 
 .spacing {
   position: relative;
-  right: 75px;
+  // right: 75px;
   top: 75px;
+  left: 400px;
   // background-color: aqua;
   border: solid 1px black;
   width: 803px;
@@ -200,6 +202,7 @@ $greyedOut: #d3d3d3;
   height: 50px;
   position: relative;
   left: 25px;
+  // background-color: turquoise;
 }
 
 .homeText {
@@ -245,4 +248,208 @@ $greyedOut: #d3d3d3;
   height: 50px;
   position: relative;
   left: 25px;
+  // background-color: turquoise; 
+}
+
+.middleButtonContainer {
+  width: 90%;
+  height: 50px;
+  // background-color: turquoise;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.concedeButton {
+  width: 200px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 1px;
+}
+
+.leaveButton {
+  width: 200px;
+  height: 20px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: 1px black solid;
+  border-radius: 1px;
+  color: black;
+  font-size: .8em;
+}
+
+.concedeButton:hover {
+  background-color: $greyedOut;
+}
+
+.leaveButton:hover {
+  background-color: $greyedOut;
+} 
+
+.row {
+  width: 800px;
+  height: 100px;
+  display: flex;
+  border: 1px solid #3e6990;
+}
+
+.checker-boxes {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #AFD5AA;
+}
+
+.checker-boxes-group-2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #F0F2EF;
+}
+
+.black-piece {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid white;
+  background-color: #353531;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.red-piece {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid white;
+  background-color: #D00000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+// .spacing {
+//   margin-left: 500px;
+// }
+
+@media (max-width: 1750px) {
+
+  .spacing {
+    width: 700px;
+    height: 700px; 
+    // display: none;
+    
+  }
+
+  .row {
+    width: 100%;
+    height: 12.5%;
+    // background-color: purple;
+  }
+
+  .checker-boxes {
+    width: 87.5px;
+    height: 87.5px;
+  }
+
+  .red-piece {
+    width: 50%;
+    height: 50%;
+  }
+
+  .checker-boxes-group-2  {
+    width: 87.5px;
+    height: 87.5px;
+  }
+
+  .black-piece {
+    width: 50%;
+    height: 50%;
+  }
+
+  .bottomLine {
+    width: 700px;
+  }
+}
+
+@media (max-width: 1500px) {
+ .spacing {
+   left: 250px;
+ }
+
+.turnStateDisplay {
+  font-size: 1.3em;
+  }
+}
+
+@media (max-width: 1250px) {
+  .spacing {
+    width: 400px;
+    height: 400px;
+  }
+
+  .row {
+    width: 100%;
+    height: 12.5%;
+    // background-color: purple;
+  }
+  
+  .red-piece {
+    width: 50%;
+    height: 50%;
+    font-size: .7em;
+  }
+  
+  .black-piece {
+    width: 50%;
+    height: 50%;
+    font-size: .7em;
+  }
+  
+  .checker-boxes {
+    width: 50px;
+    height: 50px;
+  }
+
+  .checker-boxes-group-2  {
+    width: 50px;
+    height: 50px;
+  }
+
+  .bottomLine {
+    width: 400px;
+  }
+
+  .scoreDisplay {
+    font-size: .7em;
+  }
+
+  .concedeButton {
+    width: 100px;
+  }
+
+  .leaveButton {
+    width: 100px;
+  }
+
+  .homeIcon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .profileIcon {
+    width: 50px;
+    height: 50px;
+  }
 }
