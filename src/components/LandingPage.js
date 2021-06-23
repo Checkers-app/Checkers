@@ -1,3 +1,4 @@
+import {Link} from 'react-router-dom';
 import Header from "../components/sharedComps/Header.js"
 
 
@@ -7,7 +8,7 @@ function LandingPage() {
       
         <Header/>
 
-        <button>Create New Game</button>
+        <Link to="/game"><button>Create New Game</button></Link>
         
       </div>
     );

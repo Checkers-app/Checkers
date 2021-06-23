@@ -4,7 +4,12 @@ module.exports = {
 
     create: async (req, res) => {
         let {username, password, email} = req.body;
-       
+        
+        const emailRegex = /@.*\./;
+        if (!emailRegex.test(email)) {
+            return res.status(409).send('That doesnt look like a valid email bro');
+        }
+
         const db = req.app.get("db");       
         let result = await db.auth.read_user([email]);
         let existingUser = result[0];
