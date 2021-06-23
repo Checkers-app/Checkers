@@ -1,4 +1,16 @@
 const bcrypt = require('bcryptjs');
+var nodemailer = require('nodemailer');
+require("dotenv").config();
+const { GMAIL_ACCOUNT, GMAIL_PASS } = process.env;
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: `${GMAIL_ACCOUNT}`,
+        pass: `${GMAIL_PASS}`
+    }
+});
+
 
 module.exports = {
 
@@ -21,6 +33,23 @@ module.exports = {
         const registeredUser = await db.auth.create_user(username, email, hash);
         const user = registeredUser[0];
         req.session.user = {username: user.username, uid: user.user_id}
+
+
+        var mailOptions = {
+            from: `${GMAIL_ACCOUNT}`,
+            to: `${email}`,
+            subject: 'Thank you for signing up with the Checkers app',
+            text: 'This email address has just been registered with our Checkers app'
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+
         return res.status(201).send(req.session.user);
         
     },
