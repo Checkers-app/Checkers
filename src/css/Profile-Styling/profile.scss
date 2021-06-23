@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@700&display=swap');
+$font: 'Open Sans Condensed', sans-serif;
 $background: #1f801f;
 $shadow: #7c7c7c;
 $username: 30px;
@@ -42,17 +44,18 @@ $username: 30px;
 
 .username {
     font-size: $username;
-    font-weight: bold;
     margin-left: 20px;
     display: flex;
     height: 100%;
     width: 100%;
     align-items: center;
+    font-family: $font;
 }
 
 .placement {
     width: 50%;
     height: 100%;
+    font-family: $font;
 }
 
 .buttons {
@@ -60,9 +63,19 @@ $username: 30px;
     align-items: center;
     flex-direction: row-reverse;
     justify-content: space-between;
-    width: 12%;
+    width: 30%;
     height: 100%;
     margin-right: 10px;
+    font-family: $font;
+}
+
+.logout {
+    margin-left: 250px;
+    font-family: $font;
+}
+
+.edit {
+    font-family: $font;
 }
 
 .image {
@@ -77,26 +90,85 @@ $username: 30px;
     width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
+    font-family: $font;
 }
 
 .stats {
     font-size: 70px;
     margin: 20px;
+    font-family: $font;
 }
 
 .record {
     margin-top: 10px;
     font-size: 50px;
+    text-align: center;
+    font-family: $font;
 }
 
 .about {
     margin-top: 80px;
     font-size: 50px;
+    font-family: $font;
 }
 
 .text {
     font-size: 20px;
     text-align: center;
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-right: 30px;
+    margin-left: 30px;
+    font-family: $font;
+}
+
+.display {
+    display: none;
+}
+
+.show {
+    display: flex;
+}
+
+.noShow {
+    display: none;
+}
+
+.round {
+    margin-left: 125px;
+}
+
+.textarea {
+    font-family: $font;
+    height: 100%;
+    width: 75%;
+}
+
+@media(max-width: 900px) {
+    .text {
+        overflow: auto;
+    }
+    
+    .image {
+        height: 250px;
+        width: 250px;
+        margin-top: 225px;
+    }
+    
+    .buttons {
+        display: flex;
+        align-items: center;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        width: 30%;
+        height: 100%;
+        margin-right: 10px;
+    }
+}
+
+@media(max-width: 650){
+    .round{
+        margin:0;
+    }
 }
