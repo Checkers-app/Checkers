@@ -1,6 +1,5 @@
 import {Link} from 'react-router-dom';
 import Header from "../components/sharedComps/Header.js"
-import { Link } from "react-router-dom";
 
 
 function LandingPage() {
