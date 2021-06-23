@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 const ChatBox = (props) => {
   const [userInput, setUserInput] = useState('')
-  console.log(props)
 
   const handleInput = (value) => {
     setUserInput(value)

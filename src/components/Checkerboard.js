@@ -4,6 +4,7 @@ import '../css/checkerboard.css';
 import { toast } from "react-toastify";
 import io from "socket.io-client"
 import ChatBox from './Chatbox'
+import Movehistory from './Movehistory'
 
 const Checkerboard = () => {
   const [valid, setValid] = useState({
@@ -38,6 +39,7 @@ const Checkerboard = () => {
   //Socket States
   const [socket, setSocket] = useState(null)
   const [messages, setMessages] = useState([])
+  const [moves, setMoves] = useState([])
 
   let piece;
   let pieceToJump;
@@ -69,11 +71,25 @@ const Checkerboard = () => {
     if (socket) {
       //  emit the messages
       // 'on' that receives messages, sets the new messages array
-      socket.on('recieveMsgs', (message) => {
+      socket.on('receiveMsgs', (message) => {
         setMessages(oldMsgs => {
           const newMsgs = [...oldMsgs, message]
           return newMsgs
         })
+      })
+      socket.on('receiveMoveHistory', (moveHistory) => {
+        const { piece, endSpot } = moveHistory
+        const newMove = `${piece.color} moved ${piece.id} to ${endSpot[1] + 1}, ${7 - endSpot[0] + 1}`
+        setMoves((oldMoves) => {
+          const moves = [...oldMoves, newMove]
+          return moves
+        })
+      })
+      socket.on('receiveBoardState', (checkerboard) => {
+        setCheckerboard(checkerboard)
+      })
+      socket.on('receiveTurnState', turnState => {
+        setTurnState(turnState)
       })
     }
   }, [socket])
@@ -81,6 +97,10 @@ const Checkerboard = () => {
   const handleMessages = (newMsg) => {
     console.log(newMsg)
     socket.emit('sendMsgs', newMsg)
+  }
+
+  const handleMoves = (piece, endSpot) => {
+    socket.emit('sendMoveHistory', { piece, endSpot })
   }
 
   useEffect(() => {
@@ -200,10 +220,15 @@ const Checkerboard = () => {
       setCheckerboard((curr) => {
         curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
         curr[row].splice(col, 1, [piece])
+        sendBoardState(curr)
         return curr
       })
       endTurn(newIndex);
     }
+  }
+
+  const sendBoardState = (checkerboard) => {
+    socket.emit('sendBoardState', checkerboard)
   }
 
   const jump = (row, col, piece, placeToJump) => {
@@ -227,6 +252,7 @@ const Checkerboard = () => {
     currCheck[placeToJump[0]].splice(placeToJump[1], 1, [valid])
     currCheck[row].splice(col, 1, [piece])
     setCheckerboard(currCheck);
+    sendBoardState(currCheck)
     //----Set Score----
     if (turnState) {
       setTwoScore(score => {
@@ -375,6 +401,10 @@ const Checkerboard = () => {
     }
   }
 
+  const sendTurn = (turnState) => {
+    socket.emit('sendTurnState', turnState)
+  }
+
   const endTurn = (newIndex) => {
     if ((piece.isKing === false) && (newIndex[0] === (turnState ? 0 : 7))) {
       piece.isKing = true;
@@ -383,6 +413,8 @@ const Checkerboard = () => {
     setTurnState(!turnState);
     setPieceSelected(false);
     setJumpId(false);
+    handleMoves(piece, newIndex)
+    sendTurn(!turnState)
   }
 
   const concede = () => {
@@ -391,11 +423,15 @@ const Checkerboard = () => {
       setOneDisplay(0)
       setCheckerboard(start)
       setTurnState(true)
+      sendTurn(true)
+      sendBoardState(start)
     } else {
       setTwoScore(0)
       setTwoDisplay(0)
       setCheckerboard(start)
       setTurnState(true)
+      sendTurn(true)
+      sendBoardState(start)
     }
   }
 
@@ -519,7 +555,7 @@ const Checkerboard = () => {
           </section>
           <section className='moveBox'>
             <section className='everythingButScore'>
-              <div>Move State Display placeholder</div>
+              <Movehistory moves={moves} />
             </section>
             <section className='scoreBox'>
               <h1 className='scoreDisplay'> Red Score: {oneDisplay} </h1>

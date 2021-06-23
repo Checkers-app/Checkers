@@ -46,6 +46,18 @@ io.on('connection', (socket) => {
 
     socket.on('sendMsgs', (messages) => {
         console.log(messages)
-        io.emit('recieveMsgs', messages)
+        io.emit('receiveMsgs', messages)
+    })
+
+    socket.on('sendMoveHistory', moveHistory => {
+        io.emit('receiveMoveHistory', moveHistory)
+    })
+
+    socket.on('sendBoardState', checkerboard => {
+        socket.broadcast.emit('receiveBoardState', checkerboard)
+    })
+
+    socket.on('sendTurnState', turnState => {
+        io.emit('receiveTurnState', turnState)
     })
 })
