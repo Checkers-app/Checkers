@@ -77,8 +77,19 @@ const Checkerboard = () => {
           return newMsgs
         })
       })
-      socket.on('receiveMoves', (moves) => {
-
+      socket.on('receiveMoveHistory', (moveHistory) => {
+        const { piece, endSpot } = moveHistory
+        const newMove = `${piece.color} moved ${piece.id} to ${endSpot[1] + 1}, ${7 - endSpot[0] + 1}`
+        setMoves((oldMoves) => {
+          const moves = [...oldMoves, newMove]
+          return moves
+        })
+      })
+      socket.on('receiveBoardState', (checkerboard) => {
+        setCheckerboard(checkerboard)
+      })
+      socket.on('receiveTurnState', turnState => {
+        setTurnState(turnState)
       })
     }
   }, [socket])
@@ -89,11 +100,7 @@ const Checkerboard = () => {
   }
 
   const handleMoves = (piece, endSpot) => {
-    const newMove = `${piece.color} moved ${piece.id} to ${endSpot[1] + 1}, ${7 - endSpot[0] + 1}`
-    setMoves((oldMoves) => {
-      const moves = [...oldMoves, newMove]
-      return moves
-    })
+    socket.emit('sendMoveHistory', { piece, endSpot })
   }
 
   useEffect(() => {
@@ -209,10 +216,15 @@ const Checkerboard = () => {
       setCheckerboard((curr) => {
         curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
         curr[row].splice(col, 1, [piece])
+        sendBoardState(curr)
         return curr
       })
       endTurn(newIndex);
     }
+  }
+
+  const sendBoardState = (checkerboard) => {
+    socket.emit('sendBoardState', checkerboard)
   }
 
   const jump = (row, col, piece, placeToJump) => {
@@ -236,6 +248,7 @@ const Checkerboard = () => {
     currCheck[placeToJump[0]].splice(placeToJump[1], 1, [valid])
     currCheck[row].splice(col, 1, [piece])
     setCheckerboard(currCheck);
+    sendBoardState(currCheck)
     //----Set Score----
     if (turnState) {
       setTwoScore(score => {
@@ -384,6 +397,10 @@ const Checkerboard = () => {
     }
   }
 
+  const sendTurn = (turnState) => {
+    socket.emit('sendTurnState', turnState)
+  }
+
   const endTurn = (newIndex) => {
     if ((piece.isKing === false) && (newIndex[0] === (turnState ? 0 : 7))) {
       piece.isKing = true;
@@ -393,6 +410,7 @@ const Checkerboard = () => {
     setPieceSelected(false);
     setJumpId(false);
     handleMoves(piece, newIndex)
+    sendTurn(!turnState)
   }
 
   const concede = () => {
@@ -400,10 +418,14 @@ const Checkerboard = () => {
       setOneScore(0)
       setCheckerboard(start)
       setTurnState(true)
+      sendTurn(true)
+      sendBoardState(start)
     } else {
       setTwoScore(0)
       setCheckerboard(start)
       setTurnState(true)
+      sendTurn(true)
+      sendBoardState(start)
     }
   }
 
