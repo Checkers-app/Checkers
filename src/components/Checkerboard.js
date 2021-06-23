@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import '../css/checkerboard.css';
 import { toast } from "react-toastify";
+import io from "socket.io-client"
+import ChatBox from './Chatbox'
 
 const Checkerboard = () => {
   const [valid, setValid] = useState({
@@ -33,6 +35,9 @@ const Checkerboard = () => {
   const [jumpId, setJumpId] = useState(false)
   const [checkerboard, setCheckerboard] = useState(start)
   const [menuState, setMenuState] = useState(false)
+  //Socket States
+  const [socket, setSocket] = useState(null)
+  const [messages, setMessages] = useState([])
 
   let piece;
   let pieceToJump;
@@ -48,6 +53,31 @@ const Checkerboard = () => {
   let jumpLeftUp;
   let jumpRightDown;
   let jumpRightUp;
+
+  useEffect(() => {
+    if(!socket) {
+      setSocket(io.connect())
+    } 
+    return () => {
+      if(socket) {
+        socket.disconnect()
+      }
+    }
+  }, [])
+
+  // useEffect(() => {
+  //   if(socket) {
+  //  emit the messages
+  // 'on' that receives messages, sets the new messages array
+  //   }
+  // }, [socket])
+
+  const handleMessages = (message) => {
+    setMessages(oldMsgs => {
+      oldMsgs=[...oldMsgs, message]
+      return oldMsgs
+    })
+  }
 
   useEffect(() => {
     if (oneScore === 0) {
@@ -492,7 +522,7 @@ const Checkerboard = () => {
           </section>
         </section>
         <section className='chatBox'>
-          <div>Chat Box placeholder</div>
+          <ChatBox handleMsgs={handleMessages} />
         </section>
       </section>
       {/* <button onClick={() => { callToast() }}></button> */}

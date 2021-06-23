@@ -34,4 +34,12 @@ app.post("/auth/create", auth_controller.create);
 app.post("/auth/login" , auth_controller.login);
 app.get( "/auth/logout", auth_controller.logout);
 
-app.listen(SERVER_PORT, () => console.log(`server listening on port ${SERVER_PORT}`))
+const io = require('socket.io')((app.listen(SERVER_PORT, () => console.log(`server listening on port ${SERVER_PORT}`))), {cors: {origin: true}})
+
+io.on('connection', (socket) => {
+    console.log(`Socket ${socket.id} connected`)
+
+    socket.on('disconnect', () => {
+        console.log(`Socket ${socket.id} disconnected`)
+    })
+})
