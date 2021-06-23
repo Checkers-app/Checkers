@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import '../css/checkerboard.css';
+import { toast } from "react-toastify";
 
 const Checkerboard = () => {
   const [valid, setValid] = useState({
@@ -19,14 +22,17 @@ const Checkerboard = () => {
   ]
   // checkerboard[index][i]
   const [oneScore, setOneScore] = useState(12)
+  const [oneDisplay, setOneDisplay] = useState(0)
   const [redWins, setRedWins] = useState(0)
   const [blackWins, setBlackWins] = useState(0)
   const [twoScore, setTwoScore] = useState(12)
+  const [twoDisplay, setTwoDisplay] = useState(0)
   const [turnState, setTurnState] = useState(true)
   const [pieceSelected, setPieceSelected] = useState(false)
   const [pieceIndex, setPieceIndex] = useState(null)
   const [jumpId, setJumpId] = useState(false)
   const [checkerboard, setCheckerboard] = useState(start)
+  const [menuState, setMenuState] = useState(false)
 
   let piece;
   let pieceToJump;
@@ -45,7 +51,7 @@ const Checkerboard = () => {
 
   useEffect(() => {
     if (oneScore === 0) {
-      alert('player 2 has won the game')
+      toast.dark('Player 2 has won the game!')
       setOneScore(12)
       setTwoScore(12)
       setBlackWins((curr) => {
@@ -54,7 +60,7 @@ const Checkerboard = () => {
       })
       setCheckerboard(start)
     } else if (twoScore === 0) {
-      alert('player 1 has won the game')
+      toast.error('Player 1 has won the game!')
       setTwoScore(12)
       setOneScore(12)
       setRedWins((curr) => {
@@ -105,6 +111,7 @@ const Checkerboard = () => {
       }
     }
   }
+
 
   const checkIsValidJump = (boardState, jumpDirection) => {
     switch(JSON.stringify(jumpDirection)) {
@@ -189,10 +196,20 @@ const Checkerboard = () => {
         score -= 1
         return score
       })
+      setOneDisplay(score => {
+        score = oneDisplay
+        score += 1
+        return score
+      })
     } else {
       setOneScore(score => {
         score = oneScore
         score -= 1
+        return score
+      })
+      setTwoDisplay(score => {
+        score = oneDisplay
+        score += 1
         return score
       })
     }
@@ -387,47 +404,100 @@ const Checkerboard = () => {
           jump(row, col, piece, moveRight)
         }
       } else {
-        alert('illegal move')
+        toast.error('Illegal move')
       }
     }
   }
 
+  const expandMenu = () => {
+    setMenuState(curr => {
+      curr = menuState
+      curr = !curr
+      return curr
+    })
+  }
+
   return (
-    <div className='spacing'>
-      {checkerboard.map((row, index) => {
-        return (
-          <div key={index} className="row">
-            {row.map((cell, i) => {
-              if (cell[0]?.color === 'red') {
-                return (
-                  <div key={i} className="checker-boxes">
-                    <div onClick={turnState ? () => selectionHandler(index, i, cell[0]) : null} className="red-piece">{cell[0].isKing ? 'king' : cell[0].id}</div>
-                  </div>
-                )
-              } else if (cell[0]?.color === 'black') {
-                return (
-                  <div key={i} className="checker-boxes">
-                    <div onClick={turnState ? null : () => selectionHandler(index, i, cell[0])} className="black-piece">{cell[0].isKing ? 'king' : cell[0].id}</div>
-                  </div>
-                )
-              } else if (cell[0]?.name === 'valid') {
-                return (
-                  <div onClick={pieceSelected ? () => movePiece(index, i) : null} key={i} className="checker-boxes"></div>
-                )
-              } else {
-                return (
-                  <div key={i} className="checker-boxes checker-boxes-group-2"></div>
-                )
-              }
-            })}
-          </div>
-        )
-      })}
-      <h1> {turnState ? 'player 1' : 'player 2'}</h1>
-      <button onClick={() => concede()}> Concede </button>
-      <h1> Red Score: {redWins} </h1>
-      <h1> Black Score: {blackWins} </h1>
-    </div>
+    <section className='checkerboardFrame'>
+      <section className={`leftBox ${menuState ? 'hidden' : 'shown'}`}>
+        <button className='menuLines' onClick={() => expandMenu()}>
+          <div className='menuLine'>-</div>
+          <div className='menuLine'>-</div>
+          <div className='menuLine'>-</div>
+        </button>
+        <section className='homeLink'>
+          <Link className='linkSpacing' to='/landingpage' >
+            <img className='homeIcon' src='http://assets.stickpng.com/thumbs/588a667fd06f6719692a2d19.png'></img>
+            <p className='homeText'>Home</p>
+          </Link>
+        </section>
+        <Link className='profileLink' to='/profile'>
+          <img className='profileIcon' src='https://www.freeiconspng.com/thumbs/profile-icon-png/account-profile-user-icon--icon-search-engine-10.png'></img>
+          <p className='homeText'>Profile</p>
+        </Link>
+      </section>
+      <section className='gameAndLeftBox'>
+        <div className='spacing'>
+          {checkerboard.map((row, index) => {
+            return (
+              <div key={index} className="row">
+                {row.map((cell, i) => {
+                  if (cell[0]?.color === 'red') {
+                    return (
+                      <div key={i} className="checker-boxes">
+                        <div onClick={turnState ? () => selectionHandler(index, i, cell[0]) : null} className="red-piece">{cell[0].isKing ? 'king' : cell[0].id}</div>
+                      </div>
+                    )
+                  } else if (cell[0]?.color === 'black') {
+                    return (
+                      <div key={i} className="checker-boxes">
+                        <div onClick={turnState ? null : () => selectionHandler(index, i, cell[0])} className="black-piece">{cell[0].isKing ? 'king' : cell[0].id}</div>
+                      </div>
+                    )
+                  } else if (cell[0]?.name === 'valid') {
+                    return (
+                      <div onClick={pieceSelected ? () => movePiece(index, i) : null} key={i} className="checker-boxes"></div>
+                    )
+                  } else {
+                    return (
+                      <div key={i} className="checker-boxes checker-boxes-group-2"></div>
+                    )
+                  }
+                })}
+              </div>
+            )
+          })}
+          <div className='bottomLine'></div>
+        </div>
+      </section>
+      <section className='sideFrame'>
+        <section className='turnStateBox'>
+          <section className='turnStateDisplay'>
+            <h1 className={turnState ? "activeTurnText" : "inactiveTurnText"}>Red's Turn</h1>
+            <p className='divider'>|</p>
+            <h1 className={turnState ? "inactiveTurnText" : "activeTurnText"}>Black's Turn</h1>
+          </section>
+          <section className='moveBox'>
+            <section className='everythingButScore'>
+              <div>Move State Display placeholder</div>
+            </section>
+            <section className='scoreBox'>
+              <h1 className='scoreDisplay'> Red Score: {oneDisplay} </h1>
+              <h1 className='scoreDisplay'> Black Score: {twoDisplay} </h1>
+            </section>
+          </section>
+          <section className='middleButtonContainer'>
+            <button className='concedeButton' onClick={() => concede()}> Concede </button>
+            <Link className='leaveButton' to='/landingpage'>Leave Match</Link>
+          </section>
+        </section>
+        <section className='chatBox'>
+          <div>Chat Box placeholder</div>
+        </section>
+      </section>
+      {/* <button onClick={() => { callToast() }}></button> */}
+      {/* <ToastContainer /> */}
+    </section>
   )
 }
 
