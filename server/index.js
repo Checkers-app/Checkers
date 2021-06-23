@@ -46,6 +46,6 @@ io.on('connection', (socket) => {
 
     socket.on('sendMsgs', (messages) => {
         console.log(messages)
-        io.emit('recieveMsgs', messages)
+        io.emit('receiveMsgs', messages)
     })
 })

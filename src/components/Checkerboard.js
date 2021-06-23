@@ -4,6 +4,7 @@ import '../css/checkerboard.css';
 import { toast } from "react-toastify";
 import io from "socket.io-client"
 import ChatBox from './Chatbox'
+import Movehistory from './Movehistory'
 
 const Checkerboard = () => {
   const [valid, setValid] = useState({
@@ -38,6 +39,7 @@ const Checkerboard = () => {
   //Socket States
   const [socket, setSocket] = useState(null)
   const [messages, setMessages] = useState([])
+  const [moves, setMoves] = useState([])
 
   let piece;
   let pieceToJump;
@@ -69,11 +71,14 @@ const Checkerboard = () => {
     if (socket) {
       //  emit the messages
       // 'on' that receives messages, sets the new messages array
-      socket.on('recieveMsgs', (message) => {
+      socket.on('receiveMsgs', (message) => {
         setMessages(oldMsgs => {
           const newMsgs = [...oldMsgs, message]
           return newMsgs
         })
+      })
+      socket.on('receiveMoves', (moves) => {
+
       })
     }
   }, [socket])
@@ -81,6 +86,14 @@ const Checkerboard = () => {
   const handleMessages = (newMsg) => {
     console.log(newMsg)
     socket.emit('sendMsgs', newMsg)
+  }
+
+  const handleMoves = (piece, endSpot) => {
+    const newMove = `${piece.color} moved ${piece.id} to ${endSpot[1] + 1}, ${7 - endSpot[0] + 1}`
+    setMoves((oldMoves) => {
+      const moves = [...oldMoves, newMove]
+      return moves
+    })
   }
 
   useEffect(() => {
@@ -379,6 +392,7 @@ const Checkerboard = () => {
     setTurnState(!turnState);
     setPieceSelected(false);
     setJumpId(false);
+    handleMoves(piece, newIndex)
   }
 
   const concede = () => {
@@ -513,7 +527,7 @@ const Checkerboard = () => {
           </section>
           <section className='moveBox'>
             <section className='everythingButScore'>
-              <div>Move State Display placeholder</div>
+              <Movehistory moves={moves} />
             </section>
             <section className='scoreBox'>
               <h1 className='scoreDisplay'> Red Score: {oneDisplay} </h1>
