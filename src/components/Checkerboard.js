@@ -54,6 +54,8 @@ const Checkerboard = () => {
       toast.dark('Player 2 has won the game!')
       setOneScore(12)
       setTwoScore(12)
+      setOneDisplay(0)
+      setTwoDisplay(0)
       setBlackWins((curr) => {
         curr += 1
         return curr
@@ -63,6 +65,8 @@ const Checkerboard = () => {
       toast.error('Player 1 has won the game!')
       setTwoScore(12)
       setOneScore(12)
+      setOneDisplay(0)
+      setTwoDisplay(0)
       setRedWins((curr) => {
         curr += 1
         return curr
@@ -350,10 +354,12 @@ const Checkerboard = () => {
   const concede = () => {
     if (turnState) {
       setOneScore(0)
+      setOneDisplay(0)
       setCheckerboard(start)
       setTurnState(true)
     } else {
       setTwoScore(0)
+      setTwoDisplay(0)
       setCheckerboard(start)
       setTurnState(true)
     }
