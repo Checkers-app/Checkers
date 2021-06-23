@@ -331,12 +331,12 @@ const Checkerboard = () => {
         </button>
         <section className='homeLink'>
           <Link className='linkSpacing' to='/landingpage' >
-            <img className='homeIcon' src='http://assets.stickpng.com/thumbs/588a6758d06f6719692a2d22.png'></img>
+            <img className='homeIcon' src='http://assets.stickpng.com/thumbs/588a667fd06f6719692a2d19.png'></img>
             <p className='homeText'>Home</p>
           </Link>
         </section>
         <Link className='profileLink' to='/profile'>
-          <img className='profileIcon' src='http://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png'></img>
+          <img className='profileIcon' src='https://www.freeiconspng.com/thumbs/profile-icon-png/account-profile-user-icon--icon-search-engine-10.png'></img>
           <p className='homeText'>Profile</p>
         </Link>
       </section>
