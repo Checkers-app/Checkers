@@ -73,6 +73,7 @@ const Checkerboard = () => {
       // 'on' that receives messages, sets the new messages array
       socket.on('receiveMsgs', (message) => {
         setMessages(oldMsgs => {
+          //  return [...oldMsgs, message]
           const newMsgs = [...oldMsgs, message]
           return newMsgs
         })
@@ -591,9 +592,6 @@ const Checkerboard = () => {
           <ChatBox handleMsgs={handleMessages} msgs={messages} />
         </section>
       </section>
-      <div className='chatInput'>
-        <input className='actualInputField'></input>
-      </div>
       {/* <button onClick={() => { callToast() }}></button> */}
       {/* <ToastContainer /> */}
     </section>
