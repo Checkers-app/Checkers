@@ -129,6 +129,7 @@ const Checkerboard = () => {
         return curr
       })
       setCheckerboard(start)
+      setMoves([])
     } else if (twoScore === 0) {
       toast.error('Player 1 has won the game!')
       setTwoScore(12)
@@ -140,6 +141,7 @@ const Checkerboard = () => {
         return curr
       })
       setCheckerboard(start)
+      setMoves([])
     }
   }, [checkerboard])
 
@@ -441,6 +443,7 @@ const Checkerboard = () => {
       setTurnState(true)
       sendTurn(true)
       sendBoardState(start)
+      setMoves([])
     } else {
       setTwoScore(0)
       setTwoDisplay(0)
@@ -448,6 +451,7 @@ const Checkerboard = () => {
       setTurnState(true)
       sendTurn(true)
       sendBoardState(start)
+      setMoves([])
     }
   }
 
