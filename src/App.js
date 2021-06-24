@@ -3,25 +3,26 @@ import routes from './routes.js';
 import './App.css';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
+import Store from "./ducks/Store.js";
 
 function App() {
   return (
     <div className="App">
-      <HashRouter>
-        {routes}
-        {/* <Checkerboard /> */}
-        <ToastContainer
-          position="bottom-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick={true}
-          rtl={false}
-          pauseOnFocusLoss={false}
-          draggable={true}
-          pauseOnHover={true}
-        />
-      </HashRouter>
+        <HashRouter>
+          {routes}
+          {/* <Checkerboard /> */}
+          <ToastContainer
+            position="bottom-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={true}
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable={true}
+            pauseOnHover={true}
+          />
+        </HashRouter>
     </div>
   );
 }

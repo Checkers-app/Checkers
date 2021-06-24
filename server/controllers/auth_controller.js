@@ -55,7 +55,9 @@ module.exports = {
     },
 
     login: async (req, res) => {
+        console.log("derp");
         const { email, password } = req.body;
+        console.log(email, password);
         const db = req.app.get("db");
         const foundUser = await db.auth.read_user([email]);
         const user = foundUser[0];
