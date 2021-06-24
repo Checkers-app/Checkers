@@ -1,0 +1,38 @@
+#chat-box {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+#chat {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 90%;
+  overflow: auto;
+}
+
+#user-chat-bar {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 10%;
+  background-color: #d3d3d3;
+}
+
+#chat-input {
+  width: 80%;
+  height: 70%;
+}
+
+#chat-submit {
+  width: 15%;
+  height: 70%;
+}
+
+/*# sourceMappingURL=chat.css.map */
