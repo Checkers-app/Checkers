@@ -3,10 +3,10 @@ import React, { useEffect, useRef } from 'react'
 
 const MoveHistory = (props) => {
 
-  const messagesEndRef = useRef(null)
+  const movesEndRef = useRef()
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    movesEndRef.current?.scrollIntoView({ behavior: "auto" })
   }
 
   useEffect(() => {
@@ -14,11 +14,11 @@ const MoveHistory = (props) => {
   }, [props]);
 
   return (
-    <div>
-      {props.moves.map(e => {
-        return <h1 className='indTurnText'> {e} </h1>
+    <div id="moves-list">
+      {props.moves.map((e, i) => {
+        return <h1 key={i} className='indTurnText'> {e} </h1>
       })}
-      <div ref={messagesEndRef} />
+      <div ref={movesEndRef} id="mover" />
     </div>
   )
 }

@@ -87,20 +87,31 @@
   height: 80%;
 }
 
+#mover {
+  height: 1px;
+}
+
 .indTurnText {
-  width: 100%;
+  width: 80%;
   height: 35px;
+  text-align: center;
   font-size: 1.3em;
+  margin-bottom: 10px;
 }
 
 .everythingButScore {
-  position: relative;
-  top: 10px;
   width: 100%;
   height: 85%;
   overflow: auto;
   display: flex;
   justify-content: center;
+}
+
+#moves-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .scoreBox {

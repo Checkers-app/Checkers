@@ -99,29 +99,36 @@ $greyedOut: #d3d3d3;
 }
 
 .moveBox {
-  // position: relative;
-  // top: 10px;
   width: 90%;
   border: black 1px solid;
   height: 80%;
 }
 
-.indTurnText {
-  width: 100%;
-  height: 35px;
-  font-size: 1.3em;
+#mover {
+  height: 1px;
+}
 
+.indTurnText {
+  width: 80%;
+  height: 35px;
+  text-align: center;
+  font-size: 1.3em;
+  margin-bottom: 10px;
 }
 
 .everythingButScore {
-  position: relative;
-  top: 10px;
   width: 100%;
   height: 85%;
   overflow: auto;
   display: flex;
   justify-content: center;
-  // background-color: $greyedOut;
+}
+
+#moves-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .scoreBox {
