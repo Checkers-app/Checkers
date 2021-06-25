@@ -4,7 +4,7 @@ import '../css/checkerboard.css';
 import { toast } from "react-toastify";
 import io from "socket.io-client"
 import ChatBox from './Chatbox'
-import MoveHistory from './MoveHistory'
+import MoveHistory from './Movehistory'
 
 const Checkerboard = () => {
   const [valid, setValid] = useState({
