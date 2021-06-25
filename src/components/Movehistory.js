@@ -1,7 +1,7 @@
 import '../css/checkerboard.css'
 import React, { useEffect, useRef } from 'react'
 
-const Movehistory = (props) => {
+const MoveHistory = (props) => {
 
   const messagesEndRef = useRef(null)
 
@@ -23,4 +23,4 @@ const Movehistory = (props) => {
   )
 }
 
-export default Movehistory
+export default MoveHistory;

@@ -4,7 +4,7 @@ import '../css/checkerboard.css';
 import { toast } from "react-toastify";
 import io from "socket.io-client"
 import ChatBox from './Chatbox'
-import Movehistory from './Movehistory'
+import MoveHistory from './MoveHistory'
 
 const Checkerboard = () => {
   const [valid, setValid] = useState({
@@ -575,7 +575,7 @@ const Checkerboard = () => {
           </section>
           <section className='moveBox'>
             <section className='everythingButScore'>
-              <Movehistory moves={moves} />
+              <MoveHistory moves={moves} />
             </section>
             <section className='scoreBox'>
               <h1 className='scoreDisplay'> Red Score: {oneDisplay} </h1>
