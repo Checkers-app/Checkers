@@ -3,7 +3,7 @@ import routes from './routes.js';
 import './App.css';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
-import Store from "./ducks/Store.js";
+
 
 function App() {
   return (

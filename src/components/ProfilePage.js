@@ -1,9 +1,18 @@
-import '../css/Profile-Styling/profile.css'
-import { useState } from 'react';
+import '../css/Profile-Styling/profile.css';
+import { useState, useContext } from 'react';
+import axios from 'axios';
+import { UserContext } from '../context/UserContext.js';
+import {Link, useHistory} from 'react-router-dom';
 
 const ProfilePage = () => {
-    const wins = 1023;
-    const losses = 27;
+
+    const {user} = useContext(UserContext);
+    let history = useHistory()
+
+    const ratio = 0;
+    if (!user.losses === 0) {
+        ratio = user.wins / user.losses;
+    }
     const [toggleEdit, setToggleEdit] = useState(false)
     const [input, setInput] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.')
     const [about, setAbout] = useState('')
@@ -20,16 +29,26 @@ const ProfilePage = () => {
         }
     }
 
+    const logout = () => {
+        axios.get('/auth/logout')
+        .then(derp => {
+            history.push("/");
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
     return (
         <div>
             <div className='parent-one'>
                 <nav className='nav'>
                     <div className='placement'>
-                        <h1 className='username'> (Username goes here) </h1>
+                        <h1 className='username'> {user.username} </h1>
                     </div>
                     <div className='buttons'>
                         <button className='edit'> Edit Username </button>
-                        <button className='logout'> Logout </button>
+                        <button className='logout' onClick = {logout}> Logout </button>
                     </div>
                     {/* <h1 className='username'> (Username goes here) </h1>
                     <button className='edit'> Edit Username </button>
@@ -42,9 +61,9 @@ const ProfilePage = () => {
                     <div className='inside-info'>
                         <h1 className='stats'> Stats: </h1>
                         <div>
-                            <h1 className='record'> Wins: {wins} </h1>
-                            <h1 className='record'> Losses: {losses} </h1>
-                            <h1 className='record'> Win/Loss Ratio: {Math.floor(wins / losses)}</h1>
+                            <h1 className='record'> Wins: {user.wins} </h1>
+                            <h1 className='record'> Losses: {user.losses} </h1>
+                            <h1 className='record'> Win/Loss Ratio: {ratio}</h1>
                             <h2 className='round'> (Rounded Down) </h2>
                         </div>
                         <h1 className='about'> About: </h1>

@@ -32,7 +32,7 @@ module.exports = {
         const hash = bcrypt.hashSync(password, salt);
         const registeredUser = await db.auth.create_user(username, email, hash);
         const user = registeredUser[0];
-        req.session.user = {username: user.username, uid: user.user_id}
+        req.session.user = {username: user.username, uid: user.user_id, wins: user.wins, losses: user.losses}
 
 
         var mailOptions = {
@@ -55,9 +55,7 @@ module.exports = {
     },
 
     login: async (req, res) => {
-        console.log("derp");
         const { email, password } = req.body;
-        console.log(email, password);
         const db = req.app.get("db");
         const foundUser = await db.auth.read_user([email]);
         const user = foundUser[0];
@@ -68,7 +66,7 @@ module.exports = {
         if (!isAuthenticated) {
           return res.status(401).send('wrong password bro');
         }
-        req.session.user = {username: user.username, uid: user.user_id}
+        req.session.user = {username: user.username, uid: user.user_id, wins: user.wins, losses: user.losses}
         return res.status(201).send(req.session.user);
     },
 
