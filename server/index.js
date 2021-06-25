@@ -67,4 +67,8 @@ io.on('connection', (socket) => {
     socket.on('sendTwoScore', score => {
         io.emit('receiveTwoScore', score)
     })
+
+    socket.on('sendResetMoves', moves => {
+        io.emit('receiveResetMoves', moves)
+    })
 })
