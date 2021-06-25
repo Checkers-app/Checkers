@@ -97,6 +97,9 @@ const Checkerboard = () => {
       socket.on('receiveTwoScore', (score) => {
         setTwoDisplay(score)
       })
+      socket.on('receiveResetMoves', (moves) => {
+        setMoves(moves)
+      })
     }
   }, [socket])
 
@@ -117,6 +120,10 @@ const Checkerboard = () => {
     socket.emit('sendMoveHistory', { piece, endSpot })
   }
 
+  const resetMoves = (moves) => {
+    socket.emit('sendResetMoves', moves)
+  }
+
   useEffect(() => {
     if (oneScore === 0) {
       toast.dark('Player 2 has won the game!')
@@ -124,26 +131,28 @@ const Checkerboard = () => {
       setTwoScore(12)
       setOneDisplay(0)
       setTwoDisplay(0)
+      setTurnState(true)
       sendBoardState(start)
       setBlackWins((curr) => {
         curr += 1
         return curr
       })
+      resetMoves([])
       setCheckerboard(start)
-      setMoves([])
     } else if (twoScore === 0) {
       toast.error('Player 1 has won the game!')
       setTwoScore(12)
       setOneScore(12)
       setOneDisplay(0)
       setTwoDisplay(0)
+      setTurnState(true)
       sendBoardState(start)
       setRedWins((curr) => {
         curr += 1
         return curr
       })
+      resetMoves([])
       setCheckerboard(start)
-      setMoves([])
     }
   }, [checkerboard])
 
@@ -446,6 +455,10 @@ const Checkerboard = () => {
     if (turnState) {
       setOneScore(0)
       setOneDisplay(0)
+      setTwoDisplay(0)
+      sendOneScore(0)
+      sendTwoScore(0)
+      setJumpId(false)
       setCheckerboard(start)
       setTurnState(true)
       sendTurn(true)
@@ -453,7 +466,11 @@ const Checkerboard = () => {
       setMoves([])
     } else {
       setTwoScore(0)
+      setOneDisplay(0)
       setTwoDisplay(0)
+      sendOneScore(0)
+      sendTwoScore(0)
+      setJumpId(false)
       setCheckerboard(start)
       setTurnState(true)
       sendTurn(true)
