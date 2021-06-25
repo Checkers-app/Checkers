@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../../context/UserContext.js';
 import axios from 'axios';
 import {Link, useHistory} from 'react-router-dom';
 import "../../css/login.css";
@@ -10,20 +11,22 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    /*
-    useEffect(() => {
-        console.log(username);
-    }, [username])
-    */
+    const {user, setUser} = useContext(UserContext);
     
     
     const signIn = () => {
         axios.post('/auth/login', {email, password})
         .then(user => {
             history.push("/landingpage");
+            setUser({
+                uid: user.data.uid,
+                username: user.data.username,
+                wins: user.data.wins,
+                losses: user.data.losses
+            });
         })
         .catch(err => {
-            alert(err.response.data);
+            console.log(err);
         })
     }
     
