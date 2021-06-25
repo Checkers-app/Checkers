@@ -2,9 +2,12 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import '../css/checkerboard.css';
 import { toast } from "react-toastify";
-import io from "socket.io-client"
-import ChatBox from './Chatbox'
-import MoveHistory from './Movehistory'
+import io from "socket.io-client";
+import ChatBox from './Chatbox';
+import MoveHistory from './Movehistory';
+import { FaHome } from 'react-icons/fa';
+import { CgProfile } from 'react-icons/cg';
+
 
 const Checkerboard = () => {
   const [valid, setValid] = useState({
@@ -548,12 +551,12 @@ const Checkerboard = () => {
         </button>
         <section className='homeLink'>
           <Link className='linkSpacing' to='/landingpage' >
-            <img className='homeIcon' src='http://assets.stickpng.com/thumbs/588a667fd06f6719692a2d19.png'></img>
+            <FaHome className='homeIcon' />
             <p className='homeText'>Home</p>
           </Link>
         </section>
         <Link className='profileLink' to='/profile'>
-          <img className='profileIcon' src='https://www.freeiconspng.com/thumbs/profile-icon-png/account-profile-user-icon--icon-search-engine-10.png'></img>
+          <CgProfile className='profileIcon' />
           <p className='profileText'>Profile</p>
         </Link>
       </section>
@@ -619,6 +622,7 @@ const Checkerboard = () => {
       {/* <button onClick={() => { callToast() }}></button> */}
       {/* <ToastContainer /> */}
     </section>
+    // this is for testing
   )
 }
 
