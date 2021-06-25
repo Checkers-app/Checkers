@@ -189,39 +189,43 @@ const Checkerboard = () => {
     switch (JSON.stringify(jumpDirection)) {
       //----Normal Jump Checks----
       case JSON.stringify(jumpRight.current):
+        console.log(boardState[jumpRight.current[0]][jumpRight.current[1]][0])
+        console.log(boardState[moveRight.current[0]][moveRight.current[1]][0].color)
+        console.log(pieceToJump)
+        // console.log()
         switch (true) {
-          case boardState[jumpRight.current[0]][jumpRight.current[1]][0] === valid && boardState[moveRight.current[0]][moveRight.current[1]][0].color === pieceToJump:
+          case boardState[jumpRight.current[0]][jumpRight.current[1]][0].name === 'valid' && boardState[moveRight.current[0]][moveRight.current[1]][0].color === pieceToJump:
             return true
         }
         break;
       case JSON.stringify(jumpLeft.current):
         switch (true) {
-          case boardState[jumpLeft.current[0]][jumpLeft.current[1]][0] === valid && boardState[moveLeft.current[0]][moveLeft.current[1]][0].color === pieceToJump:
+          case boardState[jumpLeft.current[0]][jumpLeft.current[1]][0].name === 'valid' && boardState[moveLeft.current[0]][moveLeft.current[1]][0].color === pieceToJump:
             return true
         }
         break;
       //----King Jump Checks----
       case JSON.stringify(jumpLeftUp.current):
         switch (true) {
-          case boardState[jumpLeftUp.current[0]][jumpLeftUp.current[1]][0] === valid && boardState[moveLeftUp.current[0]][moveLeftUp.current[1]][0].color === pieceToJump:
+          case boardState[jumpLeftUp.current[0]][jumpLeftUp.current[1]][0].name === 'valid' && boardState[moveLeftUp.current[0]][moveLeftUp.current[1]][0].color === pieceToJump:
             return true
         }
         break;
       case JSON.stringify(jumpRightUp.current):
         switch (true) {
-          case boardState[jumpRightUp.current[0]][jumpRightUp.current[1]][0] === valid && boardState[moveRightUp.current[0]][moveRightUp.current[1]][0].color === pieceToJump:
+          case boardState[jumpRightUp.current[0]][jumpRightUp.current[1]][0].name === 'valid' && boardState[moveRightUp.current[0]][moveRightUp.current[1]][0].color === pieceToJump:
             return true
         }
         break;
       case JSON.stringify(jumpRightDown.current):
         switch (true) {
-          case boardState[jumpRightDown.current[0]][jumpRightDown.current[1]][0] === valid && boardState[moveRightDown.current[0]][moveRightDown.current[1]][0].color === pieceToJump:
+          case boardState[jumpRightDown.current[0]][jumpRightDown.current[1]][0].name === 'valid' && boardState[moveRightDown.current[0]][moveRightDown.current[1]][0].color === pieceToJump:
             return true
         }
         break;
       case JSON.stringify(jumpLeftDown.current):
         switch (true) {
-          case boardState[jumpLeftDown.current[0]][jumpLeftDown.current[1]][0] === valid && boardState[moveLeftDown.current[0]][moveLeftDown.current[1]][0].color === pieceToJump:
+          case boardState[jumpLeftDown.current[0]][jumpLeftDown.current[1]][0].name === 'valid' && boardState[moveLeftDown.current[0]][moveLeftDown.current[1]][0].color === pieceToJump:
             return true
         }
         break;
@@ -394,6 +398,8 @@ const Checkerboard = () => {
         endTurn(newIndex);
       } else {
         console.log(currCheck)
+        console.log('JR:', jumpRight.current)
+        // console.log(jumpLeft.current)
         if ((newIndexCol === 0) || (newIndexCol === 1)) {
           if (checkIsValidJump(currCheck, jumpRight.current)) {
             console.log('normLeftEdgeDJ: we did it')
