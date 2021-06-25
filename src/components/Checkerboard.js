@@ -124,6 +124,7 @@ const Checkerboard = () => {
       setTwoScore(12)
       setOneDisplay(0)
       setTwoDisplay(0)
+      sendBoardState(start)
       setBlackWins((curr) => {
         curr += 1
         return curr
@@ -136,6 +137,7 @@ const Checkerboard = () => {
       setOneScore(12)
       setOneDisplay(0)
       setTwoDisplay(0)
+      sendBoardState(start)
       setRedWins((curr) => {
         curr += 1
         return curr
