@@ -12,7 +12,7 @@ function FrontPage() {
                 <p>by:</p>
                 <p>Nicholas D'Amato</p>
                 <p>Joseph Fatani</p>
-                <p>Adam Pal</p>
+                <p>Adam Paul</p>
                 <p>Alexander Raia</p>
             </div>
         </header>
