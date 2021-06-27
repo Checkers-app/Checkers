@@ -1,15 +1,13 @@
 import React, { useState, useContext } from 'react';
-import { UserContext } from '../../context/UserContext.js';
+import { UserContext } from '../context/UserContext.js';
+import Header from '../components/sharedComps/Header'
 import axios from 'axios';
 import {Link, useHistory} from 'react-router-dom';
-import "../../css/login.css";
 
-function Login() {
+function Editusername() {
 
 
     let history = useHistory()
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
 
     const {user, setUser} = useContext(UserContext);
     
@@ -19,7 +17,7 @@ function Login() {
 
     return (
         <div className="editusername">
-            
+            <Header/>
 
         </div>
     );
