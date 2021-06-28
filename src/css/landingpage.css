@@ -82,7 +82,24 @@
   justify-content: space-around;
   align-items: center;
   height: 100px;
-  width: 300px;
+  width: 400px;
+}
+
+.ULButton {
+  text-decoration: none;
+  border: solid 1px grey;
+  width: 100px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 5px;
+  color: black;
+}
+
+.ULButton:hover {
+  background-color: #d3d3d3;
 }
 
 /*# sourceMappingURL=landingpage.css.map */

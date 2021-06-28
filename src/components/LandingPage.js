@@ -38,7 +38,7 @@ function LandingPage() {
             </section>
           </section>
           <section className='utilityLinks'>
-            <Link to="/ProfilePage" className="ULButton">Profile</Link>
+            <Link to="/profile" className="ULButton">Profile</Link>
             <Link to="/" onClick={() => { logout() }} className="ULButton">Logout</Link>
           </section>
         </section>
