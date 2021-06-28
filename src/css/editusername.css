@@ -1,0 +1,16 @@
+.editusername {
+    height: 50vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.editusername_input {
+    height: 10%;
+    width: 20%;
+
+    text-align: center;
+    font-size: 2em;
+}

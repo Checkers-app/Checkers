@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import '../css/landingpage.css';
 import Header from "../components/sharedComps/Header.js";
+import { CgProfile } from 'react-icons/cg';
 import React, { useContext } from 'react';
 import { UserContext } from '../context/UserContext.js';
 import axios from 'axios';

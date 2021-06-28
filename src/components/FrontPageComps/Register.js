@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../../context/UserContext.js';
 import axios from 'axios';
 import {Link, useHistory} from 'react-router-dom';
 
@@ -12,13 +13,19 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    
+    const {user, setUser} = useContext(UserContext);
     
     const signUp = () => {
         
         axios.post('/auth/create', {username, email, password})
         .then(user => {
             history.push("/landingpage");
+            setUser({
+                uid: user.data.uid,
+                username: user.data.username,
+                wins: user.data.wins,
+                losses: user.data.losses
+            });
         })
         .catch(err => {
             alert(err.response.data);
