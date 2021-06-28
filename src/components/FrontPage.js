@@ -7,20 +7,22 @@ import Register from "./FrontPageComps/Register.js"
 import "../css/frontpage.css";
 
 function FrontPage() {
-    
 
-    return (
-        <div className="frontPage">
-            
-            <Header/>
-            
-            <div className="frontPage_loginRegister">
-                <Login/>
-                <Register/>
-            </div>
 
+  return (
+    <div className="frontPage">
+
+      <Header />
+
+      <section className="frontPageContainer">
+        <div className="frontPage_loginRegister">
+          <Login />
+          <Register />
         </div>
-    );
+      </section>
+
+    </div>
+  );
 }
 
 export default FrontPage;

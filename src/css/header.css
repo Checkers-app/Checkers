@@ -1,8 +1,8 @@
 .header {
-    height: 15vh;
+  height: 200px;
     background-color: rgb(182, 49, 31);
 
-    margin-bottom: 10vh;
+    /* margin-bottom: 10vh; */
 
     display: flex;
     justify-content: center;
