@@ -1,0 +1,32 @@
+.header {
+  width: 100vw;
+  height: 200px;
+  margin-bottom: 0px;
+}
+
+.bottomContainer {
+  width: 100vw;
+  height: 735px;
+  display: flex;
+}
+
+.gameLinks {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: aliceblue;
+  height: 200px;
+  width: 200px;
+}
+
+.utilityLinks {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background-color: aliceblue;
+  height: 100px;
+  width: 300px;
+}
+
+/*# sourceMappingURL=landingpage.css.map */
