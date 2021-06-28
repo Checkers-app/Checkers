@@ -14,7 +14,8 @@ function LandingPage() {
   return (
     <div className="rooms">
       <Header />
-      <Link to="/game">Create New Game</Link>
+      <Link to="/game">Online kinda</Link>
+      <Link to="/1pGame">Pass and Play</Link>
     </div>
   );
 }
