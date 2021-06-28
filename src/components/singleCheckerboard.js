@@ -38,9 +38,6 @@ const SingleCheckerboard = () => {
   const [jumpId, setJumpId] = useState(false)
   const [checkerboard, setCheckerboard] = useState(start)
   const [menuState, setMenuState] = useState(false)
-  //Socket States
-  const [socket, setSocket] = useState(null)
-  const [messages, setMessages] = useState([])
   const [moves, setMoves] = useState([])
 
   let piece;
@@ -58,75 +55,12 @@ const SingleCheckerboard = () => {
   let jumpRightDown;
   let jumpRightUp;
 
-  // useEffect(() => {
-  //   if (!socket) {
-  //     setSocket(io.connect())
-  //   }
-  //   return () => {
-  //     if (socket) {
-  //       socket.disconnect()
-  //     }
-  //   }
-  // }, [])
-
-  // useEffect(() => {
-  //   if (socket) {
-  //     //  emit the messages
-  //     // 'on' that receives messages, sets the new messages array
-  //     socket.on('receiveMsgs', (message) => {
-  //       setMessages(oldMsgs => {
-  //         //  return [...oldMsgs, message]
-  //         const newMsgs = [...oldMsgs, message]
-  //         return newMsgs
-  //       })
-  //     })
-  //     socket.on('receiveMoveHistory', (moveHistory) => {
-  //       const { piece, endSpot } = moveHistory
-  //       const newMove = `${piece.color} moved ${piece.id} to ${endSpot[1] + 1}, ${7 - endSpot[0] + 1}`
-  //       setMoves((oldMoves) => {
-  //         const moves = [...oldMoves, newMove]
-  //         return moves
-  //       })
-  //     })
-  //     socket.on('receiveBoardState', (checkerboard) => {
-  //       setCheckerboard(checkerboard)
-  //     })
-  //     socket.on('receiveTurnState', turnState => {
-  //       setTurnState(turnState)
-  //     })
-  //     socket.on('receiveOneScore', (score) => {
-  //       setOneDisplay(score)
-  //     })
-  //     socket.on('receiveTwoScore', (score) => {
-  //       setTwoDisplay(score)
-  //     })
-  //   }
-  // }, [socket])
-
-  // const sendOneScore = (oneDisplay) => {
-  //   socket.emit('sendOneScore', oneDisplay)
-  // }
-
-  // const sendTwoScore = (twoDisplay) => {
-  //   socket.emit('sendTwoScore', twoDisplay)
-  // }
-
-  // const handleMessages = (newMsg) => {
-  //   console.log(newMsg)
-  //   socket.emit('sendMsgs', newMsg)
-  // }
-
-  // const handleMoves = (piece, endSpot) => {
-  //   socket.emit('sendMoveHistory', { piece, endSpot })
-  // }
-
   useEffect(() => {
     if (oneScore === 0) {
       toast.dark('Black has won the game!')
       setOneScore(12)
       setTwoScore(12)
-      setOneDisplay(0)
-      setTwoDisplay(0)
+      setTurnState(true)
       setBlackWins((curr) => {
         curr += 1
         return curr
@@ -137,8 +71,7 @@ const SingleCheckerboard = () => {
       toast.error('Red has won the game!')
       setTwoScore(12)
       setOneScore(12)
-      setOneDisplay(0)
-      setTwoDisplay(0)
+      setTurnState(true)
       setRedWins((curr) => {
         curr += 1
         return curr
@@ -154,7 +87,7 @@ const SingleCheckerboard = () => {
         setPieceSelected(piece)
         setPieceIndex([row, col])
       } else {
-        console.log("must double jump");
+        toast.warning('Must take the double jump!')
       }
     } else {
       setPieceSelected(piece)
@@ -246,10 +179,6 @@ const SingleCheckerboard = () => {
     }
   }
 
-  // const sendBoardState = (checkerboard) => {
-  //   socket.emit('sendBoardState', checkerboard)
-  // }
-
   const jump = (row, col, piece, placeToJump) => {
     let newIndexRow = row
     let newIndexCol = col
@@ -279,22 +208,10 @@ const SingleCheckerboard = () => {
         score -= 1
         return score
       })
-      setOneDisplay(score => {
-        score = oneDisplay
-        score += 1
-        // sendOneScore(score)
-        return score
-      })
     } else {
       setOneScore(score => {
         score = oneScore
         score -= 1
-        return score
-      })
-      setTwoDisplay(score => {
-        score = twoDisplay
-        score += 1
-        // sendTwoScore(score)
         return score
       })
     }
@@ -307,19 +224,19 @@ const SingleCheckerboard = () => {
     if (piece.isKing) {
       // CORNER LOGIC
       if (((landingSpot === topLeftCornerUp) || (landingSpot === topLeftCornerDown))) {
-        console.log('TLC: ending turn')
+        // console.log('TLC: ending turn') --------- FOR DEBUGGING
         setJumpId(false)
         endTurn(newIndex)
       } else if (((landingSpot === topRightCornerUp) || (landingSpot === topRightCornerDown))) {
-        console.log('TRC: ending turn')
+        // console.log('TRC: ending turn') --------- FOR DEBUGGING
         setJumpId(false)
         endTurn(newIndex)
       } else if (((landingSpot === bottomRightCornerUp) || (landingSpot === bottomRightCornerDown))) {
-        console.log('BRC: ending turn')
+        // console.log('BRC: ending turn') --------- FOR DEBUGGING
         setJumpId(false)
         endTurn(newIndex)
       } else if (((landingSpot === bottomLeftCornerUp) || (landingSpot === bottomLeftCornerDown))) {
-        console.log('BLC: ending turn')
+        // console.log('BLC: ending turn') --------- FOR DEBUGGING
         setJumpId(false)
         endTurn(newIndex)
       }
@@ -328,25 +245,25 @@ const SingleCheckerboard = () => {
         if ((newIndexCol === 0 || newIndexCol === 1)
           &&
           ((checkIsValidJump(currCheck, jumpRightUp)) || (checkIsValidJump(currCheck, jumpRightDown)))) {
-          console.log('KingLeftEdge DJ: we did it')
+          // console.log('KingLeftEdge DJ: we did it') --------- FOR DEBUGGING
           setJumpId(piece.id)
           //----King RightEdge DoubleJumps----
         } else if ((newIndexCol === 6 || newIndexCol === 7)
           &&
           ((checkIsValidJump(currCheck, jumpLeftUp)) || (checkIsValidJump(currCheck, jumpLeftDown)))) {
-          console.log('KingRightEdge DJ: we did it')
+          // console.log('KingRightEdge DJ: we did it') --------- FOR DEBUGGING
           setJumpId(piece.id)
           //----King TopEdge DoubleJumps----
         } else if ((newIndexRow === 0 || newIndexRow === 1)
           &&
           ((checkIsValidJump(currCheck, jumpRightDown)) || (checkIsValidJump(currCheck, jumpLeftDown)))) {
-          console.log('KingTopEdge DJ: we did it')
+          // console.log('KingTopEdge DJ: we did it') --------- FOR DEBUGGING
           setJumpId(piece.id)
           //----King BottomEdge Jumps----
         } else if ((newIndexRow === 6 || newIndexRow === 7)
           &&
           ((checkIsValidJump(currCheck, jumpRightUp)) || (checkIsValidJump(currCheck, jumpLeftUp)))) {
-          console.log('KingBottomEdge DJ: we did it')
+          // console.log('KingBottomEdge DJ: we did it') --------- FOR DEBUGGING
           setJumpId(piece.id)
           //----King Inside Jumps----
         } else if (
@@ -365,15 +282,15 @@ const SingleCheckerboard = () => {
             || (checkIsValidJump(currCheck, jumpRightDown))
             || (checkIsValidJump(currCheck, jumpLeftUp))
             || (checkIsValidJump(currCheck, jumpLeftDown))) {
-            console.log('kingInsideDJ: we did it')
+            // console.log('kingInsideDJ: we did it') --------- FOR DEBUGGING
             setJumpId(piece.id)
           } else {
-            console.log('kingNoInsideDJ: ending turn')
+            // console.log('kingNoInsideDJ: ending turn') --------- FOR DEBUGGING
             setJumpId(false)
             endTurn(newIndex)
           }
         } else {
-          console.log('kingNoEdgeDJ: ending turn')
+          // console.log('kingNoEdgeDJ: ending turn') --------- FOR DEBUGGING
           setJumpId(false)
           endTurn(newIndex)
         }
@@ -386,7 +303,7 @@ const SingleCheckerboard = () => {
         ||
         ((newIndexRow === 7) || (newIndexRow === 6))
       )) {
-        console.log('normPiece endOfLine: ending turn')
+        // console.log('normPiece endOfLine: ending turn') --------- FOR DEBUGGING
         setJumpId(false);
         endTurn(newIndex);
         //----Left/Right Edge Checks----
@@ -395,25 +312,25 @@ const SingleCheckerboard = () => {
         ||
         ((newIndexCol === 7) || (newIndexCol === 6)) && !(checkIsValidJump(currCheck, jumpLeft))
       ) {
-        console.log('normLREdgeNoDJ: ending turn')
+        // console.log('normLREdgeNoDJ: ending turn') --------- FOR DEBUGGING
         setJumpId(false);
         endTurn(newIndex);
       } else {
         if ((newIndexCol === 0) || (newIndexCol === 1)) {
           if (checkIsValidJump(currCheck, jumpRight)) {
-            console.log('normLeftEdgeDJ: we did it')
+            // console.log('normLeftEdgeDJ: we did it') --------- FOR DEBUGGING
             setJumpId(piece.id)
           }
         } else if ((newIndexCol === 6) || (newIndexCol === 7)) {
           if (checkIsValidJump(currCheck, jumpLeft)) {
-            console.log('normRightEdgeDJ: we did it')
+            // console.log('normRightEdgeDJ: we did it') --------- FOR DEBUGGING
             setJumpId(piece.id)
           }
         } else if ((checkIsValidJump(currCheck, jumpRight)) || (checkIsValidJump(currCheck, jumpLeft))) {
-          console.log('normInsideDJ: we did it')
+          // console.log('normInsideDJ: we did it') --------- FOR DEBUGGING
           setJumpId(piece.id)
         } else {
-          console.log('noDJ: ending turn')
+          // console.log('noDJ: ending turn') --------- FOR DEBUGGING
           setJumpId(false);
           endTurn(newIndex);
         }
@@ -421,21 +338,23 @@ const SingleCheckerboard = () => {
     }
   }
 
-
-  // const sendTurn = (turnState) => {
-  //   socket.emit('sendTurnState', turnState)
-  // }
+  const moveHistory = (piece, endSpot) => {
+    const newMove = `${piece.color} moved ${piece.id} to ${endSpot[1] + 1}, ${7 - endSpot[0] + 1}`
+    setMoves((oldMoves) => {
+      const moves = [...oldMoves, newMove]
+      return moves
+    })
+  }
 
   const endTurn = (newIndex) => {
     if ((piece.isKing === false) && (newIndex[0] === (turnState ? 0 : 7))) {
       piece.isKing = true;
-      console.log(`${piece.id} is now Kinged`)
+      // console.log(`${piece.id} is now Kinged`) --------- FOR DEBUGGING
     }
     setTurnState(!turnState);
     setPieceSelected(false);
     setJumpId(false);
-    // handleMoves(piece, newIndex)
-    // sendTurn(!turnState)
+    moveHistory(piece, newIndex)
   }
 
   const concede = () => {
@@ -444,16 +363,12 @@ const SingleCheckerboard = () => {
       setOneDisplay(0)
       setCheckerboard(start)
       setTurnState(true)
-      // sendTurn(true)
-      // sendBoardState(start)
       setMoves([])
     } else {
       setTwoScore(0)
       setTwoDisplay(0)
       setCheckerboard(start)
       setTurnState(true)
-      // sendTurn(true)
-      // sendBoardState(start)
       setMoves([])
     }
   }
@@ -581,8 +496,8 @@ const SingleCheckerboard = () => {
               <Movehistory moves={moves} />
             </section>
             <section className='scoreBox'>
-              <h1 className='scoreDisplay'> Red Score: {oneDisplay} </h1>
-              <h1 className='scoreDisplay'> Black Score: {twoDisplay} </h1>
+              <h1 className='scoreDisplay'> Red Score: {oneScore} </h1>
+              <h1 className='scoreDisplay'> Black Score: {twoScore} </h1>
             </section>
           </section>
           <section className='middleButtonContainer'>
@@ -590,12 +505,7 @@ const SingleCheckerboard = () => {
             <Link className='leaveButton' to='/landingpage'>Leave Match</Link>
           </section>
         </section>
-        {/* <section className='chatBox'>
-          <ChatBox handleMsgs={handleMessages} msgs={messages} />
-        </section> */}
       </section>
-      {/* <button onClick={() => { callToast() }}></button> */}
-      {/* <ToastContainer /> */}
     </section>
   )
 }
