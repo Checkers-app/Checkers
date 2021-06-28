@@ -305,12 +305,14 @@ const Checkerboard = () => {
     setCheckerboard(currCheck);
     //----Set Score----
     if (turnState) {
-      setTwoScore(score => {
-        score = twoScore
-        score -= 1
-        newTwoScore = score
-        return score
-      })
+      newTwoScore -= 1
+      setTwoScore(newTwoScore)
+      // setTwoScore(score => {
+      //   score = twoScore
+      //   score -= 1
+      //   newTwoScore = score
+      //   return score
+      // })
       // setOneDisplay(score => {
       //   score = oneDisplay
       //   score += 1
@@ -318,12 +320,14 @@ const Checkerboard = () => {
       //   return score
       // })
     } else {
-      setOneScore(score => {
-        score = oneScore
-        score -= 1
-        newOneScore = score
-        return score
-      })
+      newOneScore -= 1
+      setOneScore(newOneScore)
+      // setOneScore(score => {
+      //   score = oneScore
+      //   score -= 1
+      //   newOneScore = score
+      //   return score
+      // })
       // setTwoDisplay(score => {
       //   score = twoDisplay
       //   score += 1
