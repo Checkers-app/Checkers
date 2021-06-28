@@ -111,6 +111,20 @@ const Checkerboard = () => {
         setTwoScore(gameObj.scoreTwo);
         // setMoves(gameObj.moves);
         setTurnState(gameObj.turnState);
+
+        if(gameObj.scoreTwo === 0) {
+          sendWinMessage('red')
+        } else if(gameObj.scoreOne === 0) {
+          sendWinMessage('black')
+        }
+      })
+
+      socket.on('receiveConcede', str => {
+        if(str === 'red') {
+          sendWinMessage('red')
+        } else if(str === 'black') {
+          sendWinMessage('black')
+        }
       })
     }
   }, [socket])
@@ -140,9 +154,27 @@ const Checkerboard = () => {
     socket.emit('sendResetMoves', moves)
   }
 
+  
+
+  const sendWinMessage= (whoWon) =>  {
+    if(whoWon === 'red') {
+      toast.error('Player 1 has won the game!')
+    } else {
+      toast.dark('Player 2 has won the game!')
+    }
+  }
+
+  // useEffect(() => {
+  //   if(oneScore === 0) {
+  //     sendWinMessage('black')
+  //   } else if(twoScore === 0) {
+  //     sendWinMessage('red')
+  //   }
+  // }, [oneScore, twoScore])
+
   useEffect(() => {
     if (oneScore === 0) {
-      toast.dark('Player 2 has won the game!')
+      // toast.dark('Player 2 has won the game!')
       setOneScore(12)
       setTwoScore(12)
       // setOneDisplay(0)
@@ -154,9 +186,10 @@ const Checkerboard = () => {
         return curr
       })
       resetMoves([])
-      setCheckerboard(start)
+      // sendWinMessage('black')
+      // setCheckerboard(start)
     } else if (twoScore === 0) {
-      toast.error('Player 1 has won the game!')
+      // toast.error('Player 1 has won the game!')
       setTwoScore(12)
       setOneScore(12)
       // setOneDisplay(0)
@@ -168,8 +201,10 @@ const Checkerboard = () => {
         return curr
       })
       resetMoves([])
-      setCheckerboard(start)
+      // sendWinMessage('red')
+      // setCheckerboard(start)
     }
+
   }, [checkerboard])
 
   const selectionHandler = (row, col, piece) => {
@@ -471,7 +506,6 @@ const Checkerboard = () => {
       piece.isKing = true;
       console.log(`${piece.id} is now Kinged`)
     }
-    console.log(newOneScore, newTwoScore);
     setTurnState(!turnState);
     setPiece(false);
     setJumpId(false);
@@ -485,6 +519,7 @@ const Checkerboard = () => {
 
   const concede = () => {
     if (turnState) {
+      // toast.dark('Player 2 has won the game!')
       setOneScore(0)
       // setOneDisplay(0)
       // setTwoDisplay(0)
@@ -496,7 +531,9 @@ const Checkerboard = () => {
       sendTurn(true)
       sendBoardState(start)
       setMoves([])
+      socket.emit('concede', 'black')
     } else {
+      // toast.error('Player 1 has won the game!')
       setTwoScore(0)
       // setOneDisplay(0)
       // setTwoDisplay(0)
@@ -508,6 +545,7 @@ const Checkerboard = () => {
       sendTurn(true)
       sendBoardState(start)
       setMoves([])
+      socket.emit('concede', 'red')
     }
   }
 

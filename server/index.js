@@ -75,4 +75,12 @@ io.on('connection', (socket) => {
   socket.on('sendGameState', gameObj => {
     io.emit('receiveGameState', gameObj)
   })
+
+  socket.on('sendWin', wonObj => {
+    io.emit('receiveWin', wonObj )
+  })
+
+  socket.on('concede', str => {
+    io.emit('receiveConcede', str)
+  })
 })
