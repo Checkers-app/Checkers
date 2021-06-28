@@ -12,9 +12,6 @@ const ProfilePage = () => {
   const { user, setUser } = useContext(UserContext);
   let history = useHistory()
 
-  const { user } = useContext(UserContext);
-  let history = useHistory()
-
   const ratio = 0;
   if (!user.losses === 0) {
     ratio = user.wins / user.losses;
@@ -36,12 +33,6 @@ const ProfilePage = () => {
     })
   }, [])
 
-
-  const edit = () => {
-    if (!toggleEdit) {
-      setToggleEdit(!toggleEdit)
-    }
-  }
 
   const edit = () => {
     if (!toggleEdit) {
