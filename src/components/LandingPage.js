@@ -26,16 +26,21 @@ function LandingPage() {
     <div className="rooms">
       <Header className='header' />
       <section className="bottomContainer">
-        <section className='gameLinks'>
-          <p>Create a Game!</p>
-          <section className="linkContainer">
-            <Link to="/game">Online kinda</Link>
-            <Link to="/1pGame">Pass and Play</Link>
+        <section className='linkMasterContainer'>
+          <section className='gameLinks'>
+            <section className="subtitleTextStyling">
+              <p className='miniTitleText'>Create a Game!</p>
+              <div className='underline'></div>
+            </section>
+            <section className="linkContainer">
+              <Link to="/game" className="GLButton">Online kinda</Link>
+              <Link to="/1pGame" className="GLButton">Pass and Play</Link>
+            </section>
           </section>
-        </section>
-        <section className='utilityLinks'>
-          <Link to="/ProfilePage" >Profile</Link>
-          <Link to="/" onClick={() => { logout() }}>Logout</Link>
+          <section className='utilityLinks'>
+            <Link to="/ProfilePage" className="ULButton">Profile</Link>
+            <Link to="/" onClick={() => { logout() }} className="ULButton">Logout</Link>
+          </section>
         </section>
       </section>
     </div >

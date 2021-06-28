@@ -1,3 +1,5 @@
+$greyedOut: #d3d3d3;
+
 .header {
   width: 100vw;
   height: 200px;
@@ -13,13 +15,73 @@
   display: flex;
 }
 
+.linkMasterContainer {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  justify-content: space-between;
+}
+
 .gameLinks {
+  position: relative;
+  left: 200px;
+  top: 150px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  background-color: aliceblue;
-  height: 200px;
+  align-items: center;
+  // background-color: aliceblue;
+  height: 350px;
+  width: 300px;
+}
+
+.subtitleTextStyling {
+  width: 100%;
+  height: 40px;
+  // background-color: $greyedOut;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.miniTitleText {
+  display: flex;
+  justify-content: center;
+  // background-color: $greyedOut;
+  font-size: 2em;
+  width: 100%;
+}
+
+.underline {
+  height: 1px;
+  border: 1px solid black;
+  width: 80%
+}
+
+.linkContainer {
+  position: relative;
+  bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 50%;
+}
+
+.GLButton {
+  text-decoration: none;
+  border: solid 1px grey;
   width: 200px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 5px;
+  color: black;
+}
+
+.GLButton:hover {
+  background-color: $greyedOut;
 }
 
 .utilityLinks {
@@ -27,7 +89,20 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  background-color: aliceblue;
+  // background-color: aliceblue;
   height: 100px;
   width: 300px;
 }
+
+// .ULButton {
+//   text-decoration: none;
+//   border: solid 1px grey;
+//   width: 200px;
+//   height: 50px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   background-color: transparent;
+//   border-radius: 5px;
+//   color: black;
+// }
