@@ -13,9 +13,10 @@ function Editusername() {
     const {user, setUser} = useContext(UserContext);
     const [username, setUsername] = useState("");
     
+    let uid = user.uid;
     
     const editUsername = () => {
-        axios.put('/auth/updateusername', {username});
+        axios.put('/auth/updateusername', {username, uid});
         history.push("/profile");
     }
     
