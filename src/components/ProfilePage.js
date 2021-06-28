@@ -1,5 +1,5 @@
 import '../css/Profile-Styling/profile.css';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { UserContext } from '../context/UserContext.js';
 import { Link, useHistory } from 'react-router-dom';
@@ -9,6 +9,8 @@ import { CgProfile } from 'react-icons/cg';
 const ProfilePage = () => {
 
   const [menuState, setMenuState] = useState(false)
+  const { user, setUser } = useContext(UserContext);
+  let history = useHistory()
 
   const { user } = useContext(UserContext);
   let history = useHistory()
@@ -20,6 +22,26 @@ const ProfilePage = () => {
   const [toggleEdit, setToggleEdit] = useState(false)
   const [input, setInput] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.')
   const [about, setAbout] = useState('')
+
+  useEffect(() => {
+    axios.get('/auth/readuser').then(user => {
+      console.log(user)
+      setUser({
+        uid: user.data.uid,
+        username: user.data.username,
+        wins: user.data.wins,
+        losses: user.data.losses,
+        about: user.data.about
+      })
+    })
+  }, [])
+
+
+  const edit = () => {
+    if (!toggleEdit) {
+      setToggleEdit(!toggleEdit)
+    }
+  }
 
   const edit = () => {
     if (!toggleEdit) {
