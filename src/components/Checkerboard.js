@@ -28,11 +28,11 @@ const Checkerboard = () => {
   ]
   // checkerboard[index][i]
   const [oneScore, setOneScore] = useState(12)
-  const [oneDisplay, setOneDisplay] = useState(0)
+  // const [oneDisplay, setOneDisplay] = useState(0)
   const [redWins, setRedWins] = useState(0)
   const [blackWins, setBlackWins] = useState(0)
   const [twoScore, setTwoScore] = useState(12)
-  const [twoDisplay, setTwoDisplay] = useState(0)
+  // const [twoDisplay, setTwoDisplay] = useState(0)
   const [turnState, setTurnState] = useState(true)
   const [piece, setPiece] = useState(false)
   const [pieceIndex, setPieceIndex] = useState(null)
@@ -94,17 +94,30 @@ const Checkerboard = () => {
       socket.on('receiveTurnState', turnState => {
         setTurnState(turnState)
       })
-      socket.on('receiveOneScore', (score) => {
-        setOneDisplay(score)
-      })
-      socket.on('receiveTwoScore', (score) => {
-        setTwoDisplay(score)
-      })
+      // socket.on('receiveOneScore', (score) => {
+      //   setOneDisplay(score)
+      // })
+      // socket.on('receiveTwoScore', (score) => {
+      //   setTwoDisplay(score)
+      // })
       socket.on('receiveResetMoves', (moves) => {
         setMoves(moves)
       })
+      socket.on('receiveGameState', (gameObj) => {
+        console.log(gameObj.checkerboardState)
+        setCheckerboard(gameObj.checkerboardState);
+        // setTurnState(gameObj.turnState);
+        setOneScore(gameObj.scoreOne);
+        setTwoScore(gameObj.scoreTwo);
+        // setMoves(gameObj.moves);
+        setTurnState(gameObj.turnState);
+      })
     }
   }, [socket])
+
+  const sendGameState = (gameObj) => {
+    socket.emit('sendGameState', gameObj)
+  }
 
   const sendOneScore = (oneDisplay) => {
     socket.emit('sendOneScore', oneDisplay)
@@ -132,8 +145,8 @@ const Checkerboard = () => {
       toast.dark('Player 2 has won the game!')
       setOneScore(12)
       setTwoScore(12)
-      setOneDisplay(0)
-      setTwoDisplay(0)
+      // setOneDisplay(0)
+      // setTwoDisplay(0)
       setTurnState(true)
       sendBoardState(start)
       setBlackWins((curr) => {
@@ -146,8 +159,8 @@ const Checkerboard = () => {
       toast.error('Player 1 has won the game!')
       setTwoScore(12)
       setOneScore(12)
-      setOneDisplay(0)
-      setTwoDisplay(0)
+      // setOneDisplay(0)
+      // setTwoDisplay(0)
       setTurnState(true)
       sendBoardState(start)
       setRedWins((curr) => {
@@ -249,13 +262,17 @@ const Checkerboard = () => {
   const move = (row, col, piece) => {
     let newIndex = [row, col]
     if (jumpId !== piece.id) {
+      let newCheckerboard = [...checkerboard];
+      newCheckerboard[pieceIndex[0]].splice(pieceIndex[1], 1, [valid]);
+      newCheckerboard[row].splice(col, 1, [piece]);
+
       setCheckerboard((curr) => {
         curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
         curr[row].splice(col, 1, [piece])
-        sendBoardState(curr)
+        // sendBoardState(curr)
         return curr
       })
-      endTurn(newIndex);
+      endTurn(newIndex, newCheckerboard, oneScore, twoScore);
     }
   }
 
@@ -264,6 +281,8 @@ const Checkerboard = () => {
   }
 
   const jump = (row, col, piece, placeToJump) => {
+    let newOneScore = oneScore;
+    let newTwoScore = twoScore;
     let newIndexRow = row
     let newIndexCol = col
     let newIndex = [newIndexRow, newIndexCol]
@@ -289,26 +308,28 @@ const Checkerboard = () => {
       setTwoScore(score => {
         score = twoScore
         score -= 1
+        newTwoScore = score
         return score
       })
-      setOneDisplay(score => {
-        score = oneDisplay
-        score += 1
-        sendOneScore(score)
-        return score
-      })
+      // setOneDisplay(score => {
+      //   score = oneDisplay
+      //   score += 1
+      //   sendOneScore(score)
+      //   return score
+      // })
     } else {
       setOneScore(score => {
         score = oneScore
         score -= 1
+        newOneScore = score
         return score
       })
-      setTwoDisplay(score => {
-        score = twoDisplay
-        score += 1
-        sendTwoScore(score)
-        return score
-      })
+      // setTwoDisplay(score => {
+      //   score = twoDisplay
+      //   score += 1
+      //   sendTwoScore(score)
+      //   return score
+      // })
     }
     //----Reset Piece Position----
     setPiece(piece)
@@ -321,19 +342,19 @@ const Checkerboard = () => {
       if (((landingSpot === topLeftCornerUp) || (landingSpot === topLeftCornerDown))) {
         console.log('TLC: ending turn')
         setJumpId(false)
-        endTurn(newIndex)
+        endTurn(newIndex, currCheck, newOneScore, newTwoScore)
       } else if (((landingSpot === topRightCornerUp) || (landingSpot === topRightCornerDown))) {
         console.log('TRC: ending turn')
         setJumpId(false)
-        endTurn(newIndex)
+        endTurn(newIndex, currCheck, newOneScore, newTwoScore)
       } else if (((landingSpot === bottomRightCornerUp) || (landingSpot === bottomRightCornerDown))) {
         console.log('BRC: ending turn')
         setJumpId(false)
-        endTurn(newIndex)
+        endTurn(newIndex, currCheck, newOneScore, newTwoScore)
       } else if (((landingSpot === bottomLeftCornerUp) || (landingSpot === bottomLeftCornerDown))) {
         console.log('BLC: ending turn')
         setJumpId(false)
-        endTurn(newIndex)
+        endTurn(newIndex, currCheck, newOneScore, newTwoScore)
       }
       else {
         //----King LeftEdge DoubleJumps----
@@ -382,12 +403,12 @@ const Checkerboard = () => {
           } else {
             console.log('kingNoInsideDJ: ending turn')
             setJumpId(false)
-            endTurn(newIndex)
+            endTurn(newIndex, currCheck, newOneScore, newTwoScore)
           }
         } else {
           console.log('kingNoEdgeDJ: ending turn')
           setJumpId(false)
-          endTurn(newIndex)
+          endTurn(newIndex, currCheck, newOneScore, newTwoScore)
         }
       }
       //----Normal Checks----
@@ -400,7 +421,7 @@ const Checkerboard = () => {
       )) {
         console.log('normPiece endOfLine: ending turn')
         setJumpId(false);
-        endTurn(newIndex);
+        endTurn(newIndex, currCheck, newOneScore, newTwoScore)
         //----Left/Right Edge Checks----
       } else if (
         ((newIndexCol === 0) || (newIndexCol === 1)) && !(checkIsValidJump(currCheck, jumpRight.current))
@@ -409,7 +430,7 @@ const Checkerboard = () => {
       ) {
         console.log('normLREdgeNoDJ: ending turn')
         setJumpId(false);
-        endTurn(newIndex);
+        endTurn(newIndex, currCheck, newOneScore, newTwoScore)
       } else {
         console.log(currCheck)
         console.log('JR:', jumpRight.current)
@@ -430,7 +451,7 @@ const Checkerboard = () => {
         } else {
           console.log('noDJ: ending turn')
           setJumpId(false);
-          endTurn(newIndex);
+          endTurn(newIndex, currCheck, newOneScore, newTwoScore)
         }
       }
     }
@@ -441,24 +462,28 @@ const Checkerboard = () => {
     socket.emit('sendTurnState', turnState)
   }
 
-  const endTurn = (newIndex) => {
+  const endTurn = (newIndex, newCheckerboard, newOneScore, newTwoScore) => {
     if ((piece.isKing === false) && (newIndex[0] === (turnState ? 0 : 7))) {
       piece.isKing = true;
       console.log(`${piece.id} is now Kinged`)
     }
+    console.log(newOneScore, newTwoScore);
     setTurnState(!turnState);
     setPiece(false);
     setJumpId(false);
     handleMoves(piece, newIndex)
-    sendTurn(!turnState)
-    sendBoardState(checkerboard)
+    // sendTurn(!turnState)
+    // sendBoardState(checkerboard)
+    sendGameState({ checkerboardState: newCheckerboard, turnState: !turnState, scoreOne: newOneScore, scoreTwo: newTwoScore, })
   }
+
+  // Refactor to use a single emit that updates all relevant pieces of state
 
   const concede = () => {
     if (turnState) {
       setOneScore(0)
-      setOneDisplay(0)
-      setTwoDisplay(0)
+      // setOneDisplay(0)
+      // setTwoDisplay(0)
       sendOneScore(0)
       sendTwoScore(0)
       setJumpId(false)
@@ -469,8 +494,8 @@ const Checkerboard = () => {
       setMoves([])
     } else {
       setTwoScore(0)
-      setOneDisplay(0)
-      setTwoDisplay(0)
+      // setOneDisplay(0)
+      // setTwoDisplay(0)
       sendOneScore(0)
       sendTwoScore(0)
       setJumpId(false)
@@ -606,8 +631,8 @@ const Checkerboard = () => {
               <MoveHistory moves={moves} />
             </section>
             <section className='scoreBox'>
-              <h1 className='scoreDisplay'> Red Score: {oneDisplay} </h1>
-              <h1 className='scoreDisplay'> Black Score: {twoDisplay} </h1>
+              <h1 className='scoreDisplay'> Red Score: {oneScore} </h1>
+              <h1 className='scoreDisplay'> Black Score: {twoScore} </h1>
             </section>
           </section>
           <section className='middleButtonContainer'>
