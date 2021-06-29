@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import '../css/checkerboard.css';
 import { toast } from "react-toastify";
-// import io from "socket.io-client"
-import ChatBox from './Chatbox'
 import Movehistory from './Movehistory'
 import { FaHome } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
@@ -197,7 +195,6 @@ const SingleCheckerboard = () => {
     currCheck[placeToJump[0]].splice(placeToJump[1], 1, [valid])
     currCheck[row].splice(col, 1, [piece])
     setCheckerboard(currCheck);
-    // sendBoardState(currCheck)
     //----Set Score----
     if (turnState) {
       setTwoScore(score => {
@@ -492,6 +489,9 @@ const SingleCheckerboard = () => {
             <h1 className={turnState ? "inactiveTurnText" : "activeTurnText"}>Black's Turn</h1>
           </section>
           <section className='moveBox'>
+            <div>
+              <h1 className='turn-history'> Turn History: </h1>
+            </div>
             <section className='everythingButScore'>
               <Movehistory moves={moves} />
             </section>
