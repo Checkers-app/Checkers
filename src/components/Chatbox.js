@@ -33,7 +33,7 @@ const ChatBox = (props) => {
     <div id="chat-box">
       <div id="chat">
         {props.msgs.map((e,i) => {
-          return <h1 className="chat-message" key={i}> {e} </h1>
+          return <h1 className="chat-message" key={i}> {e.message} </h1>
         })}
         <div ref={messagesEndRef} />
       </div>
