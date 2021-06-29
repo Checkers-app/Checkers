@@ -92,11 +92,19 @@
 }
 
 .indTurnText {
+  color: red;
+  margin-left: 40px;
   width: 80%;
   height: 35px;
-  text-align: center;
   font-size: 1.3em;
-  margin-bottom: 10px;
+}
+
+.indTurnTextTwo {
+  color:black;
+  margin-left: 40px;
+  width: 80%;
+  height: 35px;
+  font-size: 1.3em;
 }
 
 .everythingButScore {
@@ -113,7 +121,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: flex-start;
+  list-style: none;
 }
 
 .scoreBox {
@@ -129,6 +138,32 @@
   width: 90%;
   height: 47%;
   border: 1px solid black;
+}
+
+.localWins {
+    width: 90%;
+    height: 47%;
+    text-align: center;
+    font-size: 40px;
+    display: flex; 
+    justify-content: center;
+    flex-direction: column;
+}
+
+.red-wins{
+  width: 60%;
+  height: 50%;
+  border: 1px dashed black;
+  color: red;
+ margin-bottom: 70px;
+ margin-left: 100px;
+}
+
+.black-wins{
+  width: 60%;
+  height: 50%;
+  border: 1px dashed black;
+  margin-left: 100px;
 }
 
 @keyframes expand {

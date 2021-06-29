@@ -25,13 +25,11 @@ const SingleCheckerboard = () => {
     [[invalid], [{ color: 'red', isKing: false, id: 17 }], [invalid], [{ color: 'red', isKing: false, id: 18 }], [invalid], [{ color: 'red', isKing: false, id: 19 }], [invalid], [{ color: 'red', isKing: false, id: 20 }]],
     [[{ color: 'red', isKing: false, id: 21 }], [invalid], [{ color: 'red', isKing: false, id: 22 }], [invalid], [{ color: 'red', isKing: false, id: 23 }], [invalid], [{ color: 'red', isKing: false, id: 24 }], [invalid]]
   ]
-  // checkerboard[index][i]
+
   const [oneScore, setOneScore] = useState(12)
-  const [oneDisplay, setOneDisplay] = useState(0)
   const [redWins, setRedWins] = useState(0)
   const [blackWins, setBlackWins] = useState(0)
   const [twoScore, setTwoScore] = useState(12)
-  const [twoDisplay, setTwoDisplay] = useState(0)
   const [turnState, setTurnState] = useState(true)
   const [pieceSelected, setPieceSelected] = useState(false)
   const [pieceIndex, setPieceIndex] = useState(null)
@@ -172,7 +170,6 @@ const SingleCheckerboard = () => {
       setCheckerboard((curr) => {
         curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
         curr[row].splice(col, 1, [piece])
-        // sendBoardState(curr)
         return curr
       })
       endTurn(newIndex);
@@ -339,9 +336,14 @@ const SingleCheckerboard = () => {
   }
 
   const moveHistory = (piece, endSpot) => {
-    const newMove = `${piece.color} moved ${piece.id} to ${endSpot[1] + 1}, ${7 - endSpot[0] + 1}`
+    // const newMove = `${piece.color} moved ${piece.id} to ${endSpot[1] + 1}, ${7 - endSpot[0] + 1}`
+    const newMove = {
+      id: piece.id,
+      color: piece.color,
+      landing: endSpot
+    }
     setMoves((oldMoves) => {
-      const moves = [...oldMoves, newMove]
+      const moves = [...oldMoves, { newMove }]
       return moves
     })
   }
@@ -360,13 +362,11 @@ const SingleCheckerboard = () => {
   const concede = () => {
     if (turnState) {
       setOneScore(0)
-      setOneDisplay(0)
       setCheckerboard(start)
       setTurnState(true)
       setMoves([])
     } else {
       setTwoScore(0)
-      setTwoDisplay(0)
       setCheckerboard(start)
       setTurnState(true)
       setMoves([])
@@ -504,6 +504,18 @@ const SingleCheckerboard = () => {
             <button className='concedeButton' onClick={() => concede()}> Concede </button>
             <Link className='leaveButton' to='/landingpage'>Leave Match</Link>
           </section>
+        </section>
+        <section className='localWins'>
+          <div>
+            <div className='red-wins'>
+              <h1> RED WINS: </h1>
+              <h1> {redWins} </h1>
+            </div>
+            <div className='black-wins'>
+              <h1> BLACK WINS: </h1>
+              <h1> {blackWins} </h1>
+            </div>
+          </div>
         </section>
       </section>
     </section>
