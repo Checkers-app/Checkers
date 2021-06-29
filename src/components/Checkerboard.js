@@ -46,6 +46,7 @@ const Checkerboard = () => {
   const [socket, setSocket] = useState(null)
   const [messages, setMessages] = useState([])
   const [moves, setMoves] = useState([])
+  const [socketId, setSocketId] = useState(null)
 
   let pieceToJump;
   let moveLeft = useRef(null);
@@ -76,6 +77,10 @@ const Checkerboard = () => {
     if (socket) {
       //  emit the messages
       // 'on' that receives messages, sets the new messages array
+      socket.on('relaySocketId', socketId => {
+        setSocketId(socketId)
+      })
+
       socket.on('receiveMsgs', (message) => {
         setMessages(oldMsgs => {
           //  return [...oldMsgs, message]
@@ -145,8 +150,12 @@ const Checkerboard = () => {
   }
 
   const handleMessages = (newMsg) => {
-    console.log(newMsg)
-    socket.emit('sendMsgs', newMsg)
+    const messageObj = {
+      message: newMsg.message,
+      username: newMsg.username,
+      socketId: socketId
+    }
+    socket.emit('sendMsgs', messageObj)
   }
 
   const handleMoves = (piece, endSpot) => {
@@ -717,7 +726,7 @@ const Checkerboard = () => {
           </section>
         </section>
         <section className='chatBox'>
-          <ChatBox handleMsgs={handleMessages} msgs={messages} />
+          <ChatBox handleMsgs={handleMessages} msgs={messages} socketId={socketId} />
         </section>
       </section>
       {/* <button onClick={() => { callToast() }}></button> */}
