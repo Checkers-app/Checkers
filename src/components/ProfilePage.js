@@ -5,10 +5,11 @@ import { UserContext } from '../context/UserContext.js';
 import { Link, useHistory } from 'react-router-dom';
 import { FaHome } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
+import { IoLogOutOutline } from 'react-icons/io5';
 
 const ProfilePage = () => {
 
-  const [menuState, setMenuState] = useState(false)
+  const [menuState, setMenuState] = useState(null)
   const { user, setUser } = useContext(UserContext);
   let history = useHistory()
 
@@ -74,12 +75,27 @@ const ProfilePage = () => {
     })
   }
 
+  const checkAnimation = (state) => {
+    if (state === null) {
+      return ''
+    } else if (state === true) {
+      return 'hidden'
+    } else if (state === false) {
+      return 'shown'
+    }
+  }
 
+  const beginAnimation = () => {
+    setMenuState(true)
+  }
 
   return (
     <section className='pageFrame' >
-      <section className={`leftBox ${menuState ? 'hidden' : 'shown'}`}>
-        <button className='menuLines' onClick={() => expandMenu()}>
+      <section className={`leftBox ${checkAnimation(menuState)}`}>
+        <button className='menuLines' onClick={() => {
+          beginAnimation()
+          expandMenu()
+        }}>
           <div className='menuLine'>-</div>
           <div className='menuLine'>-</div>
           <div className='menuLine'>-</div>
@@ -93,6 +109,10 @@ const ProfilePage = () => {
         <Link className='profileLink' to='/profile'>
           <CgProfile className='profileIcon' />
           <p className='profileText'>Profile</p>
+        </Link>
+        <Link to="/" onClick={() => { logout() }} className="logoutButton">
+          <IoLogOutOutline className='logoutIcon' />
+          <p className='profileText'>Logout</p>
         </Link>
       </section>
       <div className="viewContainer">
