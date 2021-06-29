@@ -64,6 +64,8 @@ const ProfilePage = () => {
     })
   }
 
+
+
   return (
     <section className='pageFrame' >
       <section className={`leftBox ${menuState ? 'hidden' : 'shown'}`}>
@@ -90,7 +92,7 @@ const ProfilePage = () => {
               <h1 className='username'> {user.username} </h1>
             </div>
             <div className='buttons'>
-              <button className='edit'> Edit Username </button>
+              <Link to='/editusername'><button className='edit'> Edit Username </button></Link>
               <button className='logout' onClick={logout}> Logout </button>
             </div>
             {/* <h1 className='username'> (Username goes here) </h1>
