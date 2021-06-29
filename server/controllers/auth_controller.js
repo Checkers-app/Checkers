@@ -85,6 +85,15 @@ module.exports = {
         
     },
 
+    updateUserAbout: async (req, res) => {
+        const { about, uid } = req.body;
+        const db = req.app.get("db");       
+        let result = await db.auth.update_userabout([about, uid]);
+        let user = result[0];
+        req.session.user = {username: user.username, uid: user.user_id, wins: user.wins, losses: user.losses, about: user.about}
+        return res.status(201).send(req.session.user);
+    },
+
     readUser: async (req, res) => {
         return res.status(201).send(req.session.user);
     }

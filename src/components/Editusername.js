@@ -16,8 +16,11 @@ function Editusername() {
     let uid = user.uid;
     
     const editUsername = () => {
-        axios.put('/auth/updateusername', {username, uid});
-        history.push("/profile");
+        axios.put('/auth/updateusername', {username, uid})
+        .then(derp => {
+            history.push("/profile");
+        })
+        
     }
     
 

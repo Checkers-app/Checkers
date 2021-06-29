@@ -17,12 +17,11 @@ const ProfilePage = () => {
     ratio = user.wins / user.losses;
   }
   const [toggleEdit, setToggleEdit] = useState(false)
-  const [input, setInput] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.')
   const [about, setAbout] = useState('')
+  
 
   useEffect(() => {
     axios.get('/auth/readuser').then(user => {
-      console.log(user)
       setUser({
         uid: user.data.uid,
         username: user.data.username,
@@ -31,6 +30,7 @@ const ProfilePage = () => {
         about: user.data.about
       })
     })
+    
   }, [])
 
 
@@ -44,6 +44,16 @@ const ProfilePage = () => {
     if (toggleEdit) {
       setToggleEdit(!toggleEdit)
     }
+    let uid = user.uid;
+    axios.put('/auth/updateuserabout', {about, uid}).then(user => {
+      setUser({
+        uid: user.data.uid,
+        username: user.data.username,
+        wins: user.data.wins,
+        losses: user.data.losses,
+        about: user.data.about
+      })
+    })
   }
 
   const logout = () => {
@@ -63,6 +73,8 @@ const ProfilePage = () => {
       return curr
     })
   }
+
+
 
   return (
     <section className='pageFrame' >
@@ -90,7 +102,7 @@ const ProfilePage = () => {
               <h1 className='username'> {user.username} </h1>
             </div>
             <div className='buttons'>
-              <button className='edit'> Edit Username </button>
+              <Link to='/editusername'><button className='edit'> Edit Username </button></Link>
               <button className='logout' onClick={logout}> Logout </button>
             </div>
             {/* <h1 className='username'> (Username goes here) </h1>
@@ -110,8 +122,8 @@ const ProfilePage = () => {
                 <h2 className='round'> (Rounded Down) </h2>
               </div>
               <h1 className='about'> About: </h1>
-              <p className={`${toggleEdit ? 'display' : 'text'}`}> {input} </p>
-              <textarea className={`${toggleEdit ? 'show' : 'noShow'} textarea`} value={input} onChange={(e) => setInput(e.target.value)} />
+              <p className={`${toggleEdit ? 'display' : 'text'}`}> {user.about} </p>
+              <textarea className={`${toggleEdit ? 'show' : 'noShow'} textarea`} defaultValue={user.about} onChange={(e) => setAbout(e.target.value)} />
               <button className={`${toggleEdit ? 'noShow' : 'show'}`} onClick={() => edit()}> Edit </button>
               <button className={`${toggleEdit ? 'show' : 'noShow'}`} onClick={() => save()}> Save </button>
             </div>
