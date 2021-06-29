@@ -22,7 +22,6 @@ const ProfilePage = () => {
 
   useEffect(() => {
     axios.get('/auth/readuser').then(user => {
-      console.log(user)
       setUser({
         uid: user.data.uid,
         username: user.data.username,
@@ -45,6 +44,16 @@ const ProfilePage = () => {
     if (toggleEdit) {
       setToggleEdit(!toggleEdit)
     }
+    let uid = user.uid;
+    axios.put('/auth/updateuserabout', {about, uid}).then(user => {
+      setUser({
+        uid: user.data.uid,
+        username: user.data.username,
+        wins: user.data.wins,
+        losses: user.data.losses,
+        about: user.data.about
+      })
+    })
   }
 
   const logout = () => {
