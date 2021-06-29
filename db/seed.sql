@@ -6,5 +6,6 @@ CREATE TABLE IF NOT EXISTS users (
     email    VARCHAR NOT NULL,
     hash     VARCHAR NOT NULL,
     wins     INT,
-    losses   INT
+    losses   INT,
+    about    TEXT
 );

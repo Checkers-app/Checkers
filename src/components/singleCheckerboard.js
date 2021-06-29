@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import Movehistory from './Movehistory'
 import { FaHome } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
+import { IoLogOutOutline } from 'react-icons/io5';
+import axios from 'axios';
 
 const SingleCheckerboard = () => {
   const [valid, setValid] = useState({
@@ -33,7 +35,8 @@ const SingleCheckerboard = () => {
   const [pieceIndex, setPieceIndex] = useState(null)
   const [jumpId, setJumpId] = useState(false)
   const [checkerboard, setCheckerboard] = useState(start)
-  const [menuState, setMenuState] = useState(false)
+  const [menuState, setMenuState] = useState(null)
+  //Socket States
   const [moves, setMoves] = useState([])
 
   let piece;
@@ -428,10 +431,37 @@ const SingleCheckerboard = () => {
     })
   }
 
+  const logout = () => {
+    axios.get("/auth/logout")
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  const checkAnimation = (state) => {
+    if (state === null) {
+      return ''
+    } else if (state === true) {
+      return 'hidden'
+    } else if (state === false) {
+      return 'shown'
+    }
+  }
+
+  const beginAnimation = () => {
+    setMenuState(true)
+  }
+
   return (
     <section className='checkerboardFrame'>
-      <section className={`leftBox ${menuState ? 'hidden' : 'shown'}`}>
-        <button className='menuLines' onClick={() => expandMenu()}>
+      <section className={`leftBox ${checkAnimation(menuState)}`}>
+        <button className='menuLines' onClick={() => {
+          beginAnimation()
+          expandMenu()
+        }}>
           <div className='menuLine'>-</div>
           <div className='menuLine'>-</div>
           <div className='menuLine'>-</div>
@@ -445,6 +475,10 @@ const SingleCheckerboard = () => {
         <Link className='profileLink' to='/profile'>
           <CgProfile className='profileIcon' />
           <p className='profileText'>Profile</p>
+        </Link>
+        <Link to="/" onClick={() => { logout() }} className="logoutButton">
+          <IoLogOutOutline className='logoutIcon' />
+          <p className='profileText'>Logout</p>
         </Link>
       </section>
       <section className='gameAndLeftBox'>
