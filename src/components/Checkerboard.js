@@ -7,6 +7,8 @@ import ChatBox from './Chatbox';
 import MoveHistory from './Movehistory';
 import { FaHome } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
+import { IoLogOutOutline } from 'react-icons/io5';
+import axios from 'axios';
 
 
 const Checkerboard = () => {
@@ -112,17 +114,17 @@ const Checkerboard = () => {
         // setMoves(gameObj.moves);
         setTurnState(gameObj.turnState);
 
-        if(gameObj.scoreTwo === 0) {
+        if (gameObj.scoreTwo === 0) {
           sendWinMessage('red')
-        } else if(gameObj.scoreOne === 0) {
+        } else if (gameObj.scoreOne === 0) {
           sendWinMessage('black')
         }
       })
 
       socket.on('receiveConcede', str => {
-        if(str === 'red') {
+        if (str === 'red') {
           sendWinMessage('red')
-        } else if(str === 'black') {
+        } else if (str === 'black') {
           sendWinMessage('black')
         }
       })
@@ -154,10 +156,10 @@ const Checkerboard = () => {
     socket.emit('sendResetMoves', moves)
   }
 
-  
 
-  const sendWinMessage= (whoWon) =>  {
-    if(whoWon === 'red') {
+
+  const sendWinMessage = (whoWon) => {
+    if (whoWon === 'red') {
       toast.error('Player 1 has won the game!')
     } else {
       toast.dark('Player 2 has won the game!')
@@ -608,10 +610,20 @@ const Checkerboard = () => {
     })
   }
 
+  const logout = () => {
+    axios.get("/auth/logout")
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   return (
     <section className='checkerboardFrame'>
       <section className={`leftBox ${menuState ? 'hidden' : 'shown'}`}>
-        <button className='menuLines' onClick={() => expandMenu()}>
+        <button className='menuLines' onClick={() => { expandMenu() }}>
           <div className='menuLine'>-</div>
           <div className='menuLine'>-</div>
           <div className='menuLine'>-</div>
@@ -625,6 +637,10 @@ const Checkerboard = () => {
         <Link className='profileLink' to='/profile'>
           <CgProfile className='profileIcon' />
           <p className='profileText'>Profile</p>
+        </Link>
+        <Link to="/" onClick={() => { logout() }} className="logoutButton">
+          <IoLogOutOutline className='logoutIcon' />
+          <p className='profileText'>Logout</p>
         </Link>
       </section>
       <section className='gameAndLeftBox'>

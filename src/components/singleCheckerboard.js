@@ -7,6 +7,8 @@ import ChatBox from './Chatbox'
 import Movehistory from './Movehistory'
 import { FaHome } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
+import { IoLogOutOutline } from 'react-icons/io5';
+import axios from 'axios';
 
 const SingleCheckerboard = () => {
   const [valid, setValid] = useState({
@@ -516,6 +518,16 @@ const SingleCheckerboard = () => {
     })
   }
 
+  const logout = () => {
+    axios.get("/auth/logout")
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   return (
     <section className='checkerboardFrame'>
       <section className={`leftBox ${menuState ? 'hidden' : 'shown'}`}>
@@ -533,6 +545,10 @@ const SingleCheckerboard = () => {
         <Link className='profileLink' to='/profile'>
           <CgProfile className='profileIcon' />
           <p className='profileText'>Profile</p>
+        </Link>
+        <Link to="/" onClick={() => { logout() }} className="logoutButton">
+          <IoLogOutOutline className='logoutIcon' />
+          <p className='profileText'>Logout</p>
         </Link>
       </section>
       <section className='gameAndLeftBox'>

@@ -5,6 +5,7 @@ import { UserContext } from '../context/UserContext.js';
 import { Link, useHistory } from 'react-router-dom';
 import { FaHome } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
+import { IoLogOutOutline } from 'react-icons/io5';
 
 const ProfilePage = () => {
 
@@ -81,6 +82,10 @@ const ProfilePage = () => {
         <Link className='profileLink' to='/profile'>
           <CgProfile className='profileIcon' />
           <p className='profileText'>Profile</p>
+        </Link>
+        <Link to="/" onClick={() => { logout() }} className="logoutButton">
+          <IoLogOutOutline className='logoutIcon' />
+          <p className='profileText'>Logout</p>
         </Link>
       </section>
       <div className="viewContainer">
