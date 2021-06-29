@@ -85,6 +85,11 @@ module.exports = {
         
     },
 
+    updateUserAbout: async (req, res) => {
+        const { about, uid } = req.body;
+        console.log(about, uid);
+    },
+
     readUser: async (req, res) => {
         return res.status(201).send(req.session.user);
     }
