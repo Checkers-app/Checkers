@@ -9,7 +9,7 @@ import { IoLogOutOutline } from 'react-icons/io5';
 
 const ProfilePage = () => {
 
-  const [menuState, setMenuState] = useState(false)
+  const [menuState, setMenuState] = useState(null)
   const { user, setUser } = useContext(UserContext);
   let history = useHistory()
 
@@ -65,10 +65,27 @@ const ProfilePage = () => {
     })
   }
 
+  const checkAnimation = (state) => {
+    if (state === null) {
+      return ''
+    } else if (state === true) {
+      return 'hidden'
+    } else if (state === false) {
+      return 'shown'
+    }
+  }
+
+  const beginAnimation = () => {
+    setMenuState(true)
+  }
+
   return (
     <section className='pageFrame' >
-      <section className={`leftBox ${menuState ? 'hidden' : 'shown'}`}>
-        <button className='menuLines' onClick={() => expandMenu()}>
+      <section className={`leftBox ${checkAnimation(menuState)}`}>
+        <button className='menuLines' onClick={() => {
+          beginAnimation()
+          expandMenu()
+        }}>
           <div className='menuLine'>-</div>
           <div className='menuLine'>-</div>
           <div className='menuLine'>-</div>

@@ -40,7 +40,8 @@ const Checkerboard = () => {
   const [pieceIndex, setPieceIndex] = useState(null)
   const [jumpId, setJumpId] = useState(false)
   const [checkerboard, setCheckerboard] = useState(start)
-  const [menuState, setMenuState] = useState(false)
+  // menu and animation state
+  const [menuState, setMenuState] = useState(null)
   //Socket States
   const [socket, setSocket] = useState(null)
   const [messages, setMessages] = useState([])
@@ -620,10 +621,27 @@ const Checkerboard = () => {
       })
   }
 
+  const checkAnimation = (state) => {
+    if (state === null) {
+      return ''
+    } else if (state === true) {
+      return 'hidden'
+    } else if (state === false) {
+      return 'shown'
+    }
+  }
+
+  const beginAnimation = () => {
+    setMenuState(true)
+  }
+
   return (
     <section className='checkerboardFrame'>
-      <section className={`leftBox ${menuState ? 'hidden' : 'shown'}`}>
-        <button className='menuLines' onClick={() => { expandMenu() }}>
+      <section className={`leftBox ${checkAnimation(menuState)}`}>
+        <button className='menuLines' onClick={() => {
+          beginAnimation()
+          expandMenu()
+        }}>
           <div className='menuLine'>-</div>
           <div className='menuLine'>-</div>
           <div className='menuLine'>-</div>
