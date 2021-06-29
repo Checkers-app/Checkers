@@ -8,19 +8,20 @@
   width: 100vw;
   height: 735px;
   display: flex;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .linkMasterContainer {
   width: 100%;
-  height: 400px;
+  height: 700px;
   display: flex;
   justify-content: space-between;
 }
 
 .gameLinks {
   position: relative;
-  left: 200px;
-  top: 150px;
+  left: 25px;
+  top: 0px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -47,7 +48,7 @@
 .underline {
   height: 1px;
   border: 1px solid black;
-  width: 80%;
+  width: 70%;
 }
 
 .linkContainer {
@@ -100,6 +101,90 @@
 
 .ULButton:hover {
   background-color: #d3d3d3;
+}
+
+.rulesBox {
+  position: relative;
+  left: 100px;
+  top: 50px;
+  width: 1200px;
+  height: 650px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.rulesFrame {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  height: 100%;
+}
+
+.titleContainer {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+.rulesTitleText {
+  width: 100%;
+  height: 100%;
+  font-size: 1.8em;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  left: 0px;
+}
+
+.bodyContainer {
+  width: 95%;
+  height: 75%;
+}
+
+.generalRulesText {
+  font-size: 1.5em;
+  width: 100%;
+  height: 500px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.aboutFrame {
+  width: 45%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.aboutTitleFrame {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+.aboutTitle {
+  width: 100%;
+  height: 100%;
+  font-size: 1.8em;
+  display: flex;
+  align-items: center;
+}
+
+.aboutTextFrame {
+  width: 95%;
+  height: 75%;
+}
+
+.aboutText {
+  font-size: 1.5em;
+  width: 100%;
+  height: 500px;
+  overflow: auto;
+  white-space: pre-wrap;
 }
 
 /*# sourceMappingURL=landingpage.css.map */
