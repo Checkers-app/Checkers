@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext} from 'react'
+import { UserContext } from '../context/UserContext.js';
 import '../css/Chat-Styling/chat.css'
 
 const ChatBox = (props) => {
   const [userInput, setUserInput] = useState('')
+  const { user } = useContext(UserContext);
 
   const messagesEndRef = useRef(null)
 
@@ -25,7 +27,11 @@ const ChatBox = (props) => {
   }
 
   const handleSubmitClick = () => {
-    props.handleMsgs(userInput)
+    const userMessage = {
+      message: userInput,
+      username: user.username
+    }
+    props.handleMsgs(userMessage)
     setUserInput('')
   } 
 
@@ -40,6 +46,7 @@ const ChatBox = (props) => {
                 <div className="chat-message flex-end darker">
                   <p className="msg"> {e.message} </p>
                 </div>
+                <p className="signature">{user.username}-</p>
               </div>
             )
           } else {
@@ -48,6 +55,7 @@ const ChatBox = (props) => {
                 <div className="chat-message flex-start">
                   <p className="msg"> {e.message} </p>
                 </div>
+                <p className="signature">-{e.username}</p>
               </div>
             )
           }

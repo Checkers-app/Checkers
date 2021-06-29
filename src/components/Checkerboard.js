@@ -147,11 +147,12 @@ const Checkerboard = () => {
   }
 
   const handleMessages = (newMsg) => {
-    const userMessage = {
-      message: newMsg,
+    const messageObj = {
+      message: newMsg.message,
+      username: newMsg.username,
       socketId: socketId
     }
-    socket.emit('sendMsgs', userMessage)
+    socket.emit('sendMsgs', messageObj)
   }
 
   const handleMoves = (piece, endSpot) => {

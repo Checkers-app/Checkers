@@ -38,7 +38,7 @@
 .message-row {
   display: flex;
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
 }
 
@@ -61,15 +61,20 @@
 }
 
 .flex-start {
-  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .flex-end {
-  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 .msg {
   margin: 5px 10px 5px 10px;
+}
+
+.signature {
+  font-size: 80%;
+  font-style: italic;
 }
 
 /*# sourceMappingURL=chat.css.map */

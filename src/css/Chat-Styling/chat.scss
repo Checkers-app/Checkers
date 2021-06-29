@@ -36,9 +36,8 @@
 }
 
 .message-row{
-  @include flexCenter(row);
+  @include flexCenter(column);
   width: 100%;
-  // height: 15%;
 }
 
 .chat-message {
@@ -58,13 +57,18 @@
 }
 
 .flex-start {
-  justify-content: flex-start
+  align-items: flex-start;
 }
 
 .flex-end {
-  justify-content: flex-end
+  align-items: flex-end;
 }
 
 .msg {
   margin: 5px 10px 5px 10px;
+}
+
+.signature {
+  font-size: 80%;
+  font-style: italic;
 }
