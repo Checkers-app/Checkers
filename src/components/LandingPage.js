@@ -45,10 +45,23 @@ function LandingPage() {
               </section>
               <section className='bodyContainer'>
                 <p className='generalRulesText'>
-                  Checkers is played by two opponents, on opposite sides of the game board. One player has the dark pieces; the other has the light pieces. Players alternate turns. A player may not move an opponent's piece. A move consists of moving a piece diagonally to an adjacent unoccupied square. If the adjacent square contains an opponent's piece, and the square immediately beyond it is vacant, the piece may be captured (and removed from the game) by jumping over it.
+                  The two players alternate turns and can only move their own pieces.
                   <br></br>
                   <br></br>
-                  Only the dark squares of the checkered board are used. piece may move only diagonally into an unoccupied square. When presented, capturing is mandatory in most official rules, although some rule variations make capturing optional. In almost all variants, the player without pieces remaining, or who cannot move due to being blocked, loses the game.
+                  The dark squares are the only ones that may be occupied on the board. The light squares must remain empty.
+                  <br></br>
+                  <br></br>
+                  Each turn involves the moving of one piece, which can consist of a piece moving forward to a diagonally adjacent square that is unoccupied, or jumping forward over an occupied diagonally adjacent square, provided that the square beyond is also empty.
+                  <br></br>
+                  <br></br>
+                  If a player jumps over their opponent’s piece, they have successfully captured that piece and it is removed from the game.
+                  <br></br>
+                  <br></br>
+                  Each piece is initially referred to as a man, but if it reaches the furthest side of the board it becomes a king. When this happens, the player stacks an additional piece on top of the original to signify the change.
+                  <br></br>
+                  <br></br>
+                  Men may only move forward, but kings can move diagonally forwards as well as backwards.
+                  Multiple pieces maybe jumped by both men and kings provided that there are successive unoccupied squares beyond each piece that is jumped.
                 </p>
               </section>
             </section>
