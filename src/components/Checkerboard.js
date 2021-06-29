@@ -149,7 +149,7 @@ const Checkerboard = () => {
   const handleMessages = (newMsg) => {
     const userMessage = {
       message: newMsg,
-      socket: socketId
+      socketId: socketId
     }
     socket.emit('sendMsgs', userMessage)
   }

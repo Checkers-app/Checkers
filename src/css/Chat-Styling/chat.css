@@ -35,4 +35,41 @@
   height: 70%;
 }
 
+.message-row {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+}
+
+.chat-message {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: auto;
+  max-width: 65%;
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.darker {
+  border-color: #ccc;
+  background-color: #ddd;
+}
+
+.flex-start {
+  justify-content: flex-start;
+}
+
+.flex-end {
+  justify-content: flex-end;
+}
+
+.msg {
+  margin: 5px 10px 5px 10px;
+}
+
 /*# sourceMappingURL=chat.css.map */
