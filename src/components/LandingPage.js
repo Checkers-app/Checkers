@@ -34,7 +34,7 @@ function LandingPage() {
               {/* <div className='underline'></div> */}
             </section>
             <section className="linkContainer">
-              <Link to="/game" className="GLButton">Online kinda</Link>
+              <Link to="/game" className="GLButton">Online</Link>
               <Link to="/1pGame" className="GLButton">Pass and Play</Link>
             </section>
           </section>
