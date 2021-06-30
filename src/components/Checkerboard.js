@@ -617,41 +617,41 @@ const Checkerboard = () => {
                   if (cell[0]?.color === 'red') {
                     return (
                       <div key={i} className="checker-boxes">
-                        <div 
-                        onClick={
-                          turnState 
-                          ? () => selectionHandler(index, i, cell[0]) 
-                          : null
-                        } 
-                        className={
-                          piece.id === cell[0].id
-                          ? "red-piece selection"
-                          : "red-piece"
+                        <div
+                          onClick={
+                            turnState
+                              ? () => selectionHandler(index, i, cell[0])
+                              : null
+                          }
+                          className={
+                            piece.id === cell[0].id
+                              ? "red-piece selection"
+                              : "red-piece"
                           }>{
-                            cell[0].isKing 
-                            ? <BiCrown className='king' />
-                            : cell[0].id
-                            }</div>
+                            cell[0].isKing
+                              ? <BiCrown className='king' />
+                              : cell[0].id
+                          }</div>
                       </div>
                     )
                   } else if (cell[0]?.color === 'black') {
                     return (
                       <div key={i} className="checker-boxes">
-                        <div 
+                        <div
                           onClick={
                             turnState
-                            ? null 
-                            : () => selectionHandler(index, i, cell[0])
-                            } 
+                              ? null
+                              : () => selectionHandler(index, i, cell[0])
+                          }
                           className={
                             piece.id === cell[0].id
-                            ? "black-piece selection"
-                            : "black-piece"
-                            }>{
-                              cell[0].isKing 
+                              ? "black-piece selection"
+                              : "black-piece"
+                          }>{
+                            cell[0].isKing
                               ? <BiCrown className='king' />
                               : cell[0].id
-                              }
+                          }
                         </div>
                       </div>
                     )
@@ -682,7 +682,7 @@ const Checkerboard = () => {
             <div>
               <h1 className='turn-history'> Turn History: </h1>
             </div>
-            <section className='everythingButScore'>
+            <section className='everythingButScore scrollGradient'>
               <MoveHistory moves={moves} />
             </section>
             <section className='scoreBox'>

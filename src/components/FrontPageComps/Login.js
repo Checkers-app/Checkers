@@ -8,15 +8,16 @@ function Login() {
 
 
     let history = useHistory()
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const { user, setUser } = useContext(UserContext);
 
 
     const signIn = () => {
-        axios.post('/auth/login', { email, password })
+        axios.post('/auth/login', { username, password })
             .then(user => {
+                console.log('successful')
                 history.push("/landingpage");
                 setUser({
                     uid: user.data.uid,
@@ -41,8 +42,8 @@ function Login() {
 
             <div className="login_inputs">
                 <div>
-                    <p>Email:</p>
-                    <input type="text" onChange={e => setEmail(e.target.value)} />
+                    <p>Username:</p>
+                    <input type="text" onChange={e => setUsername(e.target.value)} />
                 </div>
                 <div>
                     <p>Password:</p>

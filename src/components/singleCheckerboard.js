@@ -559,7 +559,7 @@ const SingleCheckerboard = () => {
             <div>
               <h1 className='turn-history'> Turn History: </h1>
             </div>
-            <section className='everythingButScore'>
+            <section className='everythingButScore scrollGradient'>
               <Movehistory moves={moves} />
             </section>
             <section className='scoreBox'>
