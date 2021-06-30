@@ -78,6 +78,11 @@ const Checkerboard = () => {
         setSocketId(socketId)
       })
 
+      socket.on('receivePieceSelected', piece => {
+        setPiece(piece)
+        console.log('piece received')
+      })
+
       socket.on('receiveMsgs', (message) => {
         setMessages(oldMsgs => {
           const newMsgs = [...oldMsgs, message]
@@ -129,6 +134,10 @@ const Checkerboard = () => {
       })
     }
   }, [socket])
+
+  const sendPiece = (piece) => {
+    socket.emit('sendPieceSelected', piece)
+  }
 
   const sendGameState = (gameObj) => {
     socket.emit('sendGameState', gameObj)
@@ -198,12 +207,14 @@ const Checkerboard = () => {
     if (jumpId) {
       if (jumpId === piece.id) {
         setPiece(piece)
+        sendPiece(piece)
         setPieceIndex([row, col])
       } else {
         toast.error("Must double jump");
       }
     } else {
       setPiece(piece)
+      sendPiece(piece)
       setPieceIndex([row, col])
     }
   }
@@ -468,6 +479,7 @@ const Checkerboard = () => {
     }
     setTurnState(!turnState);
     setPiece(false);
+    sendPiece(false);
     setJumpId(false);
     handleMoves(piece, newIndex)
     sendGameState({ checkerboardState: newCheckerboard, turnState: !turnState, scoreOne: newOneScore, scoreTwo: newTwoScore, })

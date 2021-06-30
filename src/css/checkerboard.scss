@@ -95,7 +95,7 @@ $seaFoam: #A7B3A5;
   top: 75px;
   left: 400px;
   // background-color: aqua;
-  border: solid 1px $charcoal;
+  border: 1px solid $accent;
   width: 803px;
   height: 804px;
 }
@@ -141,8 +141,8 @@ $seaFoam: #A7B3A5;
 
 .moveBox {
   width: 90%;
-  border: black 1px solid;
-  height: 80%;
+  border: 2px solid $accent;
+  height: 85%;
 }
 
 #mover {
@@ -150,18 +150,64 @@ $seaFoam: #A7B3A5;
 }
 
 .indTurnText {
+  color: red;
+  margin-left: 40px;
   width: 80%;
   height: 35px;
-  text-align: center;
   font-size: 1.3em;
-  margin-bottom: 10px;
+}
+
+.indTurnTextTwo {
+  color:black;
+  margin-left: 40px;
+  width: 80%;
+  height: 35px;
+  font-size: 1.3em;
+}
+
+.localWins {
+  width: 90%;
+  height: 47%;
+  text-align: center;
+  font-size: 40px;
+  display: flex; 
+  justify-content: center;
+  flex-direction: column;
+}
+
+.red-wins{
+  width: 60%;
+  height: 50%;
+  border: 1px dashed black;
+  color: red;
+ margin-bottom: 70px;
+ margin-left: 100px;
+}
+
+.black-wins{
+  width: 60%;
+  height: 50%;
+  border: 1px dashed black;
+  margin-left: 100px;
+}
+
+.turn-history{
+  border: 1px solid $accent;
+  border-left-width: 0px;
+  border-top-width: 0px;
+  border-right-width: 0px;
+  margin-top: 0px;
+  width: 100%;
+  font-size: 20px;
+  text-align: center;
 }
 
 .everythingButScore {
   position: relative;
   top: 10px;
   width: 100%;
-  height: 85%;
+  height: 80%;
+  margin-bottom: 17px;
   overflow: auto;
   display: flex;
   justify-content: center;
@@ -171,8 +217,7 @@ $seaFoam: #A7B3A5;
   width: 100%;
   display: flex;
   flex-direction: column;
-  // background-color: aliceblue;
-  align-items: center;
+  list-style: none;
 }
 
 .scoreBox {
@@ -181,7 +226,9 @@ $seaFoam: #A7B3A5;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  font-size: 1.5em;
+  font-size: 1.25em;
+  padding-bottom: 20px;
+  border-top: 1px solid $accent;
 }
 
 // .concedeButton {
@@ -459,19 +506,9 @@ $seaFoam: #A7B3A5;
     height: 87.5px;
   }
 
-  .red-piece {
-    width: 50%;
-    height: 50%;
-  }
-
   .checker-boxes-group-2  {
     width: 87.5px;
     height: 87.5px;
-  }
-
-  .black-piece {
-    width: 50%;
-    height: 50%;
   }
 
   .bottomLine {
@@ -502,14 +539,10 @@ $seaFoam: #A7B3A5;
   }
   
   .red-piece {
-    width: 50%;
-    height: 50%;
     font-size: .7em;
   }
   
   .black-piece {
-    width: 50%;
-    height: 50%;
     font-size: .7em;
   }
   
@@ -557,7 +590,7 @@ $seaFoam: #A7B3A5;
   }
 
   .leftBox {
-    width: 375px;
+    width: 100%;
     height: 100px;
     display: flex;
     flex-direction: row;
@@ -699,14 +732,10 @@ $seaFoam: #A7B3A5;
   }
   
   .red-piece {
-    width: 50%;
-    height: 50%;
     font-size: .7em;
   }
   
   .black-piece {
-    width: 50%;
-    height: 50%;
     font-size: .7em;
   }
   
