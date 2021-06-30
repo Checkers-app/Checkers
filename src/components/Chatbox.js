@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext} from 'react'
+import { UserContext } from '../context/UserContext.js';
 import '../css/Chat-Styling/chat.css'
 
 const ChatBox = (props) => {
   const [userInput, setUserInput] = useState('')
+  const { user } = useContext(UserContext);
 
   const messagesEndRef = useRef(null)
 
@@ -25,15 +27,38 @@ const ChatBox = (props) => {
   }
 
   const handleSubmitClick = () => {
-    props.handleMsgs(userInput)
+    const userMessage = {
+      message: userInput,
+      username: user.username
+    }
+    props.handleMsgs(userMessage)
     setUserInput('')
   } 
 
   return (
     <div id="chat-box">
+      <input type="hidden" value="something"/>
       <div id="chat">
         {props.msgs.map((e,i) => {
-          return <h1 className="chat-message" key={i}> {e} </h1>
+          if(e.socketId === props.socketId) {
+            return (
+              <div key={i} className="message-row flex-end">
+                <div className="chat-message flex-end darker">
+                  <p className="msg"> {e.message} </p>
+                </div>
+                <p className="signature">{user.username}-</p>
+              </div>
+            )
+          } else {
+            return (
+              <div key={i} className="message-row flex-start">
+                <div className="chat-message flex-start">
+                  <p className="msg"> {e.message} </p>
+                </div>
+                <p className="signature">-{e.username}</p>
+              </div>
+            )
+          }
         })}
         <div ref={messagesEndRef} />
       </div>
@@ -43,6 +68,7 @@ const ChatBox = (props) => {
           value={userInput} 
           onChange={(e) => handleInput(e.target.value)}
           onKeyDown={(e) => handleEnterKey(e)}
+          autoComplete="off"
         />
         <button 
           id="chat-submit" 
