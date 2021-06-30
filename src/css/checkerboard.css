@@ -29,7 +29,7 @@
 .leftBox {
   width: 100px;
   height: 100vh;
-  background-color: #d3d3d3;
+  background-color: #B56357;
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -42,13 +42,13 @@
   position: relative;
   top: 75px;
   left: 400px;
-  border: solid 1px black;
+  border: solid 1px #3C3C3C;
   width: 803px;
   height: 804px;
 }
 
 .bottomLine {
-  border: solid 1px black;
+  border: solid 1px #3C3C3C;
   width: 802px;
   height: 1px;
   position: relative;
@@ -281,11 +281,13 @@
 }
 
 .concedeButton:hover {
-  background-color: #d3d3d3;
+  background-color: #3C3C3C;
+  color: white;
 }
 
 .leaveButton:hover {
-  background-color: #d3d3d3;
+  background-color: #3C3C3C;
+  color: white;
 }
 
 .row {
@@ -301,7 +303,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #AFD5AA;
+  background-color: #A7B3A5;
 }
 
 .checker-boxes-group-2 {
@@ -328,7 +330,7 @@
   height: 50px;
   border-radius: 50%;
   border: 1px solid white;
-  background-color: #D00000;
+  background-color: #B56357;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -44,7 +44,7 @@ function LandingPage() {
                 <p className='rulesTitleText'>General Rules</p>
               </section>
               <section className='bodyContainer'>
-                <p className='generalRulesText'>
+                <p className='generalRulesText scrollGradient'>
                   The two players alternate turns and can only move their own pieces.
                   <br></br>
                   <br></br>
@@ -69,7 +69,7 @@ function LandingPage() {
               <section className='aboutTitleFrame'>
                 <p className='aboutTitle'>About the game</p>
               </section>
-              <section className='aboutTextFrame'>
+              <section className='aboutTextFrame scrollGradient'>
                 <p className='aboutText'>Similar games have been played for millennia. A board resembling a checkers (draughts) board was found in Ur dating from 3000 BC. In the British Museum are specimens of ancient Egyptian checkerboards, found with their pieces in burial chambers, and the game was played by Queen Hatasu. Plato mentioned a game, πεττεία or petteia, as being of Egyptian origin, and Homer also mentions it. The method of capture was placing two pieces on either side of the opponent's piece. It was said to have been played during the Trojan War. The Romans played a derivation of petteia called latrunculi, or the game of the Little Soldiers. The pieces, and sporadically the game itself, were called calculi (pebbles).
                   <br></br>
                   <br></br>
