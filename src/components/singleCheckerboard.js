@@ -573,7 +573,7 @@ const SingleCheckerboard = () => {
           </section>
         </section>
         <section className='localWins'>
-          <div className='wins'>
+          <div>
             <div className='red-wins'>
               <h1> RED WINS: </h1>
               <h1> {redWins} </h1>
