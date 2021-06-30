@@ -43,12 +43,14 @@ const io = require('socket.io')((app.listen(SERVER_PORT, () => console.log(`serv
 io.on('connection', (socket) => {
   console.log(`Socket ${socket.id} connected`)
 
+  socket.emit('relaySocketId', socket.id)
+
   socket.on('disconnect', () => {
     console.log(`Socket ${socket.id} disconnected`)
   })
 
-  socket.on('sendMsgs', (messages) => {
-    io.emit('receiveMsgs', messages)
+  socket.on('sendMsgs', (message) => {
+    io.emit('receiveMsgs', message)
   })
 
   socket.on('sendMoveHistory', moveHistory => {

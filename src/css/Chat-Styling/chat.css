@@ -35,4 +35,46 @@
   height: 70%;
 }
 
+.message-row {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.chat-message {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: auto;
+  max-width: 65%;
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.darker {
+  border-color: #ccc;
+  background-color: #ddd;
+}
+
+.flex-start {
+  align-items: flex-start;
+}
+
+.flex-end {
+  align-items: flex-end;
+}
+
+.msg {
+  margin: 5px 10px 5px 10px;
+}
+
+.signature {
+  font-size: 80%;
+  font-style: italic;
+}
+
 /*# sourceMappingURL=chat.css.map */
