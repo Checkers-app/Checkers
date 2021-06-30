@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import Header from "./sharedComps/Header.js"
 import Login from "./FrontPageComps/Login.js"

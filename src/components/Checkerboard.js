@@ -12,10 +12,10 @@ import axios from 'axios';
 
 
 const Checkerboard = () => {
-  const [valid, setValid] = useState({
+  const [valid] = useState({
     name: 'valid'
   })
-  const [invalid, setInvalid] = useState({
+  const [invalid] = useState({
     name: 'invalid'
   })
   const start = [
@@ -30,11 +30,9 @@ const Checkerboard = () => {
   ]
   // checkerboard[index][i]
   const [oneScore, setOneScore] = useState(12)
-  // const [oneDisplay, setOneDisplay] = useState(0)
   const [redWins, setRedWins] = useState(0)
   const [blackWins, setBlackWins] = useState(0)
   const [twoScore, setTwoScore] = useState(12)
-  // const [twoDisplay, setTwoDisplay] = useState(0)
   const [turnState, setTurnState] = useState(true)
   const [piece, setPiece] = useState(false)
   const [pieceIndex, setPieceIndex] = useState(null)
@@ -71,28 +69,30 @@ const Checkerboard = () => {
         socket.disconnect()
       }
     }
-  }, [])
+  }, [socket])
 
   useEffect(() => {
     if (socket) {
-      //  emit the messages
-      // 'on' that receives messages, sets the new messages array
       socket.on('relaySocketId', socketId => {
         setSocketId(socketId)
       })
 
       socket.on('receiveMsgs', (message) => {
         setMessages(oldMsgs => {
-          //  return [...oldMsgs, message]
           const newMsgs = [...oldMsgs, message]
           return newMsgs
         })
       })
       socket.on('receiveMoveHistory', (moveHistory) => {
         const { piece, endSpot } = moveHistory
-        const newMove = `${piece.color} moved ${piece.id} to ${endSpot[1] + 1}, ${7 - endSpot[0] + 1}`
+        // const newMove = `${piece.color} moved ${piece.id} to ${endSpot[1] + 1}, ${7 - endSpot[0] + 1}`
+        const newMove = {
+          id: piece.id,
+          color: piece.color,
+          landing: endSpot
+        }
         setMoves((oldMoves) => {
-          const moves = [...oldMoves, newMove]
+          const moves = [...oldMoves, { newMove }]
           return moves
         })
       })
@@ -102,22 +102,14 @@ const Checkerboard = () => {
       socket.on('receiveTurnState', turnState => {
         setTurnState(turnState)
       })
-      // socket.on('receiveOneScore', (score) => {
-      //   setOneDisplay(score)
-      // })
-      // socket.on('receiveTwoScore', (score) => {
-      //   setTwoDisplay(score)
-      // })
       socket.on('receiveResetMoves', (moves) => {
         setMoves(moves)
       })
       socket.on('receiveGameState', (gameObj) => {
         console.log(gameObj.checkerboardState)
         setCheckerboard(gameObj.checkerboardState);
-        // setTurnState(gameObj.turnState);
         setOneScore(gameObj.scoreOne);
         setTwoScore(gameObj.scoreTwo);
-        // setMoves(gameObj.moves);
         setTurnState(gameObj.turnState);
 
         if (gameObj.scoreTwo === 0) {
@@ -176,21 +168,10 @@ const Checkerboard = () => {
     }
   }
 
-  // useEffect(() => {
-  //   if(oneScore === 0) {
-  //     sendWinMessage('black')
-  //   } else if(twoScore === 0) {
-  //     sendWinMessage('red')
-  //   }
-  // }, [oneScore, twoScore])
-
   useEffect(() => {
     if (oneScore === 0) {
-      // toast.dark('Player 2 has won the game!')
       setOneScore(12)
       setTwoScore(12)
-      // setOneDisplay(0)
-      // setTwoDisplay(0)
       setTurnState(true)
       sendBoardState(start)
       setBlackWins((curr) => {
@@ -198,14 +179,9 @@ const Checkerboard = () => {
         return curr
       })
       resetMoves([])
-      // sendWinMessage('black')
-      // setCheckerboard(start)
     } else if (twoScore === 0) {
-      // toast.error('Player 1 has won the game!')
       setTwoScore(12)
       setOneScore(12)
-      // setOneDisplay(0)
-      // setTwoDisplay(0)
       setTurnState(true)
       sendBoardState(start)
       setRedWins((curr) => {
@@ -213,8 +189,6 @@ const Checkerboard = () => {
         return curr
       })
       resetMoves([])
-      // sendWinMessage('red')
-      // setCheckerboard(start)
     }
 
   }, [checkerboard])
@@ -266,7 +240,6 @@ const Checkerboard = () => {
         console.log(boardState[jumpRight.current[0]][jumpRight.current[1]][0])
         console.log(boardState[moveRight.current[0]][moveRight.current[1]][0].color)
         console.log(pieceToJump)
-        // console.log()
         switch (true) {
           case boardState[jumpRight.current[0]][jumpRight.current[1]][0].name === 'valid' && boardState[moveRight.current[0]][moveRight.current[1]][0].color === pieceToJump:
             return true
@@ -316,7 +289,6 @@ const Checkerboard = () => {
       setCheckerboard((curr) => {
         curr[pieceIndex[0]].splice(pieceIndex[1], 1, [valid])
         curr[row].splice(col, 1, [piece])
-        // sendBoardState(curr)
         return curr
       })
       endTurn(newIndex, newCheckerboard, oneScore, twoScore);
@@ -354,33 +326,9 @@ const Checkerboard = () => {
     if (turnState) {
       newTwoScore -= 1
       setTwoScore(newTwoScore)
-      // setTwoScore(score => {
-      //   score = twoScore
-      //   score -= 1
-      //   newTwoScore = score
-      //   return score
-      // })
-      // setOneDisplay(score => {
-      //   score = oneDisplay
-      //   score += 1
-      //   sendOneScore(score)
-      //   return score
-      // })
     } else {
       newOneScore -= 1
       setOneScore(newOneScore)
-      // setOneScore(score => {
-      //   score = oneScore
-      //   score -= 1
-      //   newOneScore = score
-      //   return score
-      // })
-      // setTwoDisplay(score => {
-      //   score = twoDisplay
-      //   score += 1
-      //   sendTwoScore(score)
-      //   return score
-      // })
     }
     //----Reset Piece Position----
     setPiece(piece)
@@ -485,7 +433,6 @@ const Checkerboard = () => {
       } else {
         console.log(currCheck)
         console.log('JR:', jumpRight.current)
-        // console.log(jumpLeft.current)
         if ((newIndexCol === 0) || (newIndexCol === 1)) {
           if (checkIsValidJump(currCheck, jumpRight.current)) {
             console.log('normLeftEdgeDJ: we did it')
@@ -522,19 +469,12 @@ const Checkerboard = () => {
     setPiece(false);
     setJumpId(false);
     handleMoves(piece, newIndex)
-    // sendTurn(!turnState)
-    // sendBoardState(checkerboard)
     sendGameState({ checkerboardState: newCheckerboard, turnState: !turnState, scoreOne: newOneScore, scoreTwo: newTwoScore, })
   }
 
-  // Refactor to use a single emit that updates all relevant pieces of state
-
   const concede = () => {
     if (turnState) {
-      // toast.dark('Player 2 has won the game!')
       setOneScore(0)
-      // setOneDisplay(0)
-      // setTwoDisplay(0)
       sendOneScore(0)
       sendTwoScore(0)
       setJumpId(false)
@@ -545,10 +485,7 @@ const Checkerboard = () => {
       setMoves([])
       socket.emit('concede', 'black')
     } else {
-      // toast.error('Player 1 has won the game!')
       setTwoScore(0)
-      // setOneDisplay(0)
-      // setTwoDisplay(0)
       sendOneScore(0)
       sendTwoScore(0)
       setJumpId(false)
@@ -712,6 +649,9 @@ const Checkerboard = () => {
             <h1 className={turnState ? "inactiveTurnText" : "activeTurnText"}>Black's Turn</h1>
           </section>
           <section className='moveBox'>
+            <div>
+              <h1 className='turn-history'> Turn History: </h1>
+            </div>
             <section className='everythingButScore'>
               <MoveHistory moves={moves} />
             </section>
@@ -729,10 +669,7 @@ const Checkerboard = () => {
           <ChatBox handleMsgs={handleMessages} msgs={messages} socketId={socketId} />
         </section>
       </section>
-      {/* <button onClick={() => { callToast() }}></button> */}
-      {/* <ToastContainer /> */}
     </section>
-    // this is for testing
   )
 }
 
