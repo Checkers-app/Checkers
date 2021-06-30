@@ -1,3 +1,11 @@
+$greyedOut: #d3d3d3;
+$redPiece: #DF1619;
+$blackPiece: #433A3F;
+$boardValid: #93E1D8;
+$boardInvalid: #FFF7F8; 
+$accent: #2978A0;
+$rust: #B56357;
+
 @mixin flexCenter($direction) {
   display: flex;
   align-items: center;
@@ -8,12 +16,13 @@
   @include flexCenter(column);
   width: 100%;
   height: 100%;
+  border: 1px solid $accent;
 };
 
 #chat {
   @include flexCenter(column);
   width: 100%;
-  height: 90%;
+  height: 85%;
   overflow: auto;
 };
 
@@ -21,18 +30,23 @@
   @include flexCenter(row);
   justify-content: space-evenly;
   width: 100%;
-  height: 10%;
-  background-color: #d3d3d3;
+  height: 15%;
+  background-color: $boardValid;
+  border: 1px solid $accent;
 }
 
 #chat-input {
   width: 80%;
   height: 70%;
+  background-color: darken($boardInvalid, 1%);
+  border-radius: 5px;
+  font-size: 125%;
 }
 
 #chat-submit {
   width: 15%;
   height: 70%;
+  border-radius: 5px;
 }
 
 .message-row{
@@ -44,16 +58,18 @@
   @include flexCenter(row);
   width: auto;
   max-width: 65%;
-  border: 2px solid #dedede;
-  background-color: #f1f1f1;
+  border: 2px solid darken($boardInvalid, 10%);
+  background-color: lighten($boardValid, 10%);
   border-radius: 5px;
   padding: 10px;
-  margin: 10px 0;
+  margin: 10px 0 10px 10px;
+  font-size: 20px;
 };
 
 .darker {
-  border-color: #ccc;
-  background-color: #ddd;
+  border-color: darken($boardValid, 20%);
+  background-color: darken($boardInvalid, 2%);
+  margin: 10px 10px 10px 0px;
 }
 
 .flex-start {

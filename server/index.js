@@ -49,6 +49,10 @@ io.on('connection', (socket) => {
     console.log(`Socket ${socket.id} disconnected`)
   })
 
+  socket.on('sendPieceSelected', piece => {
+    io.emit('receivePieceSelected', piece)
+  })
+
   socket.on('sendMsgs', (message) => {
     io.emit('receiveMsgs', message)
   })
