@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import Movehistory from './Movehistory'
 import { FaHome } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
+import { BiCrown } from 'react-icons/bi'
 import { IoLogOutOutline } from 'react-icons/io5';
 import axios from 'axios';
 
@@ -490,13 +491,45 @@ const SingleCheckerboard = () => {
                   if (cell[0]?.color === 'red') {
                     return (
                       <div key={i} className="checker-boxes">
-                        <div onClick={turnState ? () => selectionHandler(index, i, cell[0]) : null} className="red-piece">{cell[0].isKing ? 'king' : cell[0].id}</div>
-                      </div>
+                        <div 
+                          onClick={
+                            turnState 
+                            ? () => selectionHandler(index, i, cell[0]) 
+                            : null
+                          } 
+                          className={
+                            pieceSelected.id === cell[0].id
+                            ? "red-piece selection"
+                            : "red-piece"
+                            }>
+                          {
+                            cell[0].isKing 
+                            ? <BiCrown className='king' />
+                            : cell[0].id
+                          }
+                        </div>
+                    </div>
                     )
                   } else if (cell[0]?.color === 'black') {
                     return (
                       <div key={i} className="checker-boxes">
-                        <div onClick={turnState ? null : () => selectionHandler(index, i, cell[0])} className="black-piece">{cell[0].isKing ? 'king' : cell[0].id}</div>
+                        <div 
+                          onClick={
+                            turnState
+                            ? null 
+                            : () => selectionHandler(index, i, cell[0])
+                            } 
+                          className={
+                            pieceSelected.id === cell[0].id
+                            ? "black-piece selection"
+                            : "black-piece"
+                            }>
+                            {
+                            cell[0].isKing 
+                            ? <BiCrown className='king' />
+                            : cell[0].id
+                            }
+                        </div>
                       </div>
                     )
                   } else if (cell[0]?.name === 'valid') {
