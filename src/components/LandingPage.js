@@ -31,7 +31,7 @@ function LandingPage() {
           <section className='gameLinks'>
             <section className="subtitleTextStyling">
               <p className='miniTitleText'>Play a game!</p>
-              <div className='underline'></div>
+              {/* <div className='underline'></div> */}
             </section>
             <section className="linkContainer">
               <Link to="/game" className="GLButton">Online kinda</Link>

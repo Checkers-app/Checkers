@@ -68,11 +68,11 @@ $seaFoam: #A7B3A5;
   width: 100%;
 }
 
-.underline {
-  height: 1px;
-  border: 1px solid black;
-  width: 70%
-}
+// .underline {
+//   height: 1px;
+//   border: 0px solid black;
+//   width: 70%
+// }
 
 .linkContainer {
   position: relative;
@@ -146,6 +146,7 @@ $seaFoam: #A7B3A5;
   flex-direction: column;
   width: 45%;
   height: 100%;
+  // background-color: $rust;
 }
 
 .titleContainer {
@@ -179,7 +180,7 @@ $seaFoam: #A7B3A5;
   // background-color: aqua;
   overflow: auto;
   white-space: pre-wrap;
-  // border: solid 1px black;
+  border: solid 2px $charcoal;
   border-radius: 5px;
   padding: 10px;
 }
@@ -190,6 +191,7 @@ $seaFoam: #A7B3A5;
   display: flex;
   flex-direction: column;
   // background-color: red;
+  // border: 1px, solid, black;
 }
 
 .aboutTitleFrame {
@@ -221,7 +223,7 @@ $seaFoam: #A7B3A5;
   // background-color: aqua;
   overflow: auto;
   white-space: pre-wrap;
-  // border: solid 1px black;
+  border: solid 2px $charcoal;
   border-radius: 5px;
   padding: 10px;
 }

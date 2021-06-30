@@ -47,12 +47,6 @@
   width: 100%;
 }
 
-.underline {
-  height: 1px;
-  border: 1px solid black;
-  width: 70%;
-}
-
 .linkContainer {
   position: relative;
   bottom: 50px;
@@ -154,6 +148,7 @@
   height: 100%;
   overflow: auto;
   white-space: pre-wrap;
+  border: solid 2px #3C3C3C;
   border-radius: 5px;
   padding: 10px;
 }
@@ -191,6 +186,7 @@
   height: 100%;
   overflow: auto;
   white-space: pre-wrap;
+  border: solid 2px #3C3C3C;
   border-radius: 5px;
   padding: 10px;
 }
