@@ -23,7 +23,7 @@
 .gameLinks {
   position: relative;
   left: 25px;
-  top: 0px;
+  top: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
