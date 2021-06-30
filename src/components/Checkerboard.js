@@ -7,6 +7,7 @@ import ChatBox from './Chatbox';
 import MoveHistory from './Movehistory';
 import { FaHome } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
+import { BiCrown } from 'react-icons/bi'
 import { IoLogOutOutline } from 'react-icons/io5';
 import axios from 'axios';
 
@@ -626,7 +627,11 @@ const Checkerboard = () => {
                           piece.id === cell[0].id
                           ? "red-piece selection"
                           : "red-piece"
-                          }>{cell[0].isKing ? 'king' : cell[0].id}</div>
+                          }>{
+                            cell[0].isKing 
+                            ? <BiCrown className='king' />
+                            : cell[0].id
+                            }</div>
                       </div>
                     )
                   } else if (cell[0]?.color === 'black') {
@@ -642,7 +647,11 @@ const Checkerboard = () => {
                             piece.id === cell[0].id
                             ? "black-piece selection"
                             : "black-piece"
-                            }>{cell[0].isKing ? 'king' : cell[0].id}
+                            }>{
+                              cell[0].isKing 
+                              ? <BiCrown className='king' />
+                              : cell[0].id
+                              }
                         </div>
                       </div>
                     )

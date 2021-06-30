@@ -10,15 +10,15 @@ $accent: #2978A0;
 }
 
 @mixin piece($color) {
-  width: 50%;
-  height: 50%;
+  width: 65%;
+  height: 65%;
   border-radius: 100%;
-  // border: 1px ridge darken($color, 20%);
   background-color: $color;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: $boardInvalid;
+  font-size: 120%;
   box-shadow: 
     0 0 1px darken($color, 25%),
     0 1px 1px darken($color, 25%),
@@ -390,6 +390,11 @@ $accent: #2978A0;
 
 .red-piece {
   @include piece($redPiece);
+}
+
+.king {
+  width: 70%;
+  height: 70%;
 }
 
 .selection {
