@@ -199,7 +199,7 @@ const Checkerboard = () => {
         setPiece(piece)
         setPieceIndex([row, col])
       } else {
-        console.log("must double jump");
+        toast.error("Must double jump");
       }
     } else {
       setPiece(piece)
