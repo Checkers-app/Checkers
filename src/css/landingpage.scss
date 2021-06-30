@@ -1,9 +1,14 @@
 $greyedOut: #d3d3d3;
+$terracotta: #945D60;
+$herb: #626E60;
+$chili: #AF473C;
+$charcoal: #3C3C3C;
 
 .header {
   width: 100vw;
   height: 200px;
   margin-bottom: 0px;
+  // background-color: $chili;
 }
 
 .bottomContainer {
@@ -83,7 +88,8 @@ $greyedOut: #d3d3d3;
 }
 
 .GLButton:hover {
-  background-color: $greyedOut;
+  background-color: $charcoal;
+  color: white;
 }
 
 .utilityLinks {
@@ -110,7 +116,8 @@ $greyedOut: #d3d3d3;
 }
 
 .ULButton:hover {
-  background-color: $greyedOut;
+  background-color: $charcoal;
+  color: white;
 }
 
 .rulesBox {

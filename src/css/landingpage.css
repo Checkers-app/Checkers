@@ -74,7 +74,8 @@
 }
 
 .GLButton:hover {
-  background-color: #d3d3d3;
+  background-color: #3C3C3C;
+  color: white;
 }
 
 .utilityLinks {
@@ -100,7 +101,8 @@
 }
 
 .ULButton:hover {
-  background-color: #d3d3d3;
+  background-color: #3C3C3C;
+  color: white;
 }
 
 .rulesBox {
