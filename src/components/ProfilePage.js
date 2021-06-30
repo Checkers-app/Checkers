@@ -8,6 +8,7 @@ import { CgProfile } from 'react-icons/cg';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { IoLogOutOutline } from 'react-icons/io5';
 
+
 const ProfilePage = () => {
 
   const [menuState, setMenuState] = useState(null)
@@ -21,6 +22,14 @@ const ProfilePage = () => {
   const [toggleEdit, setToggleEdit] = useState(false)
   const [about, setAbout] = useState('')
 
+
+  useEffect(() => {
+    if (!user.uid) {
+      console.log('no uid')
+      console.log(user)
+      history.push('/')
+    }
+  }, [])
 
   useEffect(() => {
     axios.get('/auth/readuser').then(user => {
@@ -59,8 +68,9 @@ const ProfilePage = () => {
 
   const logout = () => {
     axios.get('/auth/logout')
-      .then(derp => {
-        history.push("/");
+      .then(res => {
+        setUser(res.data)
+        history.push('/')
       })
       .catch(err => {
         console.log(err);

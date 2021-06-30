@@ -8,22 +8,23 @@ function Login() {
 
 
     let history = useHistory()
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const { user, setUser } = useContext(UserContext);
 
 
     const signIn = () => {
-        axios.post('/auth/login', { email, password })
-            .then(user => {
-                history.push("/landingpage");
+        axios.post('/auth/login', { username, password })
+            .then(users => {
+                console.log('successful')
                 setUser({
-                    uid: user.data.uid,
-                    username: user.data.username,
-                    wins: user.data.wins,
-                    losses: user.data.losses
+                    uid: users.data.uid,
+                    username: users.data.username,
+                    wins: users.data.wins,
+                    losses: users.data.losses
                 });
+                history.push("/landingpage");
             })
             .catch(err => {
                 console.log(err);
@@ -41,8 +42,8 @@ function Login() {
 
             <div className="login_inputs">
                 <div>
-                    <p>Email:</p>
-                    <input type="text" onChange={e => setEmail(e.target.value)} />
+                    <p>Username:</p>
+                    <input type="text" onChange={e => setUsername(e.target.value)} />
                 </div>
                 <div>
                     <p>Password:</p>

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../context/UserContext.js';
 import Header from '../components/sharedComps/Header'
 import axios from 'axios';
@@ -22,6 +22,14 @@ function Editusername() {
             })
 
     }
+
+    useEffect(() => {
+        if (!user.uid) {
+            console.log('no uid')
+            console.log(user)
+            history.push('/')
+        }
+    }, [])
 
 
     return (

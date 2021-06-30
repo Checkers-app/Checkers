@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useRef, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
 import '../css/checkerboard.css';
 import { toast } from "react-toastify";
 import io from "socket.io-client";
@@ -9,6 +9,7 @@ import { FaHome } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
 import { BiCrown } from 'react-icons/bi'
 import { IoLogOutOutline } from 'react-icons/io5';
+import { UserContext } from '../context/UserContext.js';
 import axios from 'axios';
 
 
@@ -46,6 +47,8 @@ const Checkerboard = () => {
   const [messages, setMessages] = useState([])
   const [moves, setMoves] = useState([])
   const [socketId, setSocketId] = useState(null)
+  const { user, setUser } = useContext(UserContext)
+  const history = useHistory()
 
   let pieceToJump;
   let moveLeft = useRef(null);
@@ -60,6 +63,14 @@ const Checkerboard = () => {
   let jumpLeftUp = useRef(null);
   let jumpRightDown = useRef(null);
   let jumpRightUp = useRef(null);
+
+  useEffect(() => {
+    if (!user.uid) {
+      console.log('no uid')
+      console.log(user)
+      history.push('/')
+    }
+  }, [])
 
   useEffect(() => {
     if (!socket) {
@@ -561,7 +572,7 @@ const Checkerboard = () => {
   const logout = () => {
     axios.get("/auth/logout")
       .then(res => {
-        console.log(res)
+        setUser(res.data)
       })
       .catch(err => {
         console.log(err)
@@ -617,41 +628,41 @@ const Checkerboard = () => {
                   if (cell[0]?.color === 'red') {
                     return (
                       <div key={i} className="checker-boxes">
-                        <div 
-                        onClick={
-                          turnState 
-                          ? () => selectionHandler(index, i, cell[0]) 
-                          : null
-                        } 
-                        className={
-                          piece.id === cell[0].id
-                          ? "red-piece selection"
-                          : "red-piece"
+                        <div
+                          onClick={
+                            turnState
+                              ? () => selectionHandler(index, i, cell[0])
+                              : null
+                          }
+                          className={
+                            piece.id === cell[0].id
+                              ? "red-piece selection"
+                              : "red-piece"
                           }>{
-                            cell[0].isKing 
-                            ? <BiCrown className='king' />
-                            : cell[0].id
-                            }</div>
+                            cell[0].isKing
+                              ? <BiCrown className='king' />
+                              : cell[0].id
+                          }</div>
                       </div>
                     )
                   } else if (cell[0]?.color === 'black') {
                     return (
                       <div key={i} className="checker-boxes">
-                        <div 
+                        <div
                           onClick={
                             turnState
-                            ? null 
-                            : () => selectionHandler(index, i, cell[0])
-                            } 
+                              ? null
+                              : () => selectionHandler(index, i, cell[0])
+                          }
                           className={
                             piece.id === cell[0].id
-                            ? "black-piece selection"
-                            : "black-piece"
-                            }>{
-                              cell[0].isKing 
+                              ? "black-piece selection"
+                              : "black-piece"
+                          }>{
+                            cell[0].isKing
                               ? <BiCrown className='king' />
                               : cell[0].id
-                              }
+                          }
                         </div>
                       </div>
                     )
@@ -682,7 +693,7 @@ const Checkerboard = () => {
             <div>
               <h1 className='turn-history'> Turn History: </h1>
             </div>
-            <section className='everythingButScore'>
+            <section className='everythingButScore scrollGradient'>
               <MoveHistory moves={moves} />
             </section>
             <section className='scoreBox'>
