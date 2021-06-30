@@ -72,7 +72,7 @@ module.exports = {
 
     logout: async (req, res) => {
         req.session.destroy();
-        return res.sendStatus(200);
+        res.sendStatus(200);
     },
 
     updateUsername: async (req, res) => {

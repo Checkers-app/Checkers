@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useRef, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
 import '../css/checkerboard.css';
 import { toast } from "react-toastify";
 import io from "socket.io-client";
@@ -9,6 +9,7 @@ import { FaHome } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
 import { BiCrown } from 'react-icons/bi'
 import { IoLogOutOutline } from 'react-icons/io5';
+import { UserContext } from '../context/UserContext.js';
 import axios from 'axios';
 
 
@@ -46,6 +47,8 @@ const Checkerboard = () => {
   const [messages, setMessages] = useState([])
   const [moves, setMoves] = useState([])
   const [socketId, setSocketId] = useState(null)
+  const { user, setUser } = useContext(UserContext)
+  const history = useHistory()
 
   let pieceToJump;
   let moveLeft = useRef(null);
@@ -60,6 +63,14 @@ const Checkerboard = () => {
   let jumpLeftUp = useRef(null);
   let jumpRightDown = useRef(null);
   let jumpRightUp = useRef(null);
+
+  useEffect(() => {
+    if (!user.uid) {
+      console.log('no uid')
+      console.log(user)
+      history.push('/')
+    }
+  }, [])
 
   useEffect(() => {
     if (!socket) {
@@ -561,7 +572,7 @@ const Checkerboard = () => {
   const logout = () => {
     axios.get("/auth/logout")
       .then(res => {
-        console.log(res)
+        setUser(res.data)
       })
       .catch(err => {
         console.log(err)

@@ -1,22 +1,33 @@
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import '../css/landingpage.css';
 import Header from "../components/sharedComps/Header.js";
 import { CgProfile } from 'react-icons/cg';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { UserContext } from '../context/UserContext.js';
 import axios from 'axios';
 
 
-function LandingPage() {
+function LandingPage(props) {
 
-  // const {user, setUser} = useContext(UserContext);
+  const history = useHistory()
+  const { user, setUser } = useContext(UserContext);
 
-  // console.log(user);
+
+  useEffect(() => {
+    if (!user.uid) {
+      console.log('no uid')
+      console.log(user)
+      history.push('/')
+    }
+  }, [])
+
+  console.log(user)
 
   const logout = () => {
     axios.get("/auth/logout")
       .then(res => {
-        console.log(res)
+        setUser(res.data)
+        history.push('/')
       })
       .catch(err => {
         console.log(err)

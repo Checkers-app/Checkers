@@ -16,15 +16,15 @@ function Login() {
 
     const signIn = () => {
         axios.post('/auth/login', { username, password })
-            .then(user => {
+            .then(users => {
                 console.log('successful')
-                history.push("/landingpage");
                 setUser({
-                    uid: user.data.uid,
-                    username: user.data.username,
-                    wins: user.data.wins,
-                    losses: user.data.losses
+                    uid: users.data.uid,
+                    username: users.data.username,
+                    wins: users.data.wins,
+                    losses: users.data.losses
                 });
+                history.push("/landingpage");
             })
             .catch(err => {
                 console.log(err);

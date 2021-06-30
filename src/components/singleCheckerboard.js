@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
 import '../css/checkerboard.css';
 import { toast } from "react-toastify";
 import Movehistory from './Movehistory'
@@ -7,6 +7,7 @@ import { FaHome } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
 import { BiCrown } from 'react-icons/bi'
 import { IoLogOutOutline } from 'react-icons/io5';
+import { UserContext } from '../context/UserContext.js';
 import axios from 'axios';
 
 const SingleCheckerboard = () => {
@@ -39,6 +40,8 @@ const SingleCheckerboard = () => {
   const [menuState, setMenuState] = useState(null)
   //Socket States
   const [moves, setMoves] = useState([])
+  const { user, setUser } = useContext(UserContext)
+  const history = useHistory()
 
   let piece;
   let pieceToJump;
@@ -54,6 +57,14 @@ const SingleCheckerboard = () => {
   let jumpLeftUp;
   let jumpRightDown;
   let jumpRightUp;
+
+  useEffect(() => {
+    if (!user.uid) {
+      console.log('no uid')
+      console.log(user)
+      history.push('/')
+    }
+  }, [])
 
   useEffect(() => {
     if (oneScore === 0) {
@@ -435,7 +446,8 @@ const SingleCheckerboard = () => {
   const logout = () => {
     axios.get("/auth/logout")
       .then(res => {
-        console.log(res)
+        setUser(res.data)
+        history.push('/')
       })
       .catch(err => {
         console.log(err)
