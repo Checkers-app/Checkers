@@ -5,6 +5,7 @@ import { UserContext } from '../context/UserContext.js';
 import { Link, useHistory } from 'react-router-dom';
 import { FaHome } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
+import { AiOutlineEdit } from 'react-icons/ai';
 import { IoLogOutOutline } from 'react-icons/io5';
 
 const ProfilePage = () => {
@@ -19,7 +20,7 @@ const ProfilePage = () => {
   }
   const [toggleEdit, setToggleEdit] = useState(false)
   const [about, setAbout] = useState('')
-  
+
 
   useEffect(() => {
     axios.get('/auth/readuser').then(user => {
@@ -31,14 +32,13 @@ const ProfilePage = () => {
         about: user.data.about
       })
     })
-    
+
   }, [])
 
 
   const edit = () => {
-    if (!toggleEdit) {
-      setToggleEdit(!toggleEdit)
-    }
+    console.log('sup my guy')
+    setToggleEdit(!toggleEdit);
   }
 
   const save = () => {
@@ -46,7 +46,7 @@ const ProfilePage = () => {
       setToggleEdit(!toggleEdit)
     }
     let uid = user.uid;
-    axios.put('/auth/updateuserabout', {about, uid}).then(user => {
+    axios.put('/auth/updateuserabout', { about, uid }).then(user => {
       setUser({
         uid: user.data.uid,
         username: user.data.username,
@@ -122,8 +122,9 @@ const ProfilePage = () => {
               <h1 className='username'> {user.username} </h1>
             </div>
             <div className='buttons'>
-              <Link to='/editusername'><button className='edit'> Edit Username </button></Link>
-              <button className='logout' onClick={logout}> Logout </button>
+              <Link to='/editusername' className='editIconContainer'>
+                <AiOutlineEdit className='editIcon' />
+              </Link>
             </div>
             {/* <h1 className='username'> (Username goes here) </h1>
                     <button className='edit'> Edit Username </button>
@@ -131,23 +132,26 @@ const ProfilePage = () => {
           </nav>
         </div>
         <body className='body'>
-          <info className='info'>
-            <img className='image' src='https://via.placeholder.com/500' />
+          <section className='info'>
+            <section className='imgContainer'>
+              <img className='image' src='https://via.placeholder.com/500' />
+            </section>
             <div className='inside-info'>
-              <h1 className='stats'> Stats: </h1>
-              <div>
-                <h1 className='record'> Wins: {user.wins} </h1>
-                <h1 className='record'> Losses: {user.losses} </h1>
-                <h1 className='record'> Win/Loss Ratio: {ratio}</h1>
-                <h2 className='round'> (Rounded Down) </h2>
-              </div>
-              <h1 className='about'> About: </h1>
-              <p className={`${toggleEdit ? 'display' : 'text'}`}> {user.about} </p>
-              <textarea className={`${toggleEdit ? 'show' : 'noShow'} textarea`} defaultValue={user.about} onChange={(e) => setAbout(e.target.value)} />
-              <button className={`${toggleEdit ? 'noShow' : 'show'}`} onClick={() => edit()}> Edit </button>
-              <button className={`${toggleEdit ? 'show' : 'noShow'}`} onClick={() => save()}> Save </button>
+              <section className='justForSpacing'>
+                <h1 className='stats'> Stats: </h1>
+                <div className='WLContainer'>
+                  <h1 className='record'> Wins: {user.wins} </h1>
+                  <h1 className='record'> Losses: {user.losses} </h1>
+                  <h1 className='record'> Win/Loss Ratio: {ratio}</h1>
+                  {/* <h2 className='round'> (Rounded Down) </h2> */}
+                </div>
+                <h1 className='about'> Description: </h1>
+                <p className={`${toggleEdit ? 'display' : 'text'}`}> {user.about} </p>
+                <textarea className={`${toggleEdit ? 'show' : 'noShow'} textarea`} defaultValue={user.about} onChange={(e) => setAbout(e.target.value)} />
+                <button className='editButton' onClick={toggleEdit ? () => save() : () => edit()}> {`${toggleEdit ? 'Save' : 'Edit'}`} </button>
+              </section>
             </div>
-          </info>
+          </section>
         </body>
       </div>
     </section>
