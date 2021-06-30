@@ -26,6 +26,9 @@ $accent: #2978A0;
     0 3px 1px darken($color, 25%),
     0 4px 1px darken($color, 25%),
   ;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .activeTurnText {
