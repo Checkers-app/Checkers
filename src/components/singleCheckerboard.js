@@ -491,44 +491,44 @@ const SingleCheckerboard = () => {
                   if (cell[0]?.color === 'red') {
                     return (
                       <div key={i} className="checker-boxes">
-                        <div 
+                        <div
                           onClick={
-                            turnState 
-                            ? () => selectionHandler(index, i, cell[0]) 
-                            : null
-                          } 
+                            turnState
+                              ? () => selectionHandler(index, i, cell[0])
+                              : null
+                          }
                           className={
                             pieceSelected.id === cell[0].id
-                            ? "red-piece selection"
-                            : "red-piece"
-                            }>
+                              ? "red-piece selection"
+                              : "red-piece"
+                          }>
                           {
-                            cell[0].isKing 
-                            ? <BiCrown className='king' />
-                            : cell[0].id
+                            cell[0].isKing
+                              ? <BiCrown className='king' />
+                              : cell[0].id
                           }
                         </div>
-                    </div>
+                      </div>
                     )
                   } else if (cell[0]?.color === 'black') {
                     return (
                       <div key={i} className="checker-boxes">
-                        <div 
+                        <div
                           onClick={
                             turnState
-                            ? null 
-                            : () => selectionHandler(index, i, cell[0])
-                            } 
+                              ? null
+                              : () => selectionHandler(index, i, cell[0])
+                          }
                           className={
                             pieceSelected.id === cell[0].id
-                            ? "black-piece selection"
-                            : "black-piece"
-                            }>
-                            {
-                            cell[0].isKing 
-                            ? <BiCrown className='king' />
-                            : cell[0].id
-                            }
+                              ? "black-piece selection"
+                              : "black-piece"
+                          }>
+                          {
+                            cell[0].isKing
+                              ? <BiCrown className='king' />
+                              : cell[0].id
+                          }
                         </div>
                       </div>
                     )

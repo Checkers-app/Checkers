@@ -92,11 +92,57 @@
 }
 
 .indTurnText {
+  color: red;
+  margin-left: 40px;
   width: 80%;
   height: 35px;
-  text-align: center;
   font-size: 1.3em;
-  margin-bottom: 10px;
+}
+
+.indTurnTextTwo {
+  color:black;
+  margin-left: 40px;
+  width: 80%;
+  height: 35px;
+  font-size: 1.3em;
+}
+
+.localWins {
+  width: 90%;
+  height: 47%;
+  text-align: center;
+  font-size: 40px;
+  display: flex; 
+  justify-content: center;
+  flex-direction: column;
+}
+
+.red-wins{
+  width: 60%;
+  height: 50%;
+  border: 1px dashed black;
+  color: red;
+ margin-bottom: 70px;
+ margin-left: 100px;
+}
+
+.black-wins{
+  width: 60%;
+  height: 50%;
+  border: 1px dashed black;
+  margin-left: 100px;
+}
+
+
+.turn-history{
+  border: 1px solid black;
+  border-left-width: 0px;
+  border-top-width: 0px;
+  border-right-width: 0px;
+  margin-top: 0px;
+  width: 100%;
+  font-size: 20px;
+  text-align: center;
 }
 
 .everythingButScore {
@@ -113,7 +159,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  list-style: none;
 }
 
 .scoreBox {
@@ -122,7 +168,7 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  font-size: 1.5em;
+  font-size: 1.3em;
 }
 
 .chatBox {
