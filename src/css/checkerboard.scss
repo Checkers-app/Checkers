@@ -1,4 +1,32 @@
 $greyedOut: #d3d3d3;
+$redPiece: #DF1619;
+$blackPiece: #433A3F;
+$boardValid: #93E1D8;
+$boardInvalid: #FFF7F8; 
+$accent: #2978A0;
+
+@mixin boardBorder {
+  border: 2px solid $accent;
+}
+
+@mixin piece($color) {
+  width: 50%;
+  height: 50%;
+  border-radius: 100%;
+  border: 1px ridge darken($color, 20%);
+  background-color: $color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  box-shadow: 
+    0 0 1px darken($color, 25%),
+    0 1px 1px darken($color, 25%),
+    0 2px 1px darken($color, 25%),
+    0 3px 1px darken($color, 25%),
+    0 4px 1px darken($color, 25%),
+  ;
+}
 
 .activeTurnText {
   font-weight: bold;
@@ -341,38 +369,33 @@ $greyedOut: #d3d3d3;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #AFD5AA;
+  background-color: $boardValid;
+  @include boardBorder;
 }
 
 .checker-boxes-group-2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #F0F2EF;
+  background-color: $boardInvalid;
+  @include boardBorder;
 }
 
 .black-piece {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 1px solid white;
-  background-color: #353531;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
+  @include piece($blackPiece);
+  // width: 50px;
+  // height: 50px;
+  // border-radius: 50%;
+  // border: 1px solid white;
+  // background-color: $blackPiece;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // color: white;
 }
 
 .red-piece {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 1px solid white;
-  background-color: #D00000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
+  @include piece($redPiece);
 }
 
 // .spacing {

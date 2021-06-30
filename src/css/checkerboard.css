@@ -74,7 +74,7 @@
 
 .turnStateDisplay {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   width: 100%;
   height: 48px;
@@ -92,19 +92,11 @@
 }
 
 .indTurnText {
-  color: red;
-  margin-left: 40px;
   width: 80%;
   height: 35px;
+  text-align: center;
   font-size: 1.3em;
-}
-
-.indTurnTextTwo {
-  color:black;
-  margin-left: 40px;
-  width: 80%;
-  height: 35px;
-  font-size: 1.3em;
+  margin-bottom: 10px;
 }
 
 .everythingButScore {
@@ -121,7 +113,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  list-style: none;
+  align-items: center;
 }
 
 .scoreBox {
@@ -129,7 +121,7 @@
   height: 15%;
   display: flex;
   justify-content: space-evenly;
-  margin-top: 10px;
+  align-items: center;
   font-size: 1.5em;
 }
 
@@ -137,43 +129,6 @@
   width: 90%;
   height: 47%;
   border: 1px solid black;
-}
-
-.localWins {
-    width: 90%;
-    height: 47%;
-    text-align: center;
-    font-size: 40px;
-    display: flex; 
-    justify-content: center;
-    flex-direction: column;
-}
-
-.red-wins{
-  width: 60%;
-  height: 50%;
-  border: 1px dashed black;
-  color: red;
- margin-bottom: 70px;
- margin-left: 100px;
-}
-
-.black-wins{
-  width: 60%;
-  height: 50%;
-  border: 1px dashed black;
-  margin-left: 100px;
-}
-
-.turn-history{
-  border: 1px solid black;
-  border-left-width: 0px;
-  border-top-width: 0px;
-  border-right-width: 0px;
-  margin-top: 0px;
-  width: 100%;
-  font-size: 20px;
-  text-align: center;
 }
 
 @keyframes expand {
@@ -304,7 +259,6 @@
 .concedeButton {
   width: 200px;
   height: 20px;
-  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -315,7 +269,6 @@
 .leaveButton {
   width: 200px;
   height: 20px;
-  margin-top: 20px;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -348,38 +301,42 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #AFD5AA;
+  background-color: #93E1D8;
+  border: 2px solid #2978A0;
 }
 
 .checker-boxes-group-2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #F0F2EF;
+  background-color: #FFF7F8;
+  border: 2px solid #2978A0;
 }
 
 .black-piece {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 1px solid white;
-  background-color: #353531;
+  width: 50%;
+  height: 50%;
+  border-radius: 100%;
+  border: 1px ridge #0c0b0c;
+  background-color: #433A3F;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
+  box-shadow: 0 0 1px black, 0 1px 1px black, 0 2px 1px black, 0 3px 1px black, 0 4px 1px black;
 }
 
 .red-piece {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 1px solid white;
-  background-color: #D00000;
+  width: 50%;
+  height: 50%;
+  border-radius: 100%;
+  border: 1px ridge #820d0f;
+  background-color: #DF1619;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
+  box-shadow: 0 0 1px #6b0b0c, 0 1px 1px #6b0b0c, 0 2px 1px #6b0b0c, 0 3px 1px #6b0b0c, 0 4px 1px #6b0b0c;
 }
 
 .chatInput {
