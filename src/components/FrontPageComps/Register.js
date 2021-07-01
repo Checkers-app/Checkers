@@ -20,13 +20,14 @@ function Register() {
 
         axios.post('/auth/create', { username, email, password })
             .then(user => {
-                history.push("/landingpage");
                 setUser({
                     uid: user.data.uid,
                     username: user.data.username,
                     wins: user.data.wins,
                     losses: user.data.losses
+                
                 });
+                history.push("/landingpage");
             })
             .catch(err => {
                 if (err.response.status === 405) {
