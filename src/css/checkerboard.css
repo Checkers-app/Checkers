@@ -97,6 +97,7 @@
   width: 80%;
   height: 35px;
   font-size: 1.3em;
+  margin-bottom: 20px;
 }
 
 .indTurnTextTwo {
@@ -105,6 +106,7 @@
   width: 80%;
   height: 35px;
   font-size: 1.3em;
+  margin-bottom: 20px;
 }
 
 .localWins {
@@ -146,10 +148,10 @@
 
 .everythingButScore {
   position: relative;
-  top: 10px;
+  top: 0px;
   width: 100%;
-  height: 80%;
-  margin-bottom: 17px;
+  height: 85%;
+  padding-top: 10px;
   overflow: auto;
   display: flex;
   justify-content: center;

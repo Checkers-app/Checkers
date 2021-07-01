@@ -155,6 +155,7 @@ $seaFoam: #A7B3A5;
   width: 80%;
   height: 35px;
   font-size: 1.3em;
+  margin-bottom: 20px;
 }
 
 .indTurnTextTwo {
@@ -163,6 +164,7 @@ $seaFoam: #A7B3A5;
   width: 80%;
   height: 35px;
   font-size: 1.3em;
+  margin-bottom: 20px;
 }
 
 .localWins {
@@ -204,10 +206,11 @@ $seaFoam: #A7B3A5;
 
 .everythingButScore {
   position: relative;
-  top: 10px;
+  top: 0px;
   width: 100%;
-  height: 80%;
-  margin-bottom: 17px;
+  height: 85%;
+  padding-top: 10px;
+  // margin-bottom: 17px;
   overflow: auto;
   display: flex;
   justify-content: center;
@@ -217,6 +220,7 @@ $seaFoam: #A7B3A5;
   width: 100%;
   display: flex;
   flex-direction: column;
+  // justify-content: space-around;
   list-style: none;
 }
 
