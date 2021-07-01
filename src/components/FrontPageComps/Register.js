@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../../context/UserContext.js';
 import axios from 'axios';
+import { toast } from "react-toastify";
 import { Link, useHistory } from 'react-router-dom';
 
 import "../../css/register.css";
@@ -28,7 +29,13 @@ function Register() {
                 });
             })
             .catch(err => {
-                alert(err.response.data);
+                if (err.response.status === 405) {
+                    toast.error('Please enter a valid Email!')
+                } else if (err.response.status === 409) {
+                    toast.error('That username is already taken')
+                } else if (err.response.status === 423) {
+                    toast.error('That email has already been registered')
+                }
             })
 
     }

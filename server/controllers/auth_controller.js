@@ -19,14 +19,18 @@ module.exports = {
 
         const emailRegex = /@.*\./;
         if (!emailRegex.test(email)) {
-            return res.status(409).send('That doesnt look like a valid email bro');
+            return res.status(405).send('That doesnt look like a valid email bro');
         }
 
         const db = req.app.get("db");
-        let result = await db.auth.read_user([email]);
+        let result = await db.auth.read_user([username]);
+        let resultTwo = await db.auth.fetch_email([email])
         let existingUser = result[0];
+        let existingEmail = resultTwo[0];
         if (existingUser) {
-            return res.status(409).send('email is already registered');
+            return res.status(409).send('username is already registered');
+        } else if (existingEmail) {
+            return res.status(423).send('email is already registered')
         }
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
