@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../../context/UserContext.js';
+import { toast } from "react-toastify";
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import "../../css/login.css";
@@ -27,6 +28,7 @@ function Login() {
                 history.push("/landingpage");
             })
             .catch(err => {
+                toast.error('Username or password is not correct!')
                 console.log(err);
             })
     }
