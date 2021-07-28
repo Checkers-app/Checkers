@@ -93,3 +93,11 @@ io.on('connection', (socket) => {
     io.emit('receiveConcede', str)
   })
 })
+
+
+const path = require('path');
+//has to be after routes
+app.use(express.static(__dirname + '/../build'))
+app.get('*', (req, res) => {
+     res.sendFile(path.join(__dirname, '../build/index.html')) 
+})
