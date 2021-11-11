@@ -68,7 +68,7 @@ module.exports = {
     }
     const isAuthenticated = bcrypt.compareSync(password, user.hash);
     if (!isAuthenticated) {
-      return res.status(401).send('wrong password bro');
+      return res.status(401).send('wrong password');
     }
     req.session.user = { username: user.username, uid: user.user_id, wins: user.wins, losses: user.losses, about: user.about }
     return res.status(201).send(req.session.user);
